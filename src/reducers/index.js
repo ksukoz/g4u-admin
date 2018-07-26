@@ -1,8 +1,12 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
-import errorReducer from "./errorReducer";
+import leagueReducer from "./leagueReducer";
+// import errorReducer from "./errorReducer";
 
 export default combineReducers({
   auth: authReducer,
-  errors: errorReducer
+  league: {
+    name: leagueReducer
+  },
+  // errors: errorReducer
 });
