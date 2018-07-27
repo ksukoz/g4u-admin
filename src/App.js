@@ -6,6 +6,7 @@ import store from './store';
 import Login from './components/auth/Login';
 
 import './App.css';
+import Leagues from './components/leagues/Leagues';
 
 class App extends Component {
   render() {
@@ -14,6 +15,8 @@ class App extends Component {
         <Router>
           <div className="App">
             {/* <Route exact path='/' component={News} /> */}
+            <Route exact path='/leagues' component={Leagues} />
+
             <Route exact path='/login'component={Login} />
           </div>
         </Router>

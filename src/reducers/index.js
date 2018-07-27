@@ -5,8 +5,6 @@ import leagueReducer from "./leagueReducer";
 
 export default combineReducers({
   auth: authReducer,
-  league: {
-    name: leagueReducer
-  },
+  league: leagueReducer
   // errors: errorReducer
 });
