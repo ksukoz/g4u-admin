@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CURRENT_LEAGUE, GET_LEAGUES } from './types';
+import { GET_CURRENT_LEAGUE, GET_LEAGUES, GET_ERRORS } from './types';
 
 // Get leagues
 export const getLeagues = () => dispatch => {
@@ -23,11 +23,11 @@ export const addLeague = (leagueData) => dispatch => {
     'headers': { 'Authorization': `G4User ${localStorage.getItem('user')}` }
   })
     .then(res => {
-      console.log(res.data)
-      dispatch({
-        type: GET_LEAGUES,
-        payload: res.data.answer
-      })
-      
-    })
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        })   
+      }
+    });
 }

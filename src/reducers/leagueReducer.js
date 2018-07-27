@@ -1,4 +1,4 @@
-import { GET_CURRENT_LEAGUE, GET_LEAGUES } from '../actions/types';
+import { GET_CURRENT_LEAGUE, GET_LEAGUES, GET_ERRORS } from '../actions/types';
 
 const initialState ={
   currentLeague: '',
@@ -11,6 +11,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         leagues: action.payload
+      }
+      case GET_ERRORS:
+      return {
+        ...state,
+        errors: action.payload
       }
     default:
       return state;
