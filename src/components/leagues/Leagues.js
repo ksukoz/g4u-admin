@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getLeagues } from '../../actions/leagueActions';
+import AddLeague from './AddLeague';
 
 class Leagues extends Component {
   componentDidMount = () => {
@@ -10,12 +11,18 @@ class Leagues extends Component {
 
   render() {
     const { leagues } = this.props.league;
-    if (leagues !== null)  console.log(leagues)
+    let leaguesList;
+    if (leagues !== null) {
+      leaguesList = leagues.map(league => (
+        <li key={league.id}>{league.title}</li>
+      ))
+    }
 
 
     return (
       <div>
-        {}
+        <AddLeague />
+        <ul>{leaguesList}</ul>
       </div>
     )
   }
