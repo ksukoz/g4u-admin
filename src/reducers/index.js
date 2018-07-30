@@ -9,7 +9,7 @@ export default combineReducers({
   auth: authReducer,
   league: leagueReducer,
   stuff: stuffReducer,
-  user: userReducer
+  users: userReducer
 
   // errors: errorReducer
 });
