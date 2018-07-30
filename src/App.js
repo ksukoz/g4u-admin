@@ -8,6 +8,7 @@ import Login from './components/auth/Login';
 import './App.css';
 import Leagues from './components/leagues/Leagues';
 import Stuff from './components/stuff/Stuff';
+import MergeStuff from './components/merge/MergeStuff';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             {/* <Route exact path='/' component={News} /> */}
             <Route exact path='/leagues' component={Leagues} />
             <Route exact path='/stuff' component={Stuff} />
+            <Route exact path='/mergestuff' component={MergeStuff} />
 
             <Route exact path='/login'component={Login} />
           </div>

@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import { getStuffTypes, addStuffMember } from '../../actions/stuffActions';
 
 class AddStuff extends Component {
   state = {
-    stuffPerson: {
-      name: '',
-      surname: '',
-      patronymic: '',
-      type_id: ''
-    },
+    name: '',
+    surname: '',
+    patronymic: '',
+    type_id: 1,
     image: null,
-    readyImage: null,
+    readyImage: '',
     crop: {
       x: 20,
       y: 10,
@@ -68,14 +68,37 @@ class AddStuff extends Component {
   }
 
   onChangeHandler = e => {
-
+    this.setState({[e.target.name]: e.target.value})
   }
 
   onSubmitHandler = e => {
+    e.preventDefault();
 
+    const newStuffMember = {
+      name: this.state.name,
+      surename: this.state.surname,
+      patronymic: this.state.patronymic,
+      type_id: +this.state.type_id,
+      photo: this.state.readyImage
+    }
+
+    this.props.addStuffMember(newStuffMember)
+  }
+
+  componentDidMount() {
+    this.props.getStuffTypes();
   }
 
   render() {
+    const { options } = this.props.stuff;
+
+    let optionsList;
+    if (options !== null) {
+      optionsList = options.map(option => (
+        <option key={option.id} value={option.id}>{option.type_ru}</option>
+      ))
+    }
+
     return (
       <div>
         <form onSubmit={this.onSubmitHandler}>
@@ -100,43 +123,41 @@ class AddStuff extends Component {
             onChange={this.onChangeHandler}
              placeholder='Отчество'
             />
-          {/* <select name="type_id"defaultValue={}>
-
-          </select> */}
-          <input type="text" name="name" value={this.state.name} onChange={this.onChangeHandler}/>
+          <input ref='file' type='file' onChange={this.onChange} />
+          {this.state.readyImage !== null ? (<img style={{width: '100px'}} src={this.state.readyImage} alt='Обрезанное изображение' />) : ''}
+          <select name="type_id" value={this.state.type} onChange={this.onChangeHandler}>
+            {optionsList}
+          </select>
+          <input type="submit" value="Добавить"/>
         </form>
 
+        {
 
-        {this.state.readyImage !== null ? (<img style={{width: '100px'}} src={this.state.readyImage}/>) : ''}
-<input ref='file' type='file' onChange={this.onChange} />
- 
- {
+            this.state.image &&
 
-     this.state.image &&
+            <div>
+                <ReactCrop 
+                    ref='crop'
+                    src={this.state.image}
+                    crop={this.state.crop}
+                    onChange={this.imageLoaded}
+                    onComplete={this.getCroppedImg}
+                />
 
-     <div>
-         <ReactCrop 
-             ref='crop'
-             src={this.state.image}
-             crop={this.state.crop}
-             onChange={this.imageLoaded}
-             onComplete={this.getCroppedImg}
-         />
+            </div>
 
-         <button onClick={this.crop}>Crop</button>
-         <button onClick={this.clear}>Clear</button>
-     </div>
-
- }
-
- {
-     this.state.previewUrl &&
-
-     <img src={this.state.previewUrl} />
- }
+        }
       </div>
     )
   }
 }
 
-export default AddStuff;
+const mapStateToProps = state => ({
+  stuff: state.stuff
+});
+
+export default connect(
+  mapStateToProps,
+  { getStuffTypes, addStuffMember }
+)(AddStuff);
+
