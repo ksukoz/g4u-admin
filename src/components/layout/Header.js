@@ -17,8 +17,8 @@ class Header extends Component {
         <ul className="navigation">
           {type == 0 ? globalAdminLink : ""}
           <li>
-            <select name="" id="">
-              <option defaultValue="1" disabled>
+            <select defaultValue="Выберите лигу">
+              <option value="Выберите лигу" disabled>
                 Выберите лигу
               </option>
             </select>

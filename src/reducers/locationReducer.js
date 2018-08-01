@@ -1,7 +1,9 @@
-import { GET_COUNTRIES } from "../actions/types";
+import { GET_COUNTRIES, GET_REGIONS, GET_CITIES } from "../actions/types";
 
 const initialState = {
-  countries: null
+  countries: null,
+  regions: null,
+  cities: null
 };
 
 export default function(state = initialState, action) {
@@ -10,6 +12,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         countries: action.payload
+      };
+    case GET_REGIONS:
+      return {
+        ...state,
+        regions: action.payload
+      };
+    case GET_CITIES:
+      return {
+        ...state,
+        cities: action.payload
       };
     default:
       return state;

@@ -14,6 +14,7 @@ import Header from "./components/layout/Header";
 
 import getCookie from "./utils/getType";
 import { setUser } from "./actions/authActions";
+import AddSubLeague from "./components/leagues/AddSubLeague";
 
 if (localStorage.user) {
   store.dispatch(setUser(getCookie("type")));
@@ -28,6 +29,7 @@ class App extends Component {
             <Header />
             {/* <Route exact path='/' component={News} /> */}
             <Route exact path="/leagues" component={Leagues} />
+            <Route exact path="/leagues/:leagueId" component={AddSubLeague} />
             <Route exact path="/franchise/add" component={AddFranchise} />
             <Route exact path="/stuff" component={Stuff} />
             <Route exact path="/mergestuff" component={MergeStuff} />
