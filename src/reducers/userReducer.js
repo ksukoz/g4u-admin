@@ -1,4 +1,4 @@
-import { GET_USERS, GET_USERS_BY_NAME } from "../actions/types";
+import { GET_USERS, MERGE_STUFF, GET_USERS_BY_NAME } from "../actions/types";
 
 const initialState = {
   userList: null
@@ -16,6 +16,8 @@ export default function(state = initialState, action) {
         ...state,
         userList: action.payload
       };
+    case MERGE_STUFF:
+      return state;
     default:
       return state;
   }

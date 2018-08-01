@@ -72,6 +72,7 @@ export const mergeStuff = stuffData => dispatch => {
           type: MERGE_STUFF,
           payload: res.data.message
         });
+        console.log(res.data);
       }
     });
 };

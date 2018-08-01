@@ -1,0 +1,13 @@
+.auth {
+  width: max-content;
+  margin: 0 auto;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 30%;
+  margin-left: auto;
+  list-style: none;
+}
