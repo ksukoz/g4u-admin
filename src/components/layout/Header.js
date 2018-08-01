@@ -14,11 +14,11 @@ class Header extends Component {
 
     return (
       <div>
-        <ul class="navigation">
+        <ul className="navigation">
           {type == 0 ? globalAdminLink : ""}
           <li>
             <select name="" id="">
-              <option value="" disabled selected>
+              <option defaultValue="1" disabled>
                 Выберите лигу
               </option>
             </select>

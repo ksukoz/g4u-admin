@@ -3,13 +3,14 @@ import authReducer from "./authReducer";
 import leagueReducer from "./leagueReducer";
 import stuffReducer from "./stuffReducer";
 import userReducer from "./userReducer";
-// import errorReducer from "./errorReducer";
+import locationReducer from "./locationReducer";
 
 export default combineReducers({
   auth: authReducer,
   league: leagueReducer,
   stuff: stuffReducer,
-  users: userReducer
+  users: userReducer,
+  location: locationReducer
 
   // errors: errorReducer
 });
