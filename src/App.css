@@ -3,11 +3,29 @@
   margin: 0 auto;
 }
 
+.auth .auth__text {
+  text-align: center;
+}
+
+.auth__form {
+  margin-bottom: 2rem;
+}
+
+.auth__link {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  color: #000;
+}
+
+.text-field--large {
+  width: 100%;
+}
+
 .navigation {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 30%;
+  width: max-content;
   margin-left: auto;
   list-style: none;
 }

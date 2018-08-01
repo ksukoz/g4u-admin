@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 class Login extends Component {
   state = {
@@ -27,29 +29,53 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className="auth__wrap">
         <div className="auth">
-          <h1>Войти</h1>
-          <p>Войти в свой аккаунт</p>
-          <form onSubmit={this.onSubmitHandler}>
-            <input
-              type="email"
+          <div className="auth__text">
+            <h1>Войти</h1>
+            <p>Войти в свой аккаунт</p>
+          </div>
+          <form className="auth__form" onSubmit={this.onSubmitHandler}>
+            <TextField
+              label="Ваш email"
               name="email"
-              placeholder="Ваш email"
+              type="email"
+              className="text-field text-field--large"
               value={this.state.email}
               onChange={this.onChangeHandler}
+              margin="normal"
             />
-            <input
+            <TextField
+              label="Ваш пароль"
+              name="password"
+              type="password"
+              className="text-field text-field--large"
+              value={this.state.password}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            {/* <input
               type="password"
               name="password"
               placeholder="Ваш пароль"
               value={this.state.password}
               onChange={this.onChangeHandler}
-            />
-            <input type="submit" value="Войти" />
+            /> */}
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              type="submit"
+              className="btn"
+            >
+              Войти
+            </Button>
+            {/* <input type="submit" value="Войти" /> */}
           </form>
 
-          <Link to="/register">Создать свой аккаунт</Link>
+          <Link className="auth__link" to="/register">
+            Создать свой аккаунт
+          </Link>
         </div>
       </div>
     );

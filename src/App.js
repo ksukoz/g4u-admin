@@ -12,6 +12,13 @@ import Stuff from "./components/stuff/Stuff";
 import MergeStuff from "./components/merge/MergeStuff";
 import Header from "./components/layout/Header";
 
+import getCookie from "./utils/getType";
+import { setUser } from "./actions/authActions";
+
+if (localStorage.user) {
+  store.dispatch(setUser(getCookie("type")));
+}
+
 class App extends Component {
   render() {
     return (

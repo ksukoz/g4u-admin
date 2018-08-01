@@ -1,8 +1,8 @@
-import { GET_USER } from "../actions/types";
+import { GET_USER, SET_USER } from "../actions/types";
 
 const initialState = {
   isAuthenticated: false,
-  type: ''
+  type: ""
 };
 
 export default function(state = initialState, action) {
@@ -12,7 +12,13 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: !state.isAuthenticated,
         type: action.payload
-      }
+      };
+    case SET_USER:
+      return {
+        ...state,
+        isAuthenticated: !state.isAuthenticated,
+        type: action.payload
+      };
     default:
       return state;
   }
