@@ -4,7 +4,11 @@ import { GET_COUNTRIES, GET_CITIES, GET_ERRORS, GET_REGIONS } from "./types";
 export const getCountries = () => dispatch => {
   axios
     .get("http://api.afl.lan/location/country", {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {
@@ -24,7 +28,11 @@ export const getCountries = () => dispatch => {
 export const getRegions = iso => dispatch => {
   axios
     .get(`http://api.afl.lan/location/region?iso=${iso}`, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {
@@ -44,7 +52,11 @@ export const getRegions = iso => dispatch => {
 export const getCities = id => dispatch => {
   axios
     .get(`http://api.afl.lan/location/city?regid=${id}`, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {

@@ -4,7 +4,11 @@ import { GET_USERS, GET_USERS_BY_NAME } from "../actions/types";
 export const getUsers = () => dispatch => {
   axios
     .get("http://api.afl.lan/admin/user/list", {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       dispatch({
@@ -17,7 +21,11 @@ export const getUsers = () => dispatch => {
 export const getUsersByName = name => dispatch => {
   axios
     .get(`http://api.afl.lan/admin/user/list?name=${name}`, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       dispatch({

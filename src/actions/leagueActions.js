@@ -5,7 +5,11 @@ import { GET_CURRENT_LEAGUE, GET_LEAGUES, GET_ERRORS } from "./types";
 export const getLeagues = () => dispatch => {
   axios
     .get("http://api.afl.lan/admin/leagues", {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       dispatch({
@@ -19,7 +23,11 @@ export const getLeagues = () => dispatch => {
 export const addFranchise = franhiseData => dispatch => {
   axios
     .post("http://api.afl.lan/admin/franchise/add", franhiseData, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {
@@ -35,7 +43,11 @@ export const addFranchise = franhiseData => dispatch => {
 export const addLeague = leagueData => dispatch => {
   axios
     .post("http://api.afl.lan/admin/leagues/add", leagueData, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {
@@ -51,7 +63,11 @@ export const addLeague = leagueData => dispatch => {
 export const addSubLeague = subLeagueData => dispatch => {
   axios
     .post("http://api.afl.lan/admin/leagues/addsub", subLeagueData, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {

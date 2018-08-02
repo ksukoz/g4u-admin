@@ -9,20 +9,19 @@ export const loginUser = (userData, history) => dispatch => {
         payload: res.data.message
       });
     } else {
-      localStorage.setItem("user", res.data.answer.token);
-      document.cookie = `type=${res.data.answer.type}`;
+      localStorage.setItem("user", JSON.stringify(res.data.answer));
       history.push("/");
       dispatch({
         type: GET_USER,
-        payload: res.data.answer.type
+        payload: res.data.answer
       });
     }
   });
 };
 
-export const setUser = userType => {
+export const setUser = user => {
   return {
     type: SET_USER,
-    payload: userType
+    payload: user
   };
 };

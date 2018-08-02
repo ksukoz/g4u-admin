@@ -6,11 +6,6 @@ import { getRegions } from "../../actions/locationActions";
 import AddLeague from "./AddLeague";
 
 class Leagues extends Component {
-  onClickHandler = e => {
-    this.props.history.push(`/leagues/${e.target.dataset.id}`);
-    this.props.getRegions(e.target.dataset.iso);
-    this.props.league.currentLeague = e.target.dataset.id;
-  };
   componentDidMount = () => {
     this.props.getLeagues();
   };
@@ -20,14 +15,7 @@ class Leagues extends Component {
     let leaguesList;
     if (leagues !== null) {
       leaguesList = leagues.map(league => (
-        <li
-          key={league.id}
-          data-iso={league.country}
-          data-id={league.id}
-          onClick={this.onClickHandler}
-        >
-          {league.title}
-        </li>
+        <li key={league.id}>{league.title}</li>
       ));
     }
 

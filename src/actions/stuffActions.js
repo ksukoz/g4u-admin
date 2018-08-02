@@ -10,7 +10,11 @@ import {
 export const getStuffTypes = () => dispatch => {
   axios
     .get("http://api.afl.lan/admin/personal/type", {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       dispatch({
@@ -23,7 +27,11 @@ export const getStuffTypes = () => dispatch => {
 export const getStuffMembers = () => dispatch => {
   axios
     .get("http://api.afl.lan/admin/personal/list", {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       dispatch({
@@ -36,7 +44,11 @@ export const getStuffMembers = () => dispatch => {
 export const getStuffMembersByName = search => dispatch => {
   axios
     .get(`http://api.afl.lan/admin/personal/list?name=${search}`, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       dispatch({
@@ -49,7 +61,11 @@ export const getStuffMembersByName = search => dispatch => {
 export const addStuffMember = stuffData => dispatch => {
   axios
     .post("http://api.afl.lan/admin/personal/add", stuffData, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {
@@ -64,7 +80,11 @@ export const addStuffMember = stuffData => dispatch => {
 export const mergeStuff = stuffData => dispatch => {
   axios
     .post("http://api.afl.lan/admin/merge/personal", stuffData, {
-      headers: { Authorization: `G4User ${localStorage.getItem("user")}` }
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
     .then(res => {
       if (res.data.error) {

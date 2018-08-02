@@ -54,13 +54,6 @@ class Login extends Component {
               onChange={this.onChangeHandler}
               margin="normal"
             />
-            {/* <input
-              type="password"
-              name="password"
-              placeholder="Ваш пароль"
-              value={this.state.password}
-              onChange={this.onChangeHandler}
-            /> */}
             <Button
               variant="contained"
               color="primary"
@@ -70,7 +63,6 @@ class Login extends Component {
             >
               Войти
             </Button>
-            {/* <input type="submit" value="Войти" /> */}
           </form>
 
           <Link className="auth__link" to="/register">

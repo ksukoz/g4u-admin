@@ -12,12 +12,12 @@ import Stuff from "./components/stuff/Stuff";
 import MergeStuff from "./components/merge/MergeStuff";
 import Header from "./components/layout/Header";
 
-import getCookie from "./utils/getType";
 import { setUser } from "./actions/authActions";
 import AddSubLeague from "./components/leagues/AddSubLeague";
+import AddPlayers from "./components/players/AddPlayers";
 
 if (localStorage.user) {
-  store.dispatch(setUser(getCookie("type")));
+  store.dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
 }
 
 class App extends Component {
@@ -29,9 +29,10 @@ class App extends Component {
             <Header />
             {/* <Route exact path='/' component={News} /> */}
             <Route exact path="/leagues" component={Leagues} />
-            <Route exact path="/leagues/:leagueId" component={AddSubLeague} />
+            <Route exact path="/subleagues" component={AddSubLeague} />
             <Route exact path="/franchise/add" component={AddFranchise} />
             <Route exact path="/stuff" component={Stuff} />
+            <Route exact path="/players" component={AddPlayers} />
             <Route exact path="/mergestuff" component={MergeStuff} />
 
             <Route exact path="/login" component={Login} />

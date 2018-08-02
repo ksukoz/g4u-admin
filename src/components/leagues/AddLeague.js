@@ -36,7 +36,7 @@ class AddLeague extends Component {
   render() {
     const { countries } = this.props.location;
     let countriesList;
-    if (countries !== null) {
+    if (countries !== null && countries !== undefined) {
       countriesList = countries.map(country => (
         <option key={country.id} value={country.iso}>
           {country.name}
