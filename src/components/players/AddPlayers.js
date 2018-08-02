@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { getStuffTypes, addStuffMember } from "../../actions/stuffActions";
+import { addPlayer } from "../../actions/playerActions";
 
 class AddPlayers extends Component {
   state = {
     name: "",
     surname: "",
     patronymic: "",
-    type_id: 1,
+    position_id: 1,
+    birthday: "",
+    statue: "",
+    weight: "",
+    phone: "",
     image: null,
     readyImage: "",
     crop: {
@@ -77,32 +81,32 @@ class AddPlayers extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    const newStuffMember = {
+    const newPlayer = {
       name: this.state.name,
       surename: this.state.surname,
       patronymic: this.state.patronymic,
-      type_id: +this.state.type_id,
+      position_id: +this.state.position_id,
       photo: this.state.readyImage
     };
 
-    this.props.addStuffMember(newStuffMember);
+    this.props.addPlayer(newPlayer);
   };
 
   componentDidMount() {
-    this.props.getStuffTypes();
+    // this.props.getStuffTypes();
   }
 
   render() {
-    const { options } = this.props.stuff;
+    // const { options } = this.props.stuff;
 
-    let optionsList;
-    if (options !== null) {
-      optionsList = options.map(option => (
-        <option key={option.id} value={option.id}>
-          {option.type_ru}
-        </option>
-      ));
-    }
+    // let optionsList;
+    // if (options !== null) {
+    //   optionsList = options.map(option => (
+    //     <option key={option.id} value={option.id}>
+    //       {option.type_ru}
+    //     </option>
+    //   ));
+    // }
 
     return (
       <div>
@@ -139,12 +143,40 @@ class AddPlayers extends Component {
             ""
           )}
           <select
-            name="type_id"
+            name="position_id"
             value={this.state.type}
             onChange={this.onChangeHandler}
           >
-            {optionsList}
+            {/* {optionsList} */}
           </select>
+          <input
+            type="date"
+            name="birthday"
+            value={this.state.birthday}
+            onChange={this.onChangeHandler}
+            placeholder="Дата рождения"
+          />
+          <input
+            type="number"
+            name="stature"
+            value={this.state.stature}
+            onChange={this.onChangeHandler}
+            placeholder="Рост"
+          />
+          <input
+            type="number"
+            name="weight"
+            value={this.state.weight}
+            onChange={this.onChangeHandler}
+            placeholder="Вес"
+          />
+          <input
+            type="tel"
+            name="phone"
+            value={this.state.phone}
+            onChange={this.onChangeHandler}
+            placeholder="Телефон"
+          />
           <input type="submit" value="Добавить" />
         </form>
 
@@ -165,10 +197,10 @@ class AddPlayers extends Component {
 }
 
 const mapStateToProps = state => ({
-  stuff: state.stuff
+  players: state.players
 });
 
 export default connect(
   mapStateToProps,
-  { getStuffTypes, addStuffMember }
+  { addPlayer }
 )(AddPlayers);
