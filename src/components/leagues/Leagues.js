@@ -5,6 +5,10 @@ import { getLeagues } from "../../actions/leagueActions";
 import { getRegions } from "../../actions/locationActions";
 import AddLeague from "./AddLeague";
 
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+
 class Leagues extends Component {
   componentDidMount = () => {
     this.props.getLeagues();
@@ -15,14 +19,16 @@ class Leagues extends Component {
     let leaguesList;
     if (leagues !== null) {
       leaguesList = leagues.map(league => (
-        <li key={league.id}>{league.title}</li>
+        <ListItem button>
+          <ListItemText primary={league.title} key={league.id} />
+        </ListItem>
       ));
     }
 
     return (
       <div>
         <AddLeague />
-        <ul>{leaguesList}</ul>
+        <List>{leaguesList}</List>
       </div>
     );
   }

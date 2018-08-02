@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { addFranchise } from "../../actions/leagueActions";
 import { connect } from "react-redux";
 
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
 class AddFranchise extends Component {
   state = {
     name: "",
@@ -31,35 +34,49 @@ class AddFranchise extends Component {
     return (
       <div>
         <form onSubmit={this.onSubmitHandler}>
-          <input
-            type="text"
+          <TextField
+            label="Название"
             name="name"
-            placeholder="Название"
+            className="text-field"
             value={this.state.name}
             onChange={this.onChangeHandler}
+            margin="normal"
           />
-          <input
-            type="text"
+          <TextField
+            label="Логин администратора"
             name="login"
-            placeholder="Логин администратора"
+            className="text-field"
             value={this.state.login}
             onChange={this.onChangeHandler}
+            margin="normal"
           />
-          <input
-            type="email"
+          <TextField
+            label="Email администратора"
             name="email"
-            placeholder="Email администратора"
+            type="email"
+            className="text-field"
             value={this.state.email}
             onChange={this.onChangeHandler}
+            margin="normal"
           />
-          <input
-            type="password"
+          <TextField
+            label="Пароль администратора"
             name="password"
-            placeholder="Пароль"
+            type="password"
+            className="text-field"
             value={this.state.password}
             onChange={this.onChangeHandler}
+            margin="normal"
           />
-          <input type="submit" value="Войти" />
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            className="btn"
+          >
+            Сохранить
+          </Button>
         </form>
       </div>
     );

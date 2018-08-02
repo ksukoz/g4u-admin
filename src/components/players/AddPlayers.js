@@ -4,6 +4,18 @@ import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { addPlayer } from "../../actions/playerActions";
 
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
+import Button from "@material-ui/core/Button";
+
 class AddPlayers extends Component {
   state = {
     name: "",
@@ -110,27 +122,30 @@ class AddPlayers extends Component {
 
     return (
       <div>
-        <form onSubmit={this.onSubmitHandler}>
-          <input
-            type="text"
+        <form className="player__form" onSubmit={this.onSubmitHandler}>
+          <TextField
+            label="Имя"
             name="name"
+            className="text-field"
             value={this.state.name}
             onChange={this.onChangeHandler}
-            placeholder="Имя"
+            margin="normal"
           />
-          <input
-            type="text"
+          <TextField
+            label="Фамилия"
             name="surname"
+            className="text-field"
             value={this.state.surname}
             onChange={this.onChangeHandler}
-            placeholder="Фамилия"
+            margin="normal"
           />
-          <input
-            type="text"
+          <TextField
+            label="Отчество"
             name="patronymic"
+            className="text-field"
             value={this.state.patronymic}
             onChange={this.onChangeHandler}
-            placeholder="Отчество"
+            margin="normal"
           />
           <input ref="file" type="file" onChange={this.onChange} />
           {this.state.readyImage !== null ? (
@@ -142,42 +157,69 @@ class AddPlayers extends Component {
           ) : (
             ""
           )}
-          <select
-            name="position_id"
-            value={this.state.type}
-            onChange={this.onChangeHandler}
-          >
-            {/* {optionsList} */}
-          </select>
-          <input
+          <FormControl className="select">
+            <InputLabel htmlFor="position_id">Выбрать позицию</InputLabel>
+            <Select
+              value={this.state.type}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "position_id",
+                id: "position_id"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {/* {optionsList} */}
+            </Select>
+          </FormControl>
+          <TextField
+            id="birthday"
+            label="Дата рождения"
             type="date"
             name="birthday"
             value={this.state.birthday}
             onChange={this.onChangeHandler}
-            placeholder="Дата рождения"
+            InputLabelProps={{
+              shrink: true
+            }}
           />
-          <input
+          <TextField
+            label="Рост"
             type="number"
             name="stature"
+            className="text-field"
             value={this.state.stature}
             onChange={this.onChangeHandler}
-            placeholder="Рост"
+            margin="normal"
           />
-          <input
+          <TextField
+            label="Вес"
             type="number"
             name="weight"
+            className="text-field"
             value={this.state.weight}
             onChange={this.onChangeHandler}
-            placeholder="Вес"
+            margin="normal"
           />
-          <input
+          <TextField
+            label="Телефон"
             type="tel"
             name="phone"
+            className="text-field"
             value={this.state.phone}
             onChange={this.onChangeHandler}
-            placeholder="Телефон"
+            margin="normal"
           />
-          <input type="submit" value="Добавить" />
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            className="btn"
+          >
+            Сохранить
+          </Button>
         </form>
 
         {this.state.image && (

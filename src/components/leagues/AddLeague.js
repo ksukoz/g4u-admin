@@ -3,6 +3,18 @@ import { connect } from "react-redux";
 import { addLeague } from "../../actions/leagueActions";
 import { getCountries } from "../../actions/locationActions";
 
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
+import Button from "@material-ui/core/Button";
+
 class AddLeague extends Component {
   state = {
     name: "",
@@ -38,32 +50,49 @@ class AddLeague extends Component {
     let countriesList;
     if (countries !== null && countries !== undefined) {
       countriesList = countries.map(country => (
-        <option key={country.id} value={country.iso}>
+        <MenuItem key={country.id} value={country.iso}>
           {country.name}
-        </option>
+        </MenuItem>
       ));
     }
 
     return (
       <div>
-        <form onSubmit={this.onSubmitHandler}>
-          <input
-            type="text"
+        <form className="league__form" onSubmit={this.onSubmitHandler}>
+          <TextField
+            label="Название лиги"
             name="name"
-            placeholder="Название лиги"
+            className="text-field"
             value={this.state.name}
             onChange={this.onChangeHandler}
+            margin="normal"
           />
-          <input
-            type="checkbox"
-            name="status"
-            checked={this.state.status}
-            onChange={this.toggleChange}
-          />
-          <select name="country" id="" onChange={this.onChangeHandler}>
-            {countriesList}
-          </select>
-          <button type="submit">Сохранить</button>
+          <Checkbox checked={this.state.status} onChange={this.toggleChange} />
+          <FormControl className="select">
+            <InputLabel htmlFor="country">Выбрать страну</InputLabel>
+            <Select
+              value={this.state.country}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "country",
+                id: "country"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {countriesList}
+            </Select>
+          </FormControl>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            className="btn"
+          >
+            Сохранить
+          </Button>
         </form>
       </div>
     );

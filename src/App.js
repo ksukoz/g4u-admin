@@ -15,6 +15,7 @@ import Header from "./components/layout/Header";
 import { setUser } from "./actions/authActions";
 import AddSubLeague from "./components/leagues/AddSubLeague";
 import AddPlayers from "./components/players/AddPlayers";
+import Navbar from "./components/layout/Navbar";
 
 if (localStorage.user) {
   store.dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
@@ -27,15 +28,18 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header />
-            {/* <Route exact path='/' component={News} /> */}
-            <Route exact path="/leagues" component={Leagues} />
-            <Route exact path="/subleagues" component={AddSubLeague} />
-            <Route exact path="/franchise/add" component={AddFranchise} />
-            <Route exact path="/stuff" component={Stuff} />
-            <Route exact path="/players" component={AddPlayers} />
-            <Route exact path="/mergestuff" component={MergeStuff} />
+            {/* <Navbar /> */}
+            <div>
+              {/* <Route exact path='/' component={News} /> */}
+              <Route exact path="/leagues" component={Leagues} />
+              <Route exact path="/subleagues" component={AddSubLeague} />
+              <Route exact path="/franchise/add" component={AddFranchise} />
+              <Route exact path="/stuff" component={Stuff} />
+              <Route exact path="/players" component={AddPlayers} />
+              <Route exact path="/mergestuff" component={MergeStuff} />
 
-            <Route exact path="/login" component={Login} />
+              <Route exact path="/login" component={Login} />
+            </div>
           </div>
         </Router>
       </Provider>

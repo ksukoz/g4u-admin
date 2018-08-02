@@ -4,6 +4,17 @@ import { addSubLeague } from "../../actions/leagueActions";
 import { getCities, getRegions } from "../../actions/locationActions";
 import { getLeagues } from "../../actions/leagueActions";
 
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
+import Button from "@material-ui/core/Button";
+
 class AddSubLeague extends Component {
   state = {
     name: "",
@@ -27,7 +38,6 @@ class AddSubLeague extends Component {
 
   onClickHandler = e => {
     this.setState({ league: e.target.dataset.id });
-    console.log(e.target);
   };
 
   onRegionChange = e => {
@@ -56,13 +66,13 @@ class AddSubLeague extends Component {
     let leaguesList;
     if (leagues !== null) {
       leaguesList = leagues.map(league => (
-        <option
+        <MenuItem
           key={league.id}
           value={JSON.stringify({ country: league.country, id: league.id })}
           data-id={league.id}
         >
           {league.title}
-        </option>
+        </MenuItem>
       ));
     }
 
@@ -70,9 +80,9 @@ class AddSubLeague extends Component {
     let regionsList;
     if (regions !== null) {
       regionsList = regions.map(region => (
-        <option key={region.id} value={region.id}>
+        <MenuItem key={region.id} value={region.id}>
           {region.name}
-        </option>
+        </MenuItem>
       ));
     }
 
@@ -80,62 +90,81 @@ class AddSubLeague extends Component {
     let citiesList;
     if (cities !== null) {
       citiesList = cities.map(cities => (
-        <option key={cities.id} value={cities.id}>
+        <MenuItem key={cities.id} value={cities.id}>
           {cities.name}
-        </option>
+        </MenuItem>
       ));
     }
 
     return (
       <div>
-        <form onSubmit={this.onSubmitHandler}>
-          <input
-            type="text"
+        <form className="league__form" onSubmit={this.onSubmitHandler}>
+          <TextField
+            label="Название лиги"
             name="name"
-            placeholder="Название лиги"
+            className="text-field"
             value={this.state.name}
             onChange={this.onChangeHandler}
+            margin="normal"
           />
-          <input
-            type="checkbox"
-            name="status"
-            checked={this.state.status}
-            onChange={this.toggleChange}
-          />
-          <select
-            defaultValue="Выбрать основную лигу"
-            name="league"
-            id=""
-            onChange={this.onLeagueChange}
+          <Checkbox checked={this.state.status} onChange={this.toggleChange} />
+          <FormControl className="select">
+            <InputLabel htmlFor="league">Выбрать страну</InputLabel>
+            <Select
+              value={this.state.league}
+              onChange={this.onLeagueChange}
+              inputProps={{
+                name: "league",
+                id: "league"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {leaguesList}
+            </Select>
+          </FormControl>
+          <FormControl className="select">
+            <InputLabel htmlFor="region">Выбрать регион</InputLabel>
+            <Select
+              value={this.state.region}
+              onChange={this.onRegionChange}
+              inputProps={{
+                name: "region",
+                id: "region"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {regionsList}
+            </Select>
+          </FormControl>
+          <FormControl className="select">
+            <InputLabel htmlFor="city">Выбрать город</InputLabel>
+            <Select
+              value={this.state.city}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "city",
+                id: "city"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {citiesList}
+            </Select>
+          </FormControl>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            className="btn"
           >
-            <option value="Выбрать основную лигу" disabled>
-              Выбрать основную лигу
-            </option>
-            {leaguesList}
-          </select>
-          <select
-            defaultValue="Выбрать регион"
-            name="region"
-            id=""
-            onChange={this.onRegionChange}
-          >
-            <option value="Выбрать регион" disabled>
-              Выбрать регион
-            </option>
-            {regionsList}
-          </select>
-          <select
-            defaultValue="Выбрать город"
-            name="city"
-            id=""
-            onChange={this.onChangeHandler}
-          >
-            <option value="Выбрать город" disabled>
-              Выбрать город
-            </option>
-            {citiesList}
-          </select>
-          <button type="submit">Сохранить</button>
+            Сохранить
+          </Button>
         </form>
       </div>
     );

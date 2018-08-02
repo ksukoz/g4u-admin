@@ -3,6 +3,18 @@ import { connect } from "react-redux";
 import { getStuffMembersByName, mergeStuff } from "../../actions/stuffActions";
 import { getUsersByName } from "../../actions/userActions";
 
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import ListItem from "@material-ui/core/ListItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+
+import Button from "@material-ui/core/Button";
+
 class MergeStuff extends Component {
   state = {
     name: "",
@@ -60,7 +72,7 @@ class MergeStuff extends Component {
     let userArr;
     if (members !== null) {
       memberList = members.map(member => (
-        <li
+        <ListItem
           key={member.id}
           data-id={member.id}
           data-name="member"
@@ -69,32 +81,33 @@ class MergeStuff extends Component {
           <img src={member.photo} style={{ width: "50px" }} alt="" />
           {`${member.surename} ${member.name} ${member.patronymic}`}
           <span>{member.type}</span>
-        </li>
+        </ListItem>
       ));
     }
 
     if (userList !== null) {
       userArr = userList.map(user => (
-        <li
+        <ListItem
           key={user.id}
           data-id={user.id}
           data-name="user"
           onClick={this.onClick}
         >
           {user.nickname}
-        </li>
+        </ListItem>
       ));
     }
 
     return (
       <div>
         <div>
-          <input
-            type="text"
+          <TextField
+            label="Минимум 3 буквы"
             name="name"
+            className="text-field"
             value={this.state.name}
-            onChange={this.onChange}
-            placeholder="Минимум 3 буквы"
+            onChange={this.onChangeHandler}
+            margin="normal"
           />
           <div>
             <ul>{memberList}</ul>
@@ -102,12 +115,13 @@ class MergeStuff extends Component {
         </div>
 
         <div>
-          <input
-            type="text"
+          <TextField
+            label="Минимум 3 буквы"
             name="nickname"
+            className="text-field"
             value={this.state.nickname}
-            onChange={this.onChange}
-            placeholder="Минимум 3 буквы"
+            onChange={this.onChangeHandler}
+            margin="normal"
           />
           <div>
             <ul>{userArr}</ul>
@@ -115,7 +129,15 @@ class MergeStuff extends Component {
         </div>
 
         <form onSubmit={this.onSubmit}>
-          <input type="submit" value="Объединить" />
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            type="submit"
+            className="btn"
+          >
+            Объединить
+          </Button>
         </form>
       </div>
     );

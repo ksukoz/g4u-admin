@@ -1,32 +1,37 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import AddStuff from './AddStuff';
-import { getStuffMembers } from '../../actions/stuffActions';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import AddStuff from "./AddStuff";
+import { getStuffMembers } from "../../actions/stuffActions";
 
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 class Stuff extends Component {
-  componentWillMount() {    
+  componentWillMount() {
     this.props.getStuffMembers();
   }
 
-  render() {    
+  render() {
     const { members } = this.props.stuff;
 
     let membersList;
     if (members !== null && members !== undefined) {
       membersList = members.map(member => (
-        <li key={member.id}><img src={member.photo} style={{width: '50px'}} alt=""/>{`${member.surename} ${member.name} ${member.patronymic}`}<span>{member.type}</span></li>
+        <ListItem key={member.id}>
+          <img src={member.photo} style={{ width: "50px" }} alt="" />
+          {`${member.surename} ${member.name} ${member.patronymic}`}
+          <span>{member.type}</span>
+        </ListItem>
       ));
     }
 
     return (
       <div>
         <AddStuff />
-        <ul>
-          {membersList}
-        </ul>
+        <List>{membersList}</List>
       </div>
-    )
+    );
   }
 }
 
