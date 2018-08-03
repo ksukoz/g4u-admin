@@ -30,16 +30,16 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header />
-            <Navbar />
-            <div>
+            <div class="main">
+              <Navbar />
               {/* <Route exact path='/' component={News} /> */}
               <Route exact path="/leagues" component={Leagues} />
               <Route exact path="/subleagues" component={AddSubLeague} />
               <Route exact path="/franchise/add" component={AddFranchise} />
               <Route exact path="/stuff" component={Stuff} />
               <Route exact path="/players" component={Players} />
-              <Route exact path="/mergestuff" component={MergeStuff} />
-              <Route exact path="/mergeplayers" component={MergePlayers} />
+              <Route exact path="/merge/stuff" component={MergeStuff} />
+              <Route exact path="/merge/players" component={MergePlayers} />
               <Route exact path="/merge" component={Merge} />
 
               <Route exact path="/login" component={Login} />

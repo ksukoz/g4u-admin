@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+.auth__wrap {
+  width: 100%;
+}
+
 .auth .auth__text {
   text-align: center;
 }
@@ -32,4 +36,10 @@
   width: max-content;
   margin-left: auto;
   list-style: none;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 }
