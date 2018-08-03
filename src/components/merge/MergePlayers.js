@@ -1,36 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getStuffMembersByName, mergeStuff } from "../../actions/stuffActions";
+import { getPlayersByName, mergePlayer } from "../../actions/playerActions";
 import { getUsersByName } from "../../actions/userActions";
 
 import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import ListItem from "@material-ui/core/ListItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 
 import Button from "@material-ui/core/Button";
 
-class MergeStuff extends Component {
+class MergePlayers extends Component {
   state = {
     name: "",
     nickname: "",
     usId: "",
-    persId: ""
+    playersId: ""
   };
 
   onChangeHandler = e => {
     if (e.target.name === "name" && e.target.value.length >= 3) {
-      this.props.getStuffMembersByName(e.target.value);
+      this.props.getPlayersByName(e.target.value);
     } else if (e.target.name === "nickname" && e.target.value.length >= 3) {
       this.props.getUsersByName(e.target.value);
     }
 
     this.setState({
+      ...this.state,
       [e.target.name]: e.target.value
     });
   };
@@ -39,7 +33,7 @@ class MergeStuff extends Component {
     if (e.target.dataset.name === "member") {
       this.setState({
         ...this.state,
-        persId: e.target.dataset.id
+        playersId: e.target.dataset.id
       });
     } else if (e.target.dataset.name === "user") {
       this.setState({
@@ -54,26 +48,26 @@ class MergeStuff extends Component {
 
     const merging = {
       usId: this.state.usId,
-      persId: this.state.persId
+      playersId: this.state.persId
     };
 
-    if (!merging.usId || !merging.persId) {
+    if (!merging.usId || !merging.playersId) {
       console.log("merging failed");
     } else {
-      this.props.mergeStuff(merging);
+      this.props.mergePlayer(merging);
     }
   };
 
   render() {
-    const { members } = this.props.stuff;
+    const { members } = this.props.players;
     const { userList } = this.props.users;
     let memberList;
     let userArr;
     if (members !== null) {
       memberList = members.map(member => (
         <ListItem
-          key={member.id}
-          data-id={member.id}
+          key={member.player_id}
+          data-id={member.player_id}
           data-name="member"
           onClick={this.onClick}
         >
@@ -144,15 +138,15 @@ class MergeStuff extends Component {
 }
 
 const mapStateToProps = state => ({
-  stuff: state.stuff,
+  players: state.players,
   users: state.users
 });
 
 export default connect(
   mapStateToProps,
   {
-    getStuffMembersByName,
-    getUsersByName,
-    mergeStuff
+    getPlayersByName,
+    mergePlayer,
+    getUsersByName
   }
-)(MergeStuff);
+)(MergePlayers);

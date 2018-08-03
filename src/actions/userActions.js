@@ -20,7 +20,7 @@ export const getUsers = () => dispatch => {
 
 export const getUsersByName = name => dispatch => {
   axios
-    .get(`http://api.afl.lan/admin/user/list?name=${name}`, {
+    .get(`http://api.afl.lan/admin/user/list?name=${name}&tied=0`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("user")).token

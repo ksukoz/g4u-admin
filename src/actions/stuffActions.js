@@ -43,7 +43,7 @@ export const getStuffMembers = () => dispatch => {
 
 export const getStuffMembersByName = search => dispatch => {
   axios
-    .get(`http://api.afl.lan/admin/personal/list?name=${search}`, {
+    .get(`http://api.afl.lan/admin/personal/list?name=${search}&tied=0`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("user")).token

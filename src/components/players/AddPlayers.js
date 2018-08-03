@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { addPlayer } from "../../actions/playerActions";
+import { addPlayer, getPositions } from "../../actions/playerActions";
 
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -21,11 +21,13 @@ class AddPlayers extends Component {
     name: "",
     surname: "",
     patronymic: "",
-    position_id: 1,
+    position_id: "",
     birthday: "",
-    statue: "",
+    stature: "",
     weight: "",
     phone: "",
+    fb: "",
+    vk: "",
     image: null,
     readyImage: "",
     crop: {
@@ -98,27 +100,33 @@ class AddPlayers extends Component {
       surename: this.state.surname,
       patronymic: this.state.patronymic,
       position_id: +this.state.position_id,
-      photo: this.state.readyImage
+      photo: this.state.readyImage,
+      birthday: this.state.birthday,
+      stature: this.state.stature,
+      weight: this.state.weight,
+      phone: this.state.phone,
+      FB: this.state.fb,
+      VK: this.state.vk
     };
 
     this.props.addPlayer(newPlayer);
   };
 
   componentDidMount() {
-    // this.props.getStuffTypes();
+    this.props.getPositions();
   }
 
   render() {
-    // const { options } = this.props.stuff;
+    const { positions } = this.props.players;
 
-    // let optionsList;
-    // if (options !== null) {
-    //   optionsList = options.map(option => (
-    //     <option key={option.id} value={option.id}>
-    //       {option.type_ru}
-    //     </option>
-    //   ));
-    // }
+    let positionsList;
+    if (positions !== null) {
+      positionsList = positions.map(position => (
+        <option key={position.position_id} value={position.position_id}>
+          {position.type}
+        </option>
+      ));
+    }
 
     return (
       <div>
@@ -160,7 +168,7 @@ class AddPlayers extends Component {
           <FormControl className="select">
             <InputLabel htmlFor="position_id">Выбрать позицию</InputLabel>
             <Select
-              value={this.state.type}
+              value={this.state.position_id}
               onChange={this.onChangeHandler}
               inputProps={{
                 name: "position_id",
@@ -170,7 +178,7 @@ class AddPlayers extends Component {
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {/* {optionsList} */}
+              {positionsList}
             </Select>
           </FormControl>
           <TextField
@@ -211,6 +219,22 @@ class AddPlayers extends Component {
             onChange={this.onChangeHandler}
             margin="normal"
           />
+          <TextField
+            label="Facebook"
+            name="fb"
+            className="text-field"
+            value={this.state.fb}
+            onChange={this.onChangeHandler}
+            margin="normal"
+          />
+          <TextField
+            label="VK"
+            name="vk"
+            className="text-field"
+            value={this.state.vk}
+            onChange={this.onChangeHandler}
+            margin="normal"
+          />
           <Button
             variant="contained"
             color="primary"
@@ -244,5 +268,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addPlayer }
+  { addPlayer, getPositions }
 )(AddPlayers);
