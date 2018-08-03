@@ -17,6 +17,7 @@ import AddSubLeague from "./components/leagues/AddSubLeague";
 import Players from "./components/players/Players";
 import Navbar from "./components/layout/Navbar";
 import MergePlayers from "./components/merge/MergePlayers";
+import Merge from "./components/merge/Merge";
 
 if (localStorage.user) {
   store.dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
@@ -39,6 +40,7 @@ class App extends Component {
               <Route exact path="/players" component={Players} />
               <Route exact path="/mergestuff" component={MergeStuff} />
               <Route exact path="/mergeplayers" component={MergePlayers} />
+              <Route exact path="/merge" component={Merge} />
 
               <Route exact path="/login" component={Login} />
             </div>

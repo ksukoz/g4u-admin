@@ -16,3 +16,4 @@ export const GET_CITIES = "GET_CITIES";
 export const GET_POSITION = "GET_POSITION";
 export const GET_PLAYERS = "GET_PLAYERS";
 export const GET_PLAYERS_BY_NAME = "GET_PLAYERS_BY_NAME";
+export const GET_MERGING = "GET_MERGING";
