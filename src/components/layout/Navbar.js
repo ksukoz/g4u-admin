@@ -52,11 +52,16 @@ const styles = theme => ({
 class Navbar extends React.Component {
   state = {
     anchor: "left",
-    open: false
+    first: false,
+    second: false
   };
 
   handleClick = () => {
-    this.setState({ open: !this.state.open });
+    this.setState({ first: !this.state.first });
+  };
+
+  onClick = () => {
+    this.setState({ second: !this.state.second });
   };
 
   render() {
@@ -74,16 +79,24 @@ class Navbar extends React.Component {
         <div className={classes.toolbar} />
         <Divider />
         <List>
-          <ListItem button>
-            <ListItemText>
-              <Link to="/leagues">Лиги</Link>
-            </ListItemText>
+          <ListItem button id="first" onClick={this.handleClick}>
+            <ListItemText inset primary="Управление лигами" />
+            {this.state.first ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <ListItem button>
-            <ListItemText>
-              <Link to="/subleagues">Подлиги</Link>
-            </ListItemText>
-          </ListItem>
+          <Collapse in={this.state.first} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button>
+                <ListItemText>
+                  <Link to="/leagues">Лиги</Link>
+                </ListItemText>
+              </ListItem>
+              <ListItem button>
+                <ListItemText>
+                  <Link to="/subleagues">Подлиги</Link>
+                </ListItemText>
+              </ListItem>
+            </List>
+          </Collapse>
           <ListItem button>
             <ListItemText>
               <Link to="/franchise/add">Франшизы</Link>
@@ -100,11 +113,11 @@ class Navbar extends React.Component {
             </ListItemText>
           </ListItem>
 
-          <ListItem button onClick={this.handleClick}>
+          <ListItem button id="second" onClick={this.onClick}>
             <ListItemText inset primary="Объединение" />
-            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+            {this.state.second ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
-          <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+          <Collapse in={this.state.second} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem button>
                 <ListItemText>
