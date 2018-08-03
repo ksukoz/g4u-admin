@@ -48,10 +48,10 @@ class MergePlayers extends Component {
 
     const merging = {
       usId: this.state.usId,
-      playersId: this.state.persId
+      playerId: this.state.playersId
     };
 
-    if (!merging.usId || !merging.playersId) {
+    if (!merging.usId || !merging.playerId) {
       console.log("merging failed");
     } else {
       this.props.mergePlayer(merging);

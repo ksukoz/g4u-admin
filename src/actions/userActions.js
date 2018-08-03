@@ -32,6 +32,5 @@ export const getUsersByName = name => dispatch => {
         type: GET_USERS_BY_NAME,
         payload: res.data.answer
       });
-      console.log(res.data.answer);
     });
 };

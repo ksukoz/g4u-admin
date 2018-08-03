@@ -92,7 +92,6 @@ export const mergePlayer = playerData => dispatch => {
           type: MERGE_PLAYER,
           payload: res.data.message
         });
-        console.log(res.data);
       }
     });
 };
