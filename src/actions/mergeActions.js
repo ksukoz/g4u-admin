@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GET_MERGING } from "./types";
 
-// Get leagues
 export const getMerging = () => dispatch => {
   axios
     .get("http://api.afl.lan/admin/merge", {

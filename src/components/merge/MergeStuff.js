@@ -4,15 +4,7 @@ import { getStuffMembersByName, mergeStuff } from "../../actions/stuffActions";
 import { getUsersByName } from "../../actions/userActions";
 
 import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
 import ListItem from "@material-ui/core/ListItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-
 import Button from "@material-ui/core/Button";
 
 class MergeStuff extends Component {

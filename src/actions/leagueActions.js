@@ -1,5 +1,9 @@
 import axios from "axios";
-import { GET_CURRENT_LEAGUE, GET_LEAGUES, GET_ERRORS } from "./types";
+import {
+  // GET_CURRENT_LEAGUE,
+  GET_LEAGUES,
+  GET_ERRORS
+} from "./types";
 
 // Get leagues
 export const getLeagues = () => dispatch => {
