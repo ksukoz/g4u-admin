@@ -11,7 +11,7 @@ export const getLeagues = () => dispatch => {
     .get("http://api.afl.lan/admin/leagues", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -29,7 +29,7 @@ export const addFranchise = franhiseData => dispatch => {
     .post("http://api.afl.lan/admin/franchise/add", franhiseData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -49,7 +49,7 @@ export const addLeague = leagueData => dispatch => {
     .post("http://api.afl.lan/admin/leagues/add", leagueData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -69,7 +69,7 @@ export const addSubLeague = subLeagueData => dispatch => {
     .post("http://api.afl.lan/admin/leagues/addsub", subLeagueData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })

@@ -6,7 +6,7 @@ export const getMerging = () => dispatch => {
     .get("http://api.afl.lan/admin/merge", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -23,7 +23,7 @@ export const confirmMerging = data => dispatch => {
     .post("http://api.afl.lan/admin/merge/update", data, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })

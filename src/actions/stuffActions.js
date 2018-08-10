@@ -12,7 +12,7 @@ export const getStuffTypes = () => dispatch => {
     .get("http://api.afl.lan/admin/personal/type", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -29,7 +29,7 @@ export const getStuffMembers = () => dispatch => {
     .get("http://api.afl.lan/admin/personal/list", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -46,7 +46,7 @@ export const getStuffMembersByName = search => dispatch => {
     .get(`http://api.afl.lan/admin/personal/list?name=${search}&tied=0`, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -63,7 +63,7 @@ export const addStuffMember = stuffData => dispatch => {
     .post("http://api.afl.lan/admin/personal/add", stuffData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -82,7 +82,7 @@ export const mergeStuff = stuffData => dispatch => {
     .post("http://api.afl.lan/admin/merge/personal", stuffData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })

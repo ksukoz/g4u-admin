@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_USER, SET_USER } from "./types";
+import { GET_ERRORS, GET_USER, SET_USER, LOGOUT_USER } from "./types";
 
 export const loginUser = (userData, history) => dispatch => {
   axios.post("http://api.afl.lan/admin/user/login", userData).then(res => {
@@ -9,7 +9,7 @@ export const loginUser = (userData, history) => dispatch => {
         payload: res.data.message
       });
     } else {
-      localStorage.setItem("user", JSON.stringify(res.data.answer));
+      localStorage.setItem("admin-user", JSON.stringify(res.data.answer));
       history.push("/");
       dispatch({
         type: GET_USER,
@@ -24,4 +24,12 @@ export const setUser = user => {
     type: SET_USER,
     payload: user
   };
+};
+
+export const logoutUser = () => dispatch => {
+  localStorage.removeItem("user");
+  dispatch({
+    type: LOGOUT_USER,
+    payload: false
+  });
 };

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
+
+import PrivateRoute from "./components/common/PrivateRoute";
 
 import Login from "./components/auth/Login";
 
@@ -19,8 +21,9 @@ import Navbar from "./components/layout/Navbar";
 import MergePlayers from "./components/merge/MergePlayers";
 import Merge from "./components/merge/Merge";
 
-if (localStorage.user) {
-  store.dispatch(setUser(JSON.parse(localStorage.getItem("user"))));
+if (localStorage.getItem("admin-user")) {
+  const user = JSON.parse(localStorage.getItem("admin-user"));
+  store.dispatch(setUser(user));
 }
 
 class App extends Component {
@@ -29,20 +32,55 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Header />
-            <div class="main">
-              <Navbar />
-              {/* <Route exact path='/' component={News} /> */}
-              <Route exact path="/leagues" component={Leagues} />
-              <Route exact path="/subleagues" component={AddSubLeague} />
-              <Route exact path="/franchise/add" component={AddFranchise} />
-              <Route exact path="/stuff" component={Stuff} />
-              <Route exact path="/players" component={Players} />
-              <Route exact path="/merge/stuff" component={MergeStuff} />
-              <Route exact path="/merge/players" component={MergePlayers} />
-              <Route exact path="/merge" component={Merge} />
-
-              <Route exact path="/login" component={Login} />
+            <Route exact path="/login" component={Login} />
+            <PrivateRoute path="/" component={Header} />
+            <div className="main">
+              <PrivateRoute path="/" component={Navbar} />
+              <div className="container">
+                <Switch>
+                  <PrivateRoute exact path="/" component={Leagues} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/leagues" component={Leagues} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/subleagues"
+                    component={AddSubLeague}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/franchise/add"
+                    component={AddFranchise}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/stuff" component={Stuff} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/players" component={Players} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/merge/stuff"
+                    component={MergeStuff}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/merge/players"
+                    component={MergePlayers}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/merge" component={Merge} />
+                </Switch>
+              </div>
             </div>
           </div>
         </Router>

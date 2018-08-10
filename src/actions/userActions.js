@@ -6,7 +6,7 @@ export const getUsers = () => dispatch => {
     .get("http://api.afl.lan/admin/user/list", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -23,7 +23,7 @@ export const getUsersByName = name => dispatch => {
     .get(`http://api.afl.lan/admin/user/list?name=${name}&tied=0`, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })

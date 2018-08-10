@@ -12,7 +12,7 @@ export const getPositions = () => dispatch => {
     .get("http://api.afl.lan/admin/players/getposition", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -29,7 +29,7 @@ export const getPlayers = () => dispatch => {
     .get("http://api.afl.lan/admin/players", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -46,7 +46,7 @@ export const getPlayersByName = search => dispatch => {
     .get(`http://api.afl.lan/admin/players?name=${search}&tied=0`, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -63,7 +63,7 @@ export const addPlayer = stuffData => dispatch => {
     .post("http://api.afl.lan/admin/players/add", stuffData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -82,7 +82,7 @@ export const mergePlayer = playerData => dispatch => {
     .post("http://api.afl.lan/admin/merge/player", playerData, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })

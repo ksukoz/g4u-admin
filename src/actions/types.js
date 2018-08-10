@@ -1,6 +1,7 @@
 export const GET_ERRORS = "GET_ERRORS";
 export const GET_USER = "GET_USER";
 export const SET_USER = "SET_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
 export const GET_LEAGUES = "GET_LEAGUES";
 export const GET_CURRENT_LEAGUE = "GET_CURRENT_LEAGUE";
 export const GET_STUFF_TYPES = "GET_STUFF_TYPES";
@@ -17,3 +18,6 @@ export const GET_POSITION = "GET_POSITION";
 export const GET_PLAYERS = "GET_PLAYERS";
 export const GET_PLAYERS_BY_NAME = "GET_PLAYERS_BY_NAME";
 export const GET_MERGING = "GET_MERGING";
+export const OPEN_NAV = "OPEN_NAV";
+export const CLOSE_NAV = "CLOSE_NAV";
+export const SET_ACTIVE_LINK = "SET_ACTIVE_LINK";

@@ -6,7 +6,7 @@ export const getCountries = () => dispatch => {
     .get("http://api.afl.lan/location/country", {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -30,7 +30,7 @@ export const getRegions = iso => dispatch => {
     .get(`http://api.afl.lan/location/region?iso=${iso}`, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
@@ -54,7 +54,7 @@ export const getCities = id => dispatch => {
     .get(`http://api.afl.lan/location/city?regid=${id}`, {
       headers: {
         Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("user")).token
+          JSON.parse(localStorage.getItem("admin-user")).token
         }`
       }
     })
