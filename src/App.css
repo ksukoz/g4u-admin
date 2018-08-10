@@ -45,6 +45,6 @@
 }
 .main .container {
   padding: 2rem;
-  padding-top: calc(2rem + 64px);
+  padding-top: calc(2rem + 84px);
   flex-grow: 1;
 }

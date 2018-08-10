@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import compose from "recompose/compose";
+import { withStyles } from "@material-ui/core/styles";
 import { addSubLeague } from "../../actions/leagueActions";
 import { getCities, getRegions } from "../../actions/locationActions";
 import { getLeagues } from "../../actions/leagueActions";
@@ -9,9 +11,52 @@ import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Select from "@material-ui/core/Select";
 
 import Button from "@material-ui/core/Button";
+
+const styles = theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  checkbox: {
+    color: "#43A047",
+    "&$checked": {
+      color: "#43A047"
+    }
+  },
+  checked: {},
+  input: {
+    width: "24%"
+  },
+  input_wrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "1rem"
+  },
+  select: {
+    width: "100%",
+    paddingTop: "1rem"
+  },
+  button: {
+    margin: theme.spacing.unit,
+    background: "transparent",
+    color: "rgba(0,0,0,.5)",
+    transition: ".3s",
+    "&:hover, &:active": {
+      backgroundColor: "#43A047",
+      color: "#fff"
+    }
+  },
+  submit: {
+    backgroundColor: "#43A047",
+    borderRadius: 40,
+    color: "#fff",
+    marginBottom: "1rem"
+  }
+});
 
 class AddSubLeague extends Component {
   state = {
@@ -60,6 +105,7 @@ class AddSubLeague extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     const { leagues } = this.props.league;
     let leaguesList;
     if (leagues !== null) {
@@ -96,20 +142,30 @@ class AddSubLeague extends Component {
 
     return (
       <div>
-        <form className="league__form" onSubmit={this.onSubmitHandler}>
+        <form className={classes.input_wrap} onSubmit={this.onSubmitHandler}>
           <TextField
             label="Название лиги"
             name="name"
-            className="text-field"
+            className={classes.input}
             value={this.state.name}
             onChange={this.onChangeHandler}
             margin="normal"
           />
-          <Checkbox checked={this.state.status} onChange={this.toggleChange} />
-          <FormControl className="select">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.status}
+                classes={{ root: classes.checkbox, checked: classes.checked }}
+                onChange={this.toggleChange}
+              />
+            }
+            label="Показывать на сайте и в приложении"
+          />
+          <FormControl className="select" className={classes.input}>
             <InputLabel htmlFor="league">Выбрать страну</InputLabel>
             <Select
               value={this.state.league}
+              className={classes.select}
               onChange={this.onLeagueChange}
               inputProps={{
                 name: "league",
@@ -122,10 +178,11 @@ class AddSubLeague extends Component {
               {leaguesList}
             </Select>
           </FormControl>
-          <FormControl className="select">
+          <FormControl className="select" className={classes.input}>
             <InputLabel htmlFor="region">Выбрать регион</InputLabel>
             <Select
               value={this.state.region}
+              className={classes.select}
               onChange={this.onRegionChange}
               inputProps={{
                 name: "region",
@@ -138,10 +195,11 @@ class AddSubLeague extends Component {
               {regionsList}
             </Select>
           </FormControl>
-          <FormControl className="select">
+          <FormControl className="select" className={classes.input}>
             <InputLabel htmlFor="city">Выбрать город</InputLabel>
             <Select
               value={this.state.city}
+              className={classes.select}
               onChange={this.onChangeHandler}
               inputProps={{
                 name: "city",
@@ -156,10 +214,9 @@ class AddSubLeague extends Component {
           </FormControl>
           <Button
             variant="contained"
-            color="primary"
             size="large"
             type="submit"
-            className="btn"
+            className={classes.submit}
           >
             Сохранить
           </Button>
@@ -174,7 +231,10 @@ const mapStateToProps = state => ({
   league: state.league
 });
 
-export default connect(
-  mapStateToProps,
-  { addSubLeague, getCities, getRegions, getLeagues }
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    { addSubLeague, getCities, getRegions, getLeagues }
+  )
 )(AddSubLeague);
