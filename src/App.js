@@ -20,6 +20,7 @@ import Players from "./components/players/Players";
 import Navbar from "./components/layout/Navbar";
 import MergePlayers from "./components/merge/MergePlayers";
 import Merge from "./components/merge/Merge";
+import AddPlayers from "./components/players/AddPlayers";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -62,6 +63,13 @@ class App extends Component {
                 </Switch>
                 <Switch>
                   <PrivateRoute exact path="/players" component={Players} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/add-player"
+                    component={AddPlayers}
+                  />
                 </Switch>
                 <Switch>
                   <PrivateRoute

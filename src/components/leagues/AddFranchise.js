@@ -1,9 +1,52 @@
 import React, { Component } from "react";
 import { addFranchise } from "../../actions/leagueActions";
 import { connect } from "react-redux";
-
+import compose from "recompose/compose";
+import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
+const styles = theme => ({
+  form: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  checkbox: {
+    color: "#43A047",
+    "&$checked": {
+      color: "#43A047"
+    }
+  },
+  checked: {},
+  input: {
+    width: "20%"
+  },
+  input_wrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    width: "80%"
+  },
+  select: {
+    width: "100%",
+    paddingTop: "1rem"
+  },
+  button: {
+    margin: theme.spacing.unit,
+    background: "transparent",
+    color: "rgba(0,0,0,.5)",
+    transition: ".3s",
+    "&:hover, &:active": {
+      backgroundColor: "#43A047",
+      color: "#fff"
+    }
+  },
+  submit: {
+    backgroundColor: "#43A047",
+    borderRadius: 40,
+    color: "#fff",
+    marginBottom: "1rem"
+  }
+});
 
 class AddFranchise extends Component {
   state = {
@@ -31,49 +74,51 @@ class AddFranchise extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <form onSubmit={this.onSubmitHandler}>
-          <TextField
-            label="Название"
-            name="name"
-            className="text-field"
-            value={this.state.name}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <TextField
-            label="Логин администратора"
-            name="login"
-            className="text-field"
-            value={this.state.login}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <TextField
-            label="Email администратора"
-            name="email"
-            type="email"
-            className="text-field"
-            value={this.state.email}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <TextField
-            label="Пароль администратора"
-            name="password"
-            type="password"
-            className="text-field"
-            value={this.state.password}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
+        <form onSubmit={this.onSubmitHandler} className={classes.form}>
+          <div className={classes.input_wrap}>
+            <TextField
+              label="Название"
+              name="name"
+              className={classes.input}
+              value={this.state.name}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <TextField
+              label="Логин администратора"
+              name="login"
+              className={classes.input}
+              value={this.state.login}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <TextField
+              label="Email администратора"
+              name="email"
+              type="email"
+              className={classes.input}
+              value={this.state.email}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <TextField
+              label="Пароль администратора"
+              name="password"
+              type="password"
+              className={classes.input}
+              value={this.state.password}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+          </div>
           <Button
             variant="contained"
-            color="primary"
+            className={classes.submit}
             size="large"
             type="submit"
-            className="btn"
           >
             Сохранить
           </Button>
@@ -87,7 +132,10 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { addFranchise }
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    { addFranchise }
+  )
 )(AddFranchise);
