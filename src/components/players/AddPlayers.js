@@ -172,9 +172,9 @@ class AddPlayers extends Component {
     let positionsList;
     if (positions !== null) {
       positionsList = positions.map(position => (
-        <option key={position.position_id} value={position.position_id}>
+        <MenuItem key={position.position_id} value={position.position_id}>
           {position.type}
-        </option>
+        </MenuItem>
       ));
     }
 
@@ -216,7 +216,7 @@ class AddPlayers extends Component {
                 onChange={this.onChangeFileHandler}
               />
 
-              <FormControl className="select" className={classes.input}>
+              <FormControl className={classes.input}>
                 <InputLabel htmlFor="position_id">Выбрать позицию</InputLabel>
                 <Select
                   className={classes.select}

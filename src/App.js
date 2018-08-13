@@ -11,6 +11,7 @@ import "./App.css";
 import Leagues from "./components/leagues/Leagues";
 import AddFranchise from "./components/leagues/AddFranchise";
 import Stuff from "./components/stuff/Stuff";
+import AddStuff from "./components/stuff/AddStuff";
 import MergeStuff from "./components/merge/MergeStuff";
 import Header from "./components/layout/Header";
 
@@ -77,6 +78,9 @@ class App extends Component {
                     path="/merge/stuff"
                     component={MergeStuff}
                   />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path="/add-stuff" component={AddStuff} />
                 </Switch>
                 <Switch>
                   <PrivateRoute
