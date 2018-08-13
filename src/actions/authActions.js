@@ -27,7 +27,7 @@ export const setUser = user => {
 };
 
 export const logoutUser = () => dispatch => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("admin-user");
   dispatch({
     type: LOGOUT_USER,
     payload: false

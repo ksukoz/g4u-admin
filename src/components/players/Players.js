@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
-import AddPlayers from "./AddPlayers";
 import { getPlayers } from "../../actions/playerActions";
 
 import Table from "@material-ui/core/Table";

@@ -138,7 +138,7 @@ class MergeStuff extends Component {
     if (members !== null) {
       memberList = members.map(member => (
         <TableRow
-          key={member.id}
+          key={`member${member.id}`}
           data-id={member.id}
           data-name="member"
           onClick={this.onClick}
@@ -265,17 +265,8 @@ class MergeStuff extends Component {
             size="large"
             variant="contained"
           >
-            Принять
-          </Button>
-          {/* <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            type="submit"
-            className="btn"
-          >
             Объединить
-          </Button> */}
+          </Button>
         </form>
       </div>
     );
