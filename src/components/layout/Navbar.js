@@ -239,11 +239,11 @@ class Navbar extends React.Component {
                       className={classes.nav_link}
                       onClick={this.onClickHandler.bind(
                         this,
-                        "Объединение персонала"
+                        "Объединение игроков"
                       )}
                     >
                       <ListItemText
-                        primary="Объединение персонала"
+                        primary="Объединение игроков"
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>
@@ -258,11 +258,11 @@ class Navbar extends React.Component {
                       className={classes.nav_link}
                       onClick={this.onClickHandler.bind(
                         this,
-                        "Объединение игроков"
+                        "Объединение персонала"
                       )}
                     >
                       <ListItemText
-                        primary="Объединение игроков"
+                        primary="Объединение персонала"
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>

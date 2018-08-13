@@ -27,10 +27,7 @@ export const confirmMerging = data => dispatch => {
         }`
       }
     })
-    .then(res => {
-      // dispatch({
-      //   type: GET_MERGING,
-      //   payload: res.data.answer
-      // });
+    .then(() => {
+      dispatch(getMerging());
     });
 };
