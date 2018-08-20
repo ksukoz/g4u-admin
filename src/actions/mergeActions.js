@@ -3,7 +3,7 @@ import { GET_MERGING } from "./types";
 
 export const getMerging = () => dispatch => {
   axios
-    .get("http://api.afl.lan/admin/merge", {
+    .get("http://api.mygame4u.com/admin/merge", {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -20,7 +20,7 @@ export const getMerging = () => dispatch => {
 
 export const confirmMerging = data => dispatch => {
   axios
-    .post("http://api.afl.lan/admin/merge/update", data, {
+    .post("http://api.mygame4u.com/admin/merge/update", data, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

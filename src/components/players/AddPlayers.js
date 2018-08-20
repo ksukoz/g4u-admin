@@ -62,6 +62,10 @@ const styles = theme => ({
     "&:focus": {
       backgroundColor: "#effcf1"
     }
+  },
+  birthday: {
+    marginTop: "1rem",
+    width: "32%"
   }
 });
 
@@ -71,6 +75,7 @@ class AddPlayers extends Component {
     surname: "",
     patronymic: "",
     position_id: "",
+    leg: "",
     birthday: "",
     stature: "",
     weight: "",
@@ -149,6 +154,7 @@ class AddPlayers extends Component {
       surename: this.state.surname,
       patronymic: this.state.patronymic,
       position_id: +this.state.position_id,
+      leg: this.state.leg,
       photo: this.state.readyImage,
       birthday: this.state.birthday,
       stature: this.state.stature,
@@ -233,20 +239,36 @@ class AddPlayers extends Component {
                   {positionsList}
                 </Select>
               </FormControl>
+              <FormControl className={classes.input}>
+                <InputLabel htmlFor="leg">Выбрать ведущую ногу</InputLabel>
+                <Select
+                  className={classes.select}
+                  value={this.state.leg}
+                  onChange={this.onChangeHandler}
+                  inputProps={{
+                    name: "leg",
+                    id: "leg"
+                  }}
+                >
+                  <MenuItem value="left">Левая</MenuItem>
+                  <MenuItem value="right">Правая</MenuItem>
+                  <MenuItem value="both">Обу</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className={classes.input_wrap}>
               <TextField
                 id="birthday"
                 label="Дата рождения"
                 type="date"
                 name="birthday"
-                className={classes.input}
+                className={classes.birthday}
                 value={this.state.birthday}
                 onChange={this.onChangeHandler}
                 InputLabelProps={{
                   shrink: true
                 }}
               />
-            </div>
-            <div className={classes.input_wrap}>
               <TextField
                 label="Рост"
                 type="number"
@@ -265,6 +287,8 @@ class AddPlayers extends Component {
                 onChange={this.onChangeHandler}
                 margin="normal"
               />
+            </div>
+            <div className={classes.input_wrap}>
               <TextField
                 label="Телефон"
                 type="tel"
@@ -274,8 +298,6 @@ class AddPlayers extends Component {
                 onChange={this.onChangeHandler}
                 margin="normal"
               />
-            </div>
-            <div className={classes.input_wrap}>
               <TextField
                 label="Facebook"
                 name="fb"

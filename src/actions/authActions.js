@@ -2,7 +2,7 @@ import axios from "axios";
 import { GET_ERRORS, GET_USER, SET_USER, LOGOUT_USER } from "./types";
 
 export const loginUser = (userData, history) => dispatch => {
-  axios.post("http://api.afl.lan/admin/user/login", userData).then(res => {
+  axios.post("http://api.mygame4u.com/admin/user/login", userData).then(res => {
     if (res.data.error) {
       dispatch({
         type: GET_ERRORS,

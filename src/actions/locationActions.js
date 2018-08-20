@@ -3,7 +3,7 @@ import { GET_COUNTRIES, GET_CITIES, GET_ERRORS, GET_REGIONS } from "./types";
 
 export const getCountries = () => dispatch => {
   axios
-    .get("http://api.afl.lan/location/country", {
+    .get("http://api.mygame4u.com/location/country", {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -27,7 +27,7 @@ export const getCountries = () => dispatch => {
 
 export const getRegions = iso => dispatch => {
   axios
-    .get(`http://api.afl.lan/location/region?iso=${iso}`, {
+    .get(`http://api.mygame4u.com/location/region?iso=${iso}`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -51,7 +51,7 @@ export const getRegions = iso => dispatch => {
 
 export const getCities = id => dispatch => {
   axios
-    .get(`http://api.afl.lan/location/city?regid=${id}`, {
+    .get(`http://api.mygame4u.com/location/city?regid=${id}`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

@@ -3,7 +3,7 @@ import { GET_USERS, GET_USERS_BY_NAME } from "../actions/types";
 
 export const getUsers = () => dispatch => {
   axios
-    .get("http://api.afl.lan/admin/user/list", {
+    .get("http://api.mygame4u.com/admin/user/list", {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -20,7 +20,7 @@ export const getUsers = () => dispatch => {
 
 export const getUsersByName = name => dispatch => {
   axios
-    .get(`http://api.afl.lan/admin/user/list?name=${name}&tied=0`, {
+    .get(`http://api.mygame4u.com/admin/user/list?name=${name}&tied=0`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

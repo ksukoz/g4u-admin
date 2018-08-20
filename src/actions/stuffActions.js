@@ -9,7 +9,7 @@ import {
 
 export const getStuffTypes = () => dispatch => {
   axios
-    .get("http://api.afl.lan/admin/personal/type", {
+    .get("http://api.mygame4u.com/admin/personal/type", {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -26,7 +26,7 @@ export const getStuffTypes = () => dispatch => {
 
 export const getStuffMembers = () => dispatch => {
   axios
-    .get("http://api.afl.lan/admin/personal/list", {
+    .get("http://api.mygame4u.com/admin/personal/list", {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -43,7 +43,7 @@ export const getStuffMembers = () => dispatch => {
 
 export const getStuffMembersByName = search => dispatch => {
   axios
-    .get(`http://api.afl.lan/admin/personal/list?name=${search}&tied=0`, {
+    .get(`http://api.mygame4u.com/admin/personal/list?name=${search}&tied=0`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -60,7 +60,7 @@ export const getStuffMembersByName = search => dispatch => {
 
 export const addStuffMember = stuffData => dispatch => {
   axios
-    .post("http://api.afl.lan/admin/personal/add", stuffData, {
+    .post("http://api.mygame4u.com/admin/personal/add", stuffData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -79,7 +79,7 @@ export const addStuffMember = stuffData => dispatch => {
 
 export const mergeStuff = stuffData => dispatch => {
   axios
-    .post("http://api.afl.lan/admin/merge/personal", stuffData, {
+    .post("http://api.mygame4u.com/admin/merge/personal", stuffData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

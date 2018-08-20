@@ -8,7 +8,7 @@ import {
 // Get leagues
 export const getLeagues = () => dispatch => {
   axios
-    .get("http://api.afl.lan/admin/leagues", {
+    .get("http://api.mygame4u.com/admin/leagues", {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -26,7 +26,7 @@ export const getLeagues = () => dispatch => {
 // Add franchise
 export const addFranchise = franhiseData => dispatch => {
   axios
-    .post("http://api.afl.lan/admin/franchise/add", franhiseData, {
+    .post("http://api.mygame4u.com/admin/franchise/add", franhiseData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -46,7 +46,7 @@ export const addFranchise = franhiseData => dispatch => {
 // Add league
 export const addLeague = leagueData => dispatch => {
   axios
-    .post("http://api.afl.lan/admin/leagues/add", leagueData, {
+    .post("http://api.mygame4u.com/admin/leagues/add", leagueData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -66,7 +66,7 @@ export const addLeague = leagueData => dispatch => {
 // Add subleague
 export const addSubLeague = subLeagueData => dispatch => {
   axios
-    .post("http://api.afl.lan/admin/leagues/addsub", subLeagueData, {
+    .post("http://api.mygame4u.com/admin/leagues/addsub", subLeagueData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
