@@ -35,7 +35,7 @@ export default {
       tableHeading: "League's name",
       nameLabel: "League's name",
       showLabel: "Show on website and in the app",
-      countryLabel: "Choose country",
+      leagueLabel: "Choose league",
       regionLabel: "Choose region",
       cityLabel: "Choose city",
       submit: "Save"
@@ -126,7 +126,7 @@ export default {
       tableHeading: "Назва пділіги",
       nameLabel: "Назва підліги",
       showLabel: "Показувати на сайті та у додатку",
-      countryLabel: "Обрати країну",
+      leagueLabel: "Обрати лігу",
       regionLabel: "Обрати регіон",
       cityLabel: "Обрати місто",
       submit: "Зберегти"
@@ -217,7 +217,7 @@ export default {
       tableHeading: "Название подлиги",
       nameLabel: "Название подлиги",
       showLabel: "Показывать на сайте и в приложении",
-      countryLabel: "Выбрать страну",
+      leagueLabel: "Выбрать лигу",
       regionLabel: "Выбрать регион",
       cityLabel: "Выбрать город",
       submit: "Сохранить"
