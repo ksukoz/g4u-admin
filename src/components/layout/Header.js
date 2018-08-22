@@ -106,11 +106,11 @@ class Header extends React.Component {
     window.location.reload();
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.lang.locale !== null) {
+  componentDidMount() {
+    if (this.props.lang.locale !== null) {
       this.setState({
         ...this.state,
-        lang: nextProps.lang.locale
+        lang: this.props.lang.locale
       });
     }
   }

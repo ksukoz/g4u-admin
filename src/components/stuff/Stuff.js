@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { getStuffMembers } from "../../actions/stuffActions";
@@ -76,7 +77,7 @@ class Stuff extends Component {
       <div>
         <Button variant="extendedFab" className={classes.button}>
           <Link className={classes.button_link} to="/add-stuff">
-            Добавить персонал
+            <FormattedMessage id="stuff.add" />
           </Link>
         </Button>
         <Paper className={classes.root}>
@@ -84,9 +85,15 @@ class Stuff extends Component {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>ФИО</TableCell>
-                  <TableCell>Должность</TableCell>
-                  <TableCell>Изображение</TableCell>
+                  <TableCell>
+                    <FormattedMessage id="stuff.tableName" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="stuff.tablePosition" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="stuff.tableImage" />
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{membersList}</TableBody>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { addSubLeague } from "../../actions/leagueActions";
 import { getCities, getRegions } from "../../actions/locationActions";
@@ -144,7 +145,7 @@ class AddSubLeague extends Component {
       <div>
         <form className={classes.input_wrap} onSubmit={this.onSubmitHandler}>
           <TextField
-            label="Название лиги"
+            label={<FormattedMessage id="subLeagues.nameLabel" />}
             name="name"
             className={classes.input}
             value={this.state.name}
@@ -159,10 +160,12 @@ class AddSubLeague extends Component {
                 onChange={this.toggleChange}
               />
             }
-            label="Показывать на сайте и в приложении"
+            label={<FormattedMessage id="subLeagues.showLabel" />}
           />
           <FormControl className="select" className={classes.input}>
-            <InputLabel htmlFor="league">Выбрать страну</InputLabel>
+            <InputLabel htmlFor="league">
+              <FormattedMessage id="subLeagues.countryLabel" />
+            </InputLabel>
             <Select
               value={this.state.league}
               className={classes.select}
@@ -179,7 +182,9 @@ class AddSubLeague extends Component {
             </Select>
           </FormControl>
           <FormControl className="select" className={classes.input}>
-            <InputLabel htmlFor="region">Выбрать регион</InputLabel>
+            <InputLabel htmlFor="region">
+              <FormattedMessage id="subLeagues.regionLabel" />
+            </InputLabel>
             <Select
               value={this.state.region}
               className={classes.select}
@@ -196,7 +201,9 @@ class AddSubLeague extends Component {
             </Select>
           </FormControl>
           <FormControl className="select" className={classes.input}>
-            <InputLabel htmlFor="city">Выбрать город</InputLabel>
+            <InputLabel htmlFor="city">
+              <FormattedMessage id="subLeagues.cityLabel" />
+            </InputLabel>
             <Select
               value={this.state.city}
               className={classes.select}
@@ -218,7 +225,7 @@ class AddSubLeague extends Component {
             type="submit"
             className={classes.submit}
           >
-            Сохранить
+            {<FormattedMessage id="subLeagues.submit" />}
           </Button>
         </form>
       </div>

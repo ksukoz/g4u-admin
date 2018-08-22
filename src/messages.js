@@ -31,24 +31,54 @@ export default {
       countryLabel: "Choose country",
       submit: "Save"
     },
-    player: {
+    subLeagues: {
+      tableHeading: "League's name",
+      nameLabel: "League's name",
+      showLabel: "Show on website and in the app",
+      countryLabel: "Choose country",
+      regionLabel: "Choose region",
+      cityLabel: "Choose city",
+      submit: "Save"
+    },
+    franchise: {
+      nameLabel: "Name of franchise",
+      loginLabel: "Admin's login",
+      emailLabel: "Admin's email",
+      passwordLabel: "Admin's password",
+      submit: "Save"
+    },
+    stuff: {
+      tableName: "Full Name",
+      tablePosition: "Position",
+      tableImage: "Image",
       nameLabel: "Name",
       surnameLabel: "Surname",
-      patronymicLabel: "Patronymic",
+      patronimycLabel: "Patronimyc",
+      positionLabel: "Choose position",
+      submit: "Save",
+      add: "Add stuff",
+      close: "Close"
+    },
+    players: {
+      tableName: "Players' full name",
+      tablePosition: "Position on the field",
+      tableImage: "Image",
+      nameLabel: "Name",
+      surnameLabel: "Surname",
+      patronimycLabel: "Patronimyc",
       positionLabel: "Choose position",
       legLabel: "Choose the leading leg",
       leftLeg: "Left",
       rightLeg: "Right",
-      bothtLeg: "Both",
+      bothLeg: "Both",
       birthdayLabel: "Birthday",
       statureLabel: "Stature",
       weightLabel: "Weight",
       phoneLabel: "Phone",
       fbLabel: "Facebook",
       vkLabel: "Vkontakte",
-      update: "Update",
-      untie: "Untie",
       save: "Save",
+      add: "Add player",
       close: "Close"
     },
     user: {
@@ -90,31 +120,54 @@ export default {
       countryLabel: "Обрати країну",
       submit: "Зберегти"
     },
-    news: {
-      more: "Читати більше",
-      titleLabel: "Заголовок новин",
-      tagsLabel: "Теги",
-      helper: "Заголовок новини може бути не більше 60 символів",
-      submit: "Зберегти новину"
+    subLeagues: {
+      tableHeading: "Назва пділіги",
+      nameLabel: "Назва підліги",
+      showLabel: "Показувати на сайті та у додатку",
+      countryLabel: "Обрати країну",
+      regionLabel: "Обрати регіон",
+      cityLabel: "Обрати місто",
+      submit: "Зберегти"
     },
-    player: {
+    franchise: {
+      nameLabel: "Назва франшизи",
+      loginLabel: "Логін адміністратора",
+      emailLabel: "Email адміністратора",
+      passwordLabel: "Пароль адміністратора",
+      submit: "Зберегти"
+    },
+    stuff: {
+      tableName: "ПІБ",
+      tablePosition: "Посада",
+      tableImage: "Зображення",
       nameLabel: "Ім'я",
       surnameLabel: "Прізвище",
-      patronymicLabel: "По-батькові",
+      patronimycLabel: "По-батькові",
+      positionLabel: "Обрати посаду",
+      submit: "Зберегти",
+      add: "Додати персонал",
+      close: "Закрити"
+    },
+    players: {
+      tableName: "ПІБ гравця",
+      tablePosition: "Позиція на полі",
+      tableImage: "Зображення",
+      nameLabel: "Ім'я",
+      surnameLabel: "Прізвище",
+      patronimycLabel: "По-батькові",
       positionLabel: "Обрати позицію",
       legLabel: "Обрати провідну ногу",
       leftLeg: "Ліва",
       rightLeg: "Права",
-      bothtLeg: "Обидві",
+      bothLeg: "Обидві",
       birthdayLabel: "День народження",
       statureLabel: "Зріст",
       weightLabel: "Вага",
       phoneLabel: "Телефон",
       fbLabel: "Facebook",
       vkLabel: "Vkontakte",
-      update: "Оновити",
-      untie: "Відв'язати",
       save: "Зберегти",
+      add: "Додати гравця",
       close: "Закрити"
     },
     user: {
@@ -156,31 +209,55 @@ export default {
       countryLabel: "Выбрать страну",
       submit: "Сохранить"
     },
-    news: {
-      more: "Читать дальше",
-      titleLabel: "Заголовок новостей",
-      tagsLabel: "Тэги",
-      helper: "Заголовок новости может быть не более 60 символов",
-      submit: "Сохранить новость"
+    subLeagues: {
+      tableHeading: "Название подлиги",
+      nameLabel: "Название подлиги",
+      showLabel: "Показывать на сайте и в приложении",
+      countryLabel: "Выбрать страну",
+      regionLabel: "Выбрать регион",
+      cityLabel: "Выбрать город",
+      submit: "Сохранить"
     },
-    player: {
+    franchise: {
+      nameLabel: "Название франшизы",
+      loginLabel: "Логин администратора",
+      emailLabel: "Email администратора",
+      passwordLabel: "Пароль администратора",
+      submit: "Сохранить"
+    },
+    stuff: {
+      tableName: "ФИО",
+      tablePosition: "Должность",
+      tableImage: "Изображение",
       nameLabel: "Имя",
       surnameLabel: "Фамилия",
-      patronymicLabel: "Отчество",
+      patronimycLabel: "Отчество",
+      positionLabel: "Выбрать должность",
+      submit: "Сохранить",
+      add: "Добавить персонал",
+      close: "Закрыть"
+    },
+    players: {
+      tableName: "ФИО",
+      tablePosition: "Позиция на поле",
+      tableImage: "Изображение",
+      nameLabel: "Имя",
+      surnameLabel: "Фамилия",
+      patronimycLabel: "Отчество",
       positionLabel: "Выбрать позицию",
       legLabel: "Выбрать ведущую ногу",
       leftLeg: "Левая",
       rightLeg: "Правая",
-      bothtLeg: "Обе",
+      bothLeg: "Обе",
       birthdayLabel: "День рождение",
       statureLabel: "Рост",
       weightLabel: "Вес",
       phoneLabel: "Телефон",
       fbLabel: "Facebook",
       vkLabel: "Vkontakte",
-      update: "Обновить",
-      untie: "Отвязать",
       save: "Сохранить",
+      add: "Добавить игрока",
+
       close: "Закрыть"
     },
     user: {

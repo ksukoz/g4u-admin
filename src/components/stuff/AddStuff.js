@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { getStuffTypes, addStuffMember } from "../../actions/stuffActions";
@@ -13,7 +14,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
@@ -25,17 +28,14 @@ const styles = theme => ({
     width: "49%"
   },
   media: {
-    width: "49%"
+    width: "40%"
   },
   img: {
     width: "100%"
   },
   input: {
-    width: "32%"
-  },
-  input_wrap: {
-    display: "flex",
-    justifyContent: "space-between"
+    width: "100%",
+    marginBottom: ".5rem"
   },
   select: {
     width: "100%"
@@ -55,18 +55,12 @@ const styles = theme => ({
     borderRadius: 40,
     color: "#fff",
     marginBottom: "1rem"
-  },
-  chip: {
-    backgroundColor: "#effcf1",
-    marginLeft: "1rem",
-    "&:focus": {
-      backgroundColor: "#effcf1"
-    }
   }
 });
 
 class AddStuff extends Component {
   state = {
+    open: false,
     name: "",
     surname: "",
     patronymic: "",
@@ -84,16 +78,19 @@ class AddStuff extends Component {
 
   onChangeFileHandler = e => {
     const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.addEventListener(
-      "load",
-      () => {
-        this.setState({
-          image: reader.result
-        });
-      },
-      false
-    );
+    if (e.target.files[0]) {
+      this.setState({ ...this.state, open: true });
+      reader.readAsDataURL(e.target.files[0]);
+      reader.addEventListener(
+        "load",
+        () => {
+          this.setState({
+            image: reader.result
+          });
+        },
+        false
+      );
+    }
   };
 
   getCroppedImg = () => {
@@ -149,6 +146,10 @@ class AddStuff extends Component {
     this.props.addStuffMember(newStuffMember);
   };
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   componentDidMount() {
     this.props.getStuffTypes();
   }
@@ -170,58 +171,56 @@ class AddStuff extends Component {
       <div className={classes.root}>
         <div className={classes.form}>
           <form className="stuff__form" onSubmit={this.onSubmitHandler}>
-            <div className={classes.input_wrap}>
-              <TextField
-                label="Имя"
-                name="name"
-                className={classes.input}
-                value={this.state.name}
-                onChange={this.onChangeHandler}
-                margin="normal"
-              />
-              <TextField
-                label="Фамилия"
-                name="surname"
-                className={classes.input}
-                value={this.state.surname}
-                onChange={this.onChangeHandler}
-                margin="normal"
-              />
-              <TextField
-                label="Отчество"
-                name="patronymic"
-                className={classes.input}
-                value={this.state.patronymic}
-                onChange={this.onChangeHandler}
-                margin="normal"
-              />
-            </div>
-            <div className={classes.input_wrap}>
-              <InputFile
-                type="image"
-                className={classes.input}
-                name="photo"
-                onChange={this.onChangeFileHandler}
-              />
+            <TextField
+              label={<FormattedMessage id="stuff.nameLabel" />}
+              name="name"
+              className={classes.input}
+              value={this.state.name}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <TextField
+              label={<FormattedMessage id="stuff.surnameLabel" />}
+              name="surname"
+              className={classes.input}
+              value={this.state.surname}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <TextField
+              label={<FormattedMessage id="stuff.patronimycLabel" />}
+              name="patronymic"
+              className={classes.input}
+              value={this.state.patronymic}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
 
-              <FormControl className={classes.input}>
-                <InputLabel htmlFor="type_id">Выбрать должность</InputLabel>
-                <Select
-                  className={classes.select}
-                  value={this.state.type_id}
-                  onChange={this.onChangeHandler}
-                  inputProps={{
-                    name: "type_id",
-                    id: "type_id"
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  {optionsList}
-                </Select>
-              </FormControl>
-            </div>
+            <FormControl className={classes.input}>
+              <InputLabel htmlFor="type_id">
+                <FormattedMessage id="stuff.positionLabel" />
+              </InputLabel>
+              <Select
+                className={classes.select}
+                value={this.state.type_id}
+                onChange={this.onChangeHandler}
+                inputProps={{
+                  name: "type_id",
+                  id: "type_id"
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {optionsList}
+              </Select>
+            </FormControl>
+            <InputFile
+              type="image"
+              className={classes.input}
+              name="photo"
+              onChange={this.onChangeFileHandler}
+            />
             <Button
               variant="contained"
               color="primary"
@@ -229,21 +228,34 @@ class AddStuff extends Component {
               type="submit"
               className={classes.submit}
             >
-              Сохранить
+              <FormattedMessage id="stuff.submit" />
             </Button>
           </form>
 
-          {this.state.image && (
-            <div>
-              <ReactCrop
-                ref="crop"
-                src={this.state.image}
-                crop={this.state.crop}
-                onChange={this.imageLoaded}
-                onComplete={this.getCroppedImg}
-              />
-            </div>
-          )}
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogContent>
+              {this.state.image && (
+                <ReactCrop
+                  style={{ width: "100%" }}
+                  ref="crop"
+                  src={this.state.image}
+                  crop={this.state.crop}
+                  onChange={this.imageLoaded}
+                  onComplete={this.getCroppedImg}
+                />
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClose} autoFocus>
+                <FormattedMessage id="stuff.close" />
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
         <div className={classes.media}>
           {this.state.readyImage !== null ? (

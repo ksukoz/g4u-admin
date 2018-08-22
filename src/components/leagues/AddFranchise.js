@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { addFranchise } from "../../actions/leagueActions";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -80,7 +81,7 @@ class AddFranchise extends Component {
         <form onSubmit={this.onSubmitHandler} className={classes.form}>
           <div className={classes.input_wrap}>
             <TextField
-              label="Название"
+              label={<FormattedMessage id="franchise.nameLabel" />}
               name="name"
               className={classes.input}
               value={this.state.name}
@@ -88,7 +89,7 @@ class AddFranchise extends Component {
               margin="normal"
             />
             <TextField
-              label="Логин администратора"
+              label={<FormattedMessage id="franchise.loginLabel" />}
               name="login"
               className={classes.input}
               value={this.state.login}
@@ -96,7 +97,7 @@ class AddFranchise extends Component {
               margin="normal"
             />
             <TextField
-              label="Email администратора"
+              label={<FormattedMessage id="franchise.emailLabel" />}
               name="email"
               type="email"
               className={classes.input}
@@ -105,7 +106,7 @@ class AddFranchise extends Component {
               margin="normal"
             />
             <TextField
-              label="Пароль администратора"
+              label={<FormattedMessage id="franchise.passwordLabel" />}
               name="password"
               type="password"
               className={classes.input}
@@ -120,7 +121,7 @@ class AddFranchise extends Component {
             size="large"
             type="submit"
           >
-            Сохранить
+            {<FormattedMessage id="franchise.submit" />}
           </Button>
         </form>
       </div>

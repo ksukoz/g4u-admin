@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import { getPlayers } from "../../actions/playerActions";
 
 import Table from "@material-ui/core/Table";
@@ -76,7 +77,7 @@ class Players extends Component {
       <div>
         <Button variant="extendedFab" className={classes.button}>
           <Link className={classes.button_link} to="/add-player">
-            Добавить игрока
+            <FormattedMessage id="players.add" />
           </Link>
         </Button>
         <Paper className={classes.root}>
@@ -84,9 +85,15 @@ class Players extends Component {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>ФИО игрока</TableCell>
-                  <TableCell>Позиция на поле</TableCell>
-                  <TableCell>Изображение</TableCell>
+                  <TableCell>
+                    <FormattedMessage id="players.tableName" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="players.tablePosition" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="players.tableImage" />
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{membersList}</TableBody>
