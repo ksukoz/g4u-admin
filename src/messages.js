@@ -81,11 +81,13 @@ export default {
       add: "Add player",
       close: "Close"
     },
-    user: {
-      nickLabel: "Nickname",
-      emailLabel: "Email",
-      localeLabel: "Choose country",
-      save: "Save"
+    combine: {
+      tablePerson: "Person",
+      tableUser: "User",
+      tableAccept: "Accept",
+      tableCancel: "Cancel",
+      inputLabel: "At least 3 letters",
+      combine: "Merge"
     }
   },
   uk: {
@@ -170,11 +172,13 @@ export default {
       add: "Додати гравця",
       close: "Закрити"
     },
-    user: {
-      nickLabel: "Нікнейм",
-      emailLabel: "Email",
-      localeLabel: "Обрати країну",
-      save: "Зберегти"
+    combine: {
+      tablePerson: "Персонаж",
+      tableUser: "Користувач",
+      tableAccept: "Схвалити",
+      tableCancel: "Скасувати",
+      inputLabel: "Мінімум 3 літери",
+      combine: "Об'єднати"
     }
   },
   "ru-RU": {
@@ -260,11 +264,13 @@ export default {
 
       close: "Закрыть"
     },
-    user: {
-      nickLabel: "Никнейм",
-      emailLabel: "Email",
-      localeLabel: "Выбрать страну",
-      save: "Сохранить"
+    combine: {
+      tablePerson: "Персонаж",
+      tableUser: "Пользователь",
+      tableAccept: "Принять",
+      tableCancel: "Отменить",
+      inputLabel: "Минимум 3 букви",
+      combine: "Объединить"
     }
   }
 };

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { getMerging, confirmMerging } from "../../actions/mergeActions";
 
 import Table from "@material-ui/core/Table";
@@ -85,7 +86,7 @@ class Merge extends Component {
                 data-confirm="1"
                 onClick={this.onClickHandler}
               >
-                Принять
+                <FormattedMessage id="combine.tableAccept" />
               </Button>
             ) : (
               ""
@@ -97,7 +98,7 @@ class Merge extends Component {
               data-confirm="0"
               onClick={this.onClickHandler}
             >
-              Отменить
+              <FormattedMessage id="combine.tableCancel" />
             </Button>
           </TableCell>
         </TableRow>
@@ -111,8 +112,12 @@ class Merge extends Component {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Персонаж</TableCell>
-                  <TableCell>Пользователь</TableCell>
+                  <TableCell>
+                    <FormattedMessage id="combine.tablePerson" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="combine.tableUser" />
+                  </TableCell>
                   <TableCell />
                 </TableRow>
               </TableHead>

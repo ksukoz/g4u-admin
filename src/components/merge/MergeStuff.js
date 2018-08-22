@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { getStuffMembersByName, mergeStuff } from "../../actions/stuffActions";
 import { getUsersByName } from "../../actions/userActions";
 
@@ -31,11 +32,14 @@ const styles = theme => ({
     marginBottom: "2rem"
   },
   table: {
-    minWidth: 700
+    maxWidth: "100%"
   },
   flex_cell: {
     display: "flex",
     justifyContent: "flex-end"
+  },
+  input: {
+    width: "100%"
   },
   submit: {
     backgroundColor: "#43A047",
@@ -62,7 +66,10 @@ const styles = theme => ({
       color: "#55a462"
     }
   },
-  checked: {}
+  checked: {},
+  cell: {
+    padding: "10px"
+  }
 });
 
 class MergeStuff extends Component {
@@ -143,7 +150,7 @@ class MergeStuff extends Component {
           data-name="member"
           onClick={this.onClick}
         >
-          <TableCell>
+          <TableCell className={classes.cell}>
             <Radio
               checked={this.state.persId === member.id}
               onChange={this.onRadioChangeHandler}
@@ -156,13 +163,13 @@ class MergeStuff extends Component {
               }}
             />
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.cell}>
             {`${member.surename} ${member.name} ${member.patronymic}`}
           </TableCell>
-          <TableCell>
+          <TableCell className={classes.cell}>
             <span>{member.type}</span>
           </TableCell>
-          <TableCell>
+          <TableCell className={classes.cell}>
             <img src={member.photo} style={{ width: "50px" }} alt="" />
           </TableCell>
         </TableRow>
@@ -177,7 +184,7 @@ class MergeStuff extends Component {
           data-name="user"
           onClick={this.onClick}
         >
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.cell}>
             <Radio
               checked={this.state.usId === user.id}
               onChange={this.onRadioChangeHandler}
@@ -190,7 +197,7 @@ class MergeStuff extends Component {
               }}
             />
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.cell}>
             {user.nickname}
           </TableCell>
         </TableRow>
@@ -206,9 +213,9 @@ class MergeStuff extends Component {
         )}
         <div className={classes.wrapper}>
           <TextField
-            label="Минимум 3 буквы"
+            label={<FormattedMessage id="combine.inputLabel" />}
             name="name"
-            className="text-field"
+            className={classes.input}
             value={this.state.name}
             onChange={this.onChangeHandler}
             margin="normal"
@@ -216,14 +223,14 @@ class MergeStuff extends Component {
           <Paper className={classes.root}>
             {memberList ? (
               <Table className={classes.table}>
-                <TableHead>
+                {/* <TableHead>
                   <TableRow>
                     <TableCell />
                     <TableCell>ФИО</TableCell>
                     <TableCell>Должность</TableCell>
                     <TableCell>Изображение</TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> */}
                 <TableBody>{memberList}</TableBody>
               </Table>
             ) : (
@@ -234,9 +241,9 @@ class MergeStuff extends Component {
 
         <div className={classes.wrapper}>
           <TextField
-            label="Минимум 3 буквы"
+            label={<FormattedMessage id="combine.inputLabel" />}
             name="nickname"
-            className="text-field"
+            className={classes.input}
             value={this.state.nickname}
             onChange={this.onChangeHandler}
             margin="normal"
@@ -244,12 +251,12 @@ class MergeStuff extends Component {
           <Paper className={classes.root}>
             {userArr ? (
               <Table className={classes.table}>
-                <TableHead>
+                {/* <TableHead>
                   <TableRow>
                     <TableCell />
                     <TableCell>Пользователь</TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> */}
                 <TableBody>{userArr}</TableBody>
               </Table>
             ) : (
@@ -265,7 +272,7 @@ class MergeStuff extends Component {
             size="large"
             variant="contained"
           >
-            Объединить
+            <FormattedMessage id="combine.combine" />
           </Button>
         </form>
       </div>

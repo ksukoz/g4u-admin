@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { getPlayersByName, mergePlayer } from "../../actions/playerActions";
 import { getUsersByName } from "../../actions/userActions";
 
@@ -9,7 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
+// import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -31,11 +32,15 @@ const styles = theme => ({
     marginBottom: "2rem"
   },
   table: {
-    minWidth: 700
+    maxWidth: "100%",
+    overflowX: "hidden"
   },
   flex_cell: {
     display: "flex",
     justifyContent: "flex-end"
+  },
+  input: {
+    width: "100%"
   },
   submit: {
     backgroundColor: "#43A047",
@@ -62,7 +67,10 @@ const styles = theme => ({
       color: "#55a462"
     }
   },
-  checked: {}
+  checked: {},
+  cell: {
+    padding: "10px"
+  }
 });
 
 class MergePlayers extends Component {
@@ -144,7 +152,7 @@ class MergePlayers extends Component {
           data-name="member"
           onClick={this.onClick}
         >
-          <TableCell>
+          <TableCell className={classes.cell}>
             <Radio
               checked={this.state.playersId === member.player_id}
               onChange={this.onRadioChangeHandler}
@@ -157,13 +165,13 @@ class MergePlayers extends Component {
               }}
             />
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.cell}>
             {`${member.surename} ${member.name} ${member.patronymic}`}
           </TableCell>
-          <TableCell>
-            <span>{member.type}</span>
+          <TableCell component="th" scope="row" className={classes.cell}>
+            {member.position}
           </TableCell>
-          <TableCell>
+          <TableCell className={classes.cell}>
             <img src={member.photo} style={{ width: "50px" }} alt="" />
           </TableCell>
         </TableRow>
@@ -178,7 +186,7 @@ class MergePlayers extends Component {
           data-name="user"
           onClick={this.onClick}
         >
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.cell}>
             <Radio
               checked={this.state.usId === user.id}
               onChange={this.onRadioChangeHandler}
@@ -191,7 +199,7 @@ class MergePlayers extends Component {
               }}
             />
           </TableCell>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.cell}>
             {user.nickname}
           </TableCell>
         </TableRow>
@@ -207,9 +215,9 @@ class MergePlayers extends Component {
         )}
         <div className={classes.wrapper}>
           <TextField
-            label="Минимум 3 буквы"
+            label={<FormattedMessage id="combine.inputLabel" />}
             name="name"
-            className="text-field"
+            className={classes.input}
             value={this.state.name}
             onChange={this.onChangeHandler}
             margin="normal"
@@ -217,14 +225,14 @@ class MergePlayers extends Component {
           <Paper className={classes.root}>
             {memberList ? (
               <Table className={classes.table}>
-                <TableHead>
+                {/* <TableHead>
                   <TableRow>
                     <TableCell />
                     <TableCell>ФИО</TableCell>
                     <TableCell>Должность</TableCell>
                     <TableCell>Изображение</TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> */}
                 <TableBody>{memberList}</TableBody>
               </Table>
             ) : (
@@ -235,9 +243,9 @@ class MergePlayers extends Component {
 
         <div className={classes.wrapper}>
           <TextField
-            label="Минимум 3 буквы"
+            label={<FormattedMessage id="combine.inputLabel" />}
             name="nickname"
-            className="text-field"
+            className={classes.input}
             value={this.state.nickname}
             onChange={this.onChangeHandler}
             margin="normal"
@@ -245,12 +253,12 @@ class MergePlayers extends Component {
           <Paper className={classes.root}>
             {userArr ? (
               <Table className={classes.table}>
-                <TableHead>
+                {/* <TableHead>
                   <TableRow>
                     <TableCell />
                     <TableCell>Пользователь</TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> */}
                 <TableBody>{userArr}</TableBody>
               </Table>
             ) : (
@@ -266,7 +274,7 @@ class MergePlayers extends Component {
             size="large"
             variant="contained"
           >
-            Объединить
+            {<FormattedMessage id="combine.combine" />}
           </Button>
         </form>
       </div>
