@@ -32,8 +32,7 @@ const styles = theme => ({
     marginBottom: "2rem"
   },
   table: {
-    maxWidth: "100%",
-    overflowX: "hidden"
+    maxWidth: "100%"
   },
   flex_cell: {
     display: "flex",
@@ -274,7 +273,7 @@ class MergePlayers extends Component {
             size="large"
             variant="contained"
           >
-            {<FormattedMessage id="combine.combine" />}
+            <FormattedMessage id="combine.combine" />
           </Button>
         </form>
       </div>

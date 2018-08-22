@@ -111,7 +111,11 @@ class AddSubLeague extends Component {
     let leaguesList;
     if (leagues !== null) {
       leaguesList = leagues.map(league => (
-        <MenuItem key={league.id} value={league.id} data-id={league.id}>
+        <MenuItem
+          key={league.id}
+          value={JSON.stringify({ country: league.country, id: league.id })}
+          data-id={league.id}
+        >
           {league.title}
         </MenuItem>
       ));
