@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { getLeagues } from "../../actions/leagueActions";
@@ -74,7 +75,9 @@ class Leagues extends Component {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Название лиги</TableCell>
+                  <TableCell>
+                    <FormattedMessage id="leagues.tableHeading" />
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{leaguesList}</TableBody>

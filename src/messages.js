@@ -5,40 +5,31 @@ export default {
       text: "Log in your account",
       emailLabel: "Your email",
       passwordLabel: "Your password",
-      submit: "Submit",
-      link: "Create an account"
-    },
-    registration: {
-      heading: "Sign up",
-      text: "Create your account",
-      name: "Your name",
-      emailLabel: "Your email",
-      passwordLabel: "Your password",
-      confirmLabel: "Confirm password",
-      countryLabel: "Choose country",
-      submit: "Sign up",
-      link: "Log in"
-    },
-    nav: {
-      news: "News",
-      tournaments: "Tournament",
-      commands: "Commands",
-      players: "Players",
-      appointments: "Appointments",
-      queries: "Queries",
-      terms: "Terms of use",
-      settings: "Settings",
-      contacts: "Contacts"
-    },
-    news: {
-      more: "Read more",
-      titleLabel: "News title",
-      tagsLabel: "Tags",
-      helper: "News title must be less than 60 symbols",
-      submit: "Save"
+      submit: "Submit"
     },
     header: {
-      logout: "Log out"
+      logout: "Log out",
+      langLabel: "Choose language",
+      leagueLabel: "Choose league"
+    },
+    nav: {
+      manageLeagues: "Manage Leagues",
+      franchise: "Franchises",
+      leagues: "Leagues",
+      subLeagues: "Subleagues",
+      stuff: "Stuff",
+      players: "Players",
+      combining: "Combining",
+      combineAppointments: "Combining Appointments",
+      combinePlayers: "Combining Players",
+      combineStuff: "Combining Stuff"
+    },
+    leagues: {
+      tableHeading: "League's name",
+      nameLabel: "League's name",
+      showLabel: "Show on website and in the app",
+      countryLabel: "Choose country",
+      submit: "Save"
     },
     player: {
       nameLabel: "Name",
@@ -63,9 +54,7 @@ export default {
     user: {
       nickLabel: "Nickname",
       emailLabel: "Email",
-      leagueLabel: "Choose league",
       localeLabel: "Choose country",
-      langLabel: "Choose language",
       save: "Save"
     }
   },
@@ -75,33 +64,31 @@ export default {
       text: "Увійти в свій акаунт",
       emailLabel: "Ваш email",
       passwordLabel: "Ваш пароль",
-      submit: "Увійти",
-      link: "Створити новий акаунт"
-    },
-    registration: {
-      heading: "Зареєструватися",
-      text: "Створити свій акаунт",
-      name: "Ваше ім'я",
-      emailLabel: "Ваш email",
-      passwordLabel: "Ваш пароль",
-      confirmLabel: "Підтвердити пароль",
-      countryLabel: "Обрати країну",
-      submit: "Зареєструватися",
-      link: "Увійти"
-    },
-    nav: {
-      news: "Новини",
-      tournaments: "Турніри",
-      commands: "Команди",
-      players: "Гравці",
-      appointments: "Мої призначення",
-      queries: "Мої запити",
-      terms: "Правила користування",
-      settings: "Налаштування",
-      contacts: "Контакти"
+      submit: "Увійти"
     },
     header: {
-      logout: "Вийти"
+      logout: "Вийти",
+      langLabel: "Обрати мову",
+      leagueLabel: "Обрати лігу"
+    },
+    nav: {
+      manageLeagues: "Керування лігами",
+      franchise: "Франшизи",
+      leagues: "Ліги",
+      subLeagues: "Підліги",
+      stuff: "Персонал",
+      players: "Гравці",
+      combining: "Об'єднання",
+      combineAppointments: "Запити на Об'єднання",
+      combinePlayers: "Об'єднання Гравців",
+      combineStuff: "Об'єднання Персоналу"
+    },
+    leagues: {
+      tableHeading: "Назва ліги",
+      nameLabel: "Назва ліги",
+      showLabel: "Показувати на сайті та у додатку",
+      countryLabel: "Обрати країну",
+      submit: "Зберегти"
     },
     news: {
       more: "Читати більше",
@@ -133,9 +120,7 @@ export default {
     user: {
       nickLabel: "Нікнейм",
       emailLabel: "Email",
-      leagueLabel: "Обрати лігу",
       localeLabel: "Обрати країну",
-      langLabel: "Обрати мову",
       save: "Зберегти"
     }
   },
@@ -145,33 +130,31 @@ export default {
       text: "Войти в свой аккаунт",
       emailLabel: "Ваш email",
       passwordLabel: "Ваш пароль",
-      submit: "Войти",
-      link: "Создать аккаунт"
-    },
-    registration: {
-      heading: "Зарегистрироваться",
-      text: "Создать свой аккаунт",
-      name: "Ваше имя",
-      emailLabel: "Ваш email",
-      passwordLabel: "Ваш пароль",
-      confirmLabel: "Подтвердите пароль",
-      countryLabel: "Выбрать страну",
-      submit: "Зарегистрироваться",
-      link: "Войти"
-    },
-    nav: {
-      news: "Новости",
-      tournaments: "Турниры",
-      commands: "Команды",
-      players: "Игроки",
-      appointments: "Мои назначения",
-      queries: "Мои запросы",
-      terms: "Правила использования",
-      settings: "Настройки",
-      contacts: "Контакты"
+      submit: "Войти"
     },
     header: {
-      logout: "Выйти"
+      logout: "Выйти",
+      langLabel: "Выбрать язык",
+      leagueLabel: "Выбрать лигу"
+    },
+    nav: {
+      manageLeagues: "Управление лигами",
+      franchise: "Франшизы",
+      leagues: "Лиги",
+      subLeagues: "Подлиги",
+      stuff: "Персонал",
+      players: "Игроки",
+      combining: "Объединение",
+      combineAppointments: "Запросы на Объединение",
+      combinePlayers: "Объединение Игроков",
+      combineStuff: "Объединение Персонала"
+    },
+    leagues: {
+      tableHeading: "Название лиги",
+      nameLabel: "Название лиги",
+      showLabel: "Показывать на сайте и в приложении",
+      countryLabel: "Выбрать страну",
+      submit: "Сохранить"
     },
     news: {
       more: "Читать дальше",
@@ -203,9 +186,7 @@ export default {
     user: {
       nickLabel: "Никнейм",
       emailLabel: "Email",
-      leagueLabel: "Выбрать лигу",
       localeLabel: "Выбрать страну",
-      langLabel: "Выбрать язык",
       save: "Сохранить"
     }
   }

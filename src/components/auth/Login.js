@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { loginUser } from "../../actions/authActions";
 
@@ -75,8 +76,12 @@ class Login extends Component {
 
     return (
       <Paper className={classes.root}>
-        <h1>Войти</h1>
-        <p>Войти в свой аккаунт</p>
+        <h1>
+          <FormattedMessage id="login.heading" />
+        </h1>
+        <p>
+          <FormattedMessage id="login.text" />
+        </p>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <TextField
@@ -85,7 +90,7 @@ class Login extends Component {
               name="email"
               value={this.state.email}
               onChange={this.onChangeHandler}
-              label="Ваш email"
+              label={<FormattedMessage id="login.emailLabel" />}
             />
           </div>
           <div>
@@ -93,13 +98,13 @@ class Login extends Component {
               className={classes.input}
               type="password"
               name="password"
-              label="Ваш пароль"
+              label={<FormattedMessage id="login.passwordLabel" />}
               value={this.state.password}
               onChange={this.onChangeHandler}
             />
           </div>
           <Button variant="contained" type="submit" className={classes.submit}>
-            Войти
+            <FormattedMessage id="login.submit" />
           </Button>
           <div className={classes.error}>
             <small variant="caption" component="small">

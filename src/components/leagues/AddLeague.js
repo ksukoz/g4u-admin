@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { addLeague } from "../../actions/leagueActions";
 import { getCountries } from "../../actions/locationActions";
@@ -104,7 +105,7 @@ class AddLeague extends Component {
       <div>
         <form className={classes.input_wrap} onSubmit={this.onSubmitHandler}>
           <TextField
-            label="Название лиги"
+            label={<FormattedMessage id="leagues.nameLabel" />}
             name="name"
             className={classes.input}
             value={this.state.name}
@@ -119,10 +120,12 @@ class AddLeague extends Component {
                 onChange={this.toggleChange}
               />
             }
-            label="Показывать на сайте и в приложении"
+            label={<FormattedMessage id="leagues.showLabel" />}
           />
           <FormControl className={classes.input}>
-            <InputLabel htmlFor="country">Выбрать страну</InputLabel>
+            <InputLabel htmlFor="country">
+              <FormattedMessage id="leagues.countryLabel" />
+            </InputLabel>
             <Select
               value={this.state.country}
               className={classes.select}
@@ -139,7 +142,7 @@ class AddLeague extends Component {
             </Select>
           </FormControl>
           <Button size="large" type="submit" className={classes.submit}>
-            Сохранить
+            <FormattedMessage id="leagues.submit" />
           </Button>
         </form>
       </div>

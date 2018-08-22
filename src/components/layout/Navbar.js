@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 import compose from "recompose/compose";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import Drawer from "@material-ui/core/Drawer";
@@ -123,7 +124,7 @@ class Navbar extends React.Component {
           <List>
             <ListItem button id="first" onClick={this.handleClick}>
               <ListItemText
-                primary="Управление лигами"
+                primary={<FormattedMessage id="nav.manageLeagues" />}
                 className={!this.props.common.open ? classes.hide : ""}
               />
               {this.state.first ? <ExpandLess /> : <ExpandMore />}
@@ -137,10 +138,13 @@ class Navbar extends React.Component {
                     <Link
                       to="/leagues"
                       className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(this, "Лиги")}
+                      onClick={this.onClickHandler.bind(
+                        this,
+                        <FormattedMessage id="nav.leagues" />
+                      )}
                     >
                       <ListItemText
-                        primary="Лиги"
+                        primary={<FormattedMessage id="nav.leagues" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>
@@ -153,10 +157,13 @@ class Navbar extends React.Component {
                     <Link
                       to="/subleagues"
                       className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(this, "Подлиги")}
+                      onClick={this.onClickHandler.bind(
+                        this,
+                        <FormattedMessage id="nav.subLeagues" />
+                      )}
                     >
                       <ListItemText
-                        primary="Подлиги"
+                        primary={<FormattedMessage id="nav.subLeagues" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>
@@ -169,11 +176,14 @@ class Navbar extends React.Component {
               <Link
                 to="/franchise/add"
                 className={classes.nav_link}
-                onClick={this.onClickHandler.bind(this, "Франшизы")}
+                onClick={this.onClickHandler.bind(
+                  this,
+                  <FormattedMessage id="nav.franchise" />
+                )}
               >
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
-                  primary="Франшизы"
+                  primary={<FormattedMessage id="nav.franchise" />}
                 />
               </Link>
             </ListItem>
@@ -181,11 +191,14 @@ class Navbar extends React.Component {
               <Link
                 to="/stuff"
                 className={classes.nav_link}
-                onClick={this.onClickHandler.bind(this, "Персонал")}
+                onClick={this.onClickHandler.bind(
+                  this,
+                  <FormattedMessage id="nav.stuff" />
+                )}
               >
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
-                  primary="Персонал"
+                  primary={<FormattedMessage id="nav.stuff" />}
                 />
               </Link>
             </ListItem>
@@ -193,18 +206,21 @@ class Navbar extends React.Component {
               <Link
                 to="/players"
                 className={classes.nav_link}
-                onClick={this.onClickHandler.bind(this, "Игроки")}
+                onClick={this.onClickHandler.bind(
+                  this,
+                  <FormattedMessage id="nav.players" />
+                )}
               >
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
-                  primary="Игроки"
+                  primary={<FormattedMessage id="nav.players" />}
                 />
               </Link>
             </ListItem>
 
             <ListItem button id="second" onClick={this.onClick}>
               <ListItemText
-                primary="Объединение"
+                primary={<FormattedMessage id="nav.combining" />}
                 className={!this.props.common.open ? classes.hide : ""}
               />
               {this.state.second ? <ExpandLess /> : <ExpandMore />}
@@ -220,11 +236,13 @@ class Navbar extends React.Component {
                       className={classes.nav_link}
                       onClick={this.onClickHandler.bind(
                         this,
-                        "Запросы на объединение"
+                        <FormattedMessage id="nav.combineAppointments" />
                       )}
                     >
                       <ListItemText
-                        primary="Запросы на объединение"
+                        primary={
+                          <FormattedMessage id="nav.combineAppointments" />
+                        }
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>
@@ -239,11 +257,11 @@ class Navbar extends React.Component {
                       className={classes.nav_link}
                       onClick={this.onClickHandler.bind(
                         this,
-                        "Объединение игроков"
+                        <FormattedMessage id="nav.combinePlayers" />
                       )}
                     >
                       <ListItemText
-                        primary="Объединение игроков"
+                        primary={<FormattedMessage id="nav.combinePlayers" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>
@@ -258,11 +276,11 @@ class Navbar extends React.Component {
                       className={classes.nav_link}
                       onClick={this.onClickHandler.bind(
                         this,
-                        "Объединение персонала"
+                        <FormattedMessage id="nav.combineStuff" />
                       )}
                     >
                       <ListItemText
-                        primary="Объединение персонала"
+                        primary={<FormattedMessage id="nav.combineStuff" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
                     </Link>

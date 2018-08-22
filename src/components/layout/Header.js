@@ -160,7 +160,7 @@ class Header extends React.Component {
                 <li>
                   <FormControl className={classes.input}>
                     <InputLabel htmlFor="locale" className={classes.select}>
-                      Выберите лигу
+                      <FormattedMessage id="header.leagueLabel" />
                     </InputLabel>
                     <Select
                       className={classes.select}
@@ -173,7 +173,7 @@ class Header extends React.Component {
                       }}
                     >
                       <MenuItem value="Выберите лигу" disabled>
-                        Выберите лигу
+                        <FormattedMessage id="header.leagueLabel" />
                       </MenuItem>
                     </Select>
                   </FormControl>
@@ -181,7 +181,7 @@ class Header extends React.Component {
                 <li>
                   <FormControl className={classes.input}>
                     <InputLabel htmlFor="lang" className={classes.select}>
-                      <FormattedMessage id="user.langLabel" />
+                      <FormattedMessage id="header.langLabel" />
                     </InputLabel>
                     <Select
                       className={classes.select}
@@ -201,7 +201,7 @@ class Header extends React.Component {
                 </li>
               </ul>
               <Button className={classes.logout} onClick={this.onClickHandler}>
-                Выйти
+                <FormattedMessage id="header.logout" />
               </Button>
             </Toolbar>
           </AppBar>
