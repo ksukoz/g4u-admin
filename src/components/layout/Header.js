@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import compose from "recompose/compose";
+import { setLanguage } from "../../actions/languageActions";
+import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,15 +12,15 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import { handleDrawerOpen } from "../../actions/commonActions";
 import { logoutUser } from "../../actions/authActions";
 import { Button } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 
 const theme = createMuiTheme({
   palette: {
@@ -75,15 +77,43 @@ const styles = {
     marginRight: "1rem",
     color: "#fff"
   },
+  input: {
+    width: "140px"
+  },
   select: {
     color: "#fff"
   }
 };
 
 class Header extends React.Component {
+  state = {
+    lang: ""
+  };
+
   onClickHandler = e => {
     this.props.logoutUser();
   };
+
+  onChangeHandler = e => {
+    this.setState({ ...this.state, [e.target.name]: e.target.value });
+
+    let user = JSON.parse(localStorage.getItem("admin-user"));
+    user.lang = e.target.value;
+
+    this.props.setLanguage(e.target.value);
+    localStorage.setItem("admin-user", JSON.stringify(user));
+
+    window.location.reload();
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.lang.locale !== null) {
+      this.setState({
+        ...this.state,
+        lang: nextProps.lang.locale
+      });
+    }
+  }
 
   render() {
     const { classes } = this.props;
@@ -148,6 +178,27 @@ class Header extends React.Component {
                     </Select>
                   </FormControl>
                 </li>
+                <li>
+                  <FormControl className={classes.input}>
+                    <InputLabel htmlFor="lang" className={classes.select}>
+                      <FormattedMessage id="user.langLabel" />
+                    </InputLabel>
+                    <Select
+                      className={classes.select}
+                      value={this.state.lang}
+                      onChange={this.onChangeHandler}
+                      displayEmpty
+                      inputProps={{
+                        name: "lang",
+                        id: "lang"
+                      }}
+                    >
+                      <MenuItem value="en-US">English</MenuItem>
+                      <MenuItem value="ru-RU">Русский</MenuItem>
+                      <MenuItem value="uk">Українська</MenuItem>
+                    </Select>
+                  </FormControl>
+                </li>
               </ul>
               <Button className={classes.logout} onClick={this.onClickHandler}>
                 Выйти
@@ -167,14 +218,15 @@ Header.propTypes = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  common: state.common
+  common: state.common,
+  lang: state.lang
 });
 
 export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { handleDrawerOpen, logoutUser }
+    { handleDrawerOpen, logoutUser, setLanguage }
   )
 )(Header);
 

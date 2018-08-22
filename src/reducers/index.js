@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
+import languageReducer from "./languageReducer";
 import leagueReducer from "./leagueReducer";
 import stuffReducer from "./stuffReducer";
 import userReducer from "./userReducer";
@@ -10,6 +11,7 @@ import commonReducer from "./commonReducer";
 import errorReducer from "./errorReducer";
 
 export default combineReducers({
+  lang: languageReducer,
   auth: authReducer,
   league: leagueReducer,
   stuff: stuffReducer,

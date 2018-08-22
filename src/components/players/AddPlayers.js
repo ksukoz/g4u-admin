@@ -252,7 +252,7 @@ class AddPlayers extends Component {
                 >
                   <MenuItem value="left">Левая</MenuItem>
                   <MenuItem value="right">Правая</MenuItem>
-                  <MenuItem value="both">Обу</MenuItem>
+                  <MenuItem value="both">Обе</MenuItem>
                 </Select>
               </FormControl>
             </div>

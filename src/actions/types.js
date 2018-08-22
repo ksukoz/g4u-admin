@@ -1,4 +1,5 @@
 export const GET_ERRORS = "GET_ERRORS";
+export const SET_LANGUAGE = "SET_LANGUAGE";
 export const GET_USER = "GET_USER";
 export const SET_USER = "SET_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
