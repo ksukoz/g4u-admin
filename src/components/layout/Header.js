@@ -19,6 +19,7 @@ import Select from "@material-ui/core/Select";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import { handleDrawerOpen } from "../../actions/commonActions";
+import { setUserLanguage } from "../../actions/userActions";
 import { logoutUser } from "../../actions/authActions";
 import { Button } from "@material-ui/core";
 
@@ -112,6 +113,10 @@ class Header extends React.Component {
         ...this.state,
         lang: this.props.lang.locale
       });
+
+      console.log(this.props.lang.locale);
+
+      this.props.setUserLanguage({ lang: this.props.lang.locale });
     }
   }
 
@@ -226,7 +231,7 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { handleDrawerOpen, logoutUser, setLanguage }
+    { handleDrawerOpen, logoutUser, setLanguage, setUserLanguage }
   )
 )(Header);
 

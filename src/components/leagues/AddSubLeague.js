@@ -167,7 +167,11 @@ class AddSubLeague extends Component {
               <FormattedMessage id="subLeagues.leagueLabel" />
             </InputLabel>
             <Select
-              value={this.state.league}
+              value={
+                this.state.league !== null
+                  ? JSON.stringify(this.state.league)
+                  : ""
+              }
               className={classes.select}
               onChange={this.onLeagueChange}
               inputProps={{
