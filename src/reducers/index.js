@@ -9,6 +9,7 @@ import locationReducer from "./locationReducer";
 import mergeReducer from "./mergeReducer";
 import commonReducer from "./commonReducer";
 import errorReducer from "./errorReducer";
+import messagesReducer from "./messagesReducer";
 
 export default combineReducers({
   lang: languageReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
   merge: mergeReducer,
   common: commonReducer,
 
+  messages: messagesReducer,
   errors: errorReducer
 });

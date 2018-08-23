@@ -29,7 +29,7 @@ const Messages = props => {
         <SnackbarContent
           className={props.classes}
           aria-describedby="client-snackbar"
-          message={<span id="client-snackbar" />}
+          message={<span>{props.message}</span>}
           action={[
             <IconButton
               key="close"

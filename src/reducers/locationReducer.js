@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   countries: null,
+  fullCountries: null,
   regions: null,
   cities: null
 };
@@ -21,7 +22,7 @@ export default function(state = initialState, action) {
     case GET_ALL_COUNTRIES:
       return {
         ...state,
-        countries: action.payload
+        fullCountries: action.payload
       };
     case GET_REGIONS:
       return {

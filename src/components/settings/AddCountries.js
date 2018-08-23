@@ -5,20 +5,20 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import {
   getAllCountries,
-  setCountryStatus
+  setCountryStatus,
+  getCountries
 } from "../../actions/locationActions";
 
 import Messages from "../common/Messages";
 
 import InputLabel from "@material-ui/core/InputLabel";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
-import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
 
 const styles = theme => ({
   input: {
@@ -55,26 +55,23 @@ const styles = theme => ({
 class AddCountries extends Component {
   state = {
     open: true,
-    country: null
+    country: ""
   };
 
   onChangeHandler = e => {
     this.setState({
       ...this.state,
-      [e.target.name]: JSON.parse(e.target.value)
+      [e.target.name]: e.target.value
     });
   };
 
   onClickHandler = e => {
-    const country = this.state.country;
-    country.status = country.status;
-
-    this.props.setCountryStatus(country);
-    this.props.getAllCountries();
+    this.props.setCountryStatus({ id: this.state.country });
 
     this.setState({
       ...this.state,
-      country: null
+      open: true,
+      country: ""
     });
   };
 
@@ -83,27 +80,44 @@ class AddCountries extends Component {
       return;
     }
 
-    this.setState({ open: false });
+    this.setState(
+      { open: false },
+      this.props.getAllCountries(),
+      this.props.getCountries()
+    );
+  };
+
+  componentWillMount = () => {
+    this.props.getCountries();
   };
 
   componentDidMount = () => {
-    this.props.getAllCountries();
+    if (this.props.messages.length === 0 && this.props.errors.length === 0) {
+      this.props.getAllCountries();
+    }
   };
 
   render() {
     const { classes } = this.props;
-    const { countries } = this.props.location;
+    const { countries, fullCountries } = this.props.location;
 
+    let fullCountriesList;
     let countriesList;
+
+    if (fullCountries !== null) {
+      fullCountriesList = fullCountries.map(country => (
+        <MenuItem key={country.id} value={country.id}>
+          {country.nicename}
+        </MenuItem>
+      ));
+    }
 
     if (countries !== null) {
       countriesList = countries.map(country => (
-        <MenuItem
-          key={country.id}
-          value={JSON.stringify({ id: country.id, status: country.enable })}
-        >
-          {country.nicename}
-        </MenuItem>
+        <ListItem key={country.id}>
+          {/* <ListItemText inset primary={country.name} /> */}
+          {country.name}
+        </ListItem>
       ));
     }
 
@@ -119,7 +133,7 @@ class AddCountries extends Component {
         ) : this.props.messages ? (
           <Messages
             open={this.state.open}
-            message={this.props.messagex}
+            message={this.props.messages}
             onClose={this.handleClose}
             classes={classes.success}
           />
@@ -132,26 +146,25 @@ class AddCountries extends Component {
           </InputLabel>
           <Select
             className={classes.select}
-            value={JSON.stringify(this.state.country)}
+            value={this.state.country}
             onChange={this.onChangeHandler}
+            placeholder={<FormattedMessage id="stuff.positionLabel" />}
             inputProps={{
               name: "country",
               id: "country"
             }}
           >
-            <MenuItem value="null">
+            <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {countriesList}
+            {fullCountriesList}
           </Select>
         </FormControl>
-        <Button onClick={this.onClickHandler}>
-          {this.state.country === null
-            ? "Выключить"
-            : this.state.country.status === "0"
-              ? "Включить"
-              : "Выключить"}
-        </Button>
+        <Button onClick={this.onClickHandler}>Изменить</Button>
+        <div>
+          <h3>Включенные страны</h3>
+        </div>
+        <List>{countriesList}</List>
       </div>
     );
   }
@@ -167,6 +180,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getAllCountries, setCountryStatus }
+    { getAllCountries, setCountryStatus, getCountries }
   )
 )(AddCountries);
