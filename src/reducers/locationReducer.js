@@ -1,4 +1,9 @@
-import { GET_COUNTRIES, GET_REGIONS, GET_CITIES } from "../actions/types";
+import {
+  GET_COUNTRIES,
+  GET_ALL_COUNTRIES,
+  GET_REGIONS,
+  GET_CITIES
+} from "../actions/types";
 
 const initialState = {
   countries: null,
@@ -9,6 +14,11 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_COUNTRIES:
+      return {
+        ...state,
+        countries: action.payload
+      };
+    case GET_ALL_COUNTRIES:
       return {
         ...state,
         countries: action.payload

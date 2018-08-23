@@ -1,6 +1,7 @@
 export const GET_ERRORS = "GET_ERRORS";
+export const GET_MESSAGES = "GET_MESSAGES";
 export const SET_LANGUAGE = "SET_LANGUAGE";
-export const SET_USER_LANGUAGE = "SET_USER_LANGUAGE";
+// export const SET_USER_LANGUAGE = "SET_USER_LANGUAGE";
 export const GET_USER = "GET_USER";
 export const SET_USER = "SET_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
@@ -14,6 +15,7 @@ export const MERGE_PLAYER = "MERGE_PLAYER";
 export const GET_USERS = "GET_USERS";
 export const GET_USERS_BY_NAME = "GET_USERS_BY_NAME";
 export const GET_COUNTRIES = "GET_COUNTRIES";
+export const GET_ALL_COUNTRIES = "GET_ALL_COUNTRIES";
 export const GET_REGIONS = "GET_REGIONS";
 export const GET_CITIES = "GET_CITIES";
 export const GET_POSITION = "GET_POSITION";
