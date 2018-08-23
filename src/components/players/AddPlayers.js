@@ -364,7 +364,7 @@ class AddPlayers extends Component {
         </div>
         <div className={classes.media}>
           {this.state.readyImage !== null ? (
-            <img src={this.state.readyImage} className={classes.img} />
+            <img src={this.state.readyImage} className={classes.img} alt="" />
           ) : (
             ""
           )}

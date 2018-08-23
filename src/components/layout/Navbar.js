@@ -131,92 +131,95 @@ class Navbar extends React.Component {
             </ListItem>
             <Collapse in={this.state.first} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem button>
-                  <ListItemText
-                    className={!this.props.common.open ? classes.hide : ""}
-                  >
-                    <Link
-                      to="/leagues"
-                      className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(
-                        this,
-                        <FormattedMessage id="nav.leagues" />
-                      )}
+                <Link
+                  to="/leagues"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.leagues" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
                     >
                       <ListItemText
                         primary={<FormattedMessage id="nav.leagues" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
-                    </Link>
-                  </ListItemText>
-                </ListItem>
-                <ListItem button>
-                  <ListItemText
-                    className={!this.props.common.open ? classes.hide : ""}
-                  >
-                    <Link
-                      to="/subleagues"
-                      className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(
-                        this,
-                        <FormattedMessage id="nav.subLeagues" />
-                      )}
+                    </ListItemText>
+                  </ListItem>
+                </Link>
+
+                <Link
+                  to="/subleagues"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.subLeagues" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
                     >
                       <ListItemText
                         primary={<FormattedMessage id="nav.subLeagues" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
-                    </Link>
-                  </ListItemText>
-                </ListItem>
+                    </ListItemText>
+                  </ListItem>
+                </Link>
               </List>
             </Collapse>
 
-            <ListItem button>
-              <Link
-                to="/franchise/add"
-                className={classes.nav_link}
-                onClick={this.onClickHandler.bind(
-                  this,
-                  <FormattedMessage id="nav.franchise" />
-                )}
-              >
+            <Link
+              to="/franchise/add"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.franchise" />
+              )}
+            >
+              <ListItem button>
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.franchise" />}
                 />
-              </Link>
-            </ListItem>
-            <ListItem button>
-              <Link
-                to="/stuff"
-                className={classes.nav_link}
-                onClick={this.onClickHandler.bind(
-                  this,
-                  <FormattedMessage id="nav.stuff" />
-                )}
-              >
+              </ListItem>
+            </Link>
+
+            <Link
+              to="/stuff"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.stuff" />
+              )}
+            >
+              <ListItem button>
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.stuff" />}
                 />
-              </Link>
-            </ListItem>
-            <ListItem button>
-              <Link
-                to="/players"
-                className={classes.nav_link}
-                onClick={this.onClickHandler.bind(
-                  this,
-                  <FormattedMessage id="nav.players" />
-                )}
-              >
+              </ListItem>
+            </Link>
+
+            <Link
+              to="/players"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.players" />
+              )}
+            >
+              <ListItem button>
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.players" />}
                 />
-              </Link>
-            </ListItem>
+              </ListItem>
+            </Link>
 
             <ListItem button id="second" onClick={this.onClick}>
               <ListItemText
@@ -227,17 +230,17 @@ class Navbar extends React.Component {
             </ListItem>
             <Collapse in={this.state.second} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem button>
-                  <ListItemText
-                    className={!this.props.common.open ? classes.hide : ""}
-                  >
-                    <Link
-                      to="/merge"
-                      className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(
-                        this,
-                        <FormattedMessage id="nav.combineAppointments" />
-                      )}
+                <Link
+                  to="/merge"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.combineAppointments" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
                     >
                       <ListItemText
                         primary={
@@ -245,49 +248,67 @@ class Navbar extends React.Component {
                         }
                         className={!this.props.common.open ? classes.hide : ""}
                       />
-                    </Link>
-                  </ListItemText>
-                </ListItem>
-                <ListItem button>
-                  <ListItemText
-                    className={!this.props.common.open ? classes.hide : ""}
-                  >
-                    <Link
-                      to="/merge/players"
-                      className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(
-                        this,
-                        <FormattedMessage id="nav.combinePlayers" />
-                      )}
+                    </ListItemText>
+                  </ListItem>
+                </Link>
+
+                <Link
+                  to="/merge/players"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.combinePlayers" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
                     >
                       <ListItemText
                         primary={<FormattedMessage id="nav.combinePlayers" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
-                    </Link>
-                  </ListItemText>
-                </ListItem>
-                <ListItem button>
-                  <ListItemText
-                    className={!this.props.common.open ? classes.hide : ""}
-                  >
-                    <Link
-                      to="/merge/stuff"
-                      className={classes.nav_link}
-                      onClick={this.onClickHandler.bind(
-                        this,
-                        <FormattedMessage id="nav.combineStuff" />
-                      )}
+                    </ListItemText>
+                  </ListItem>
+                </Link>
+
+                <Link
+                  to="/merge/stuff"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.combineStuff" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
                     >
                       <ListItemText
                         primary={<FormattedMessage id="nav.combineStuff" />}
                         className={!this.props.common.open ? classes.hide : ""}
                       />
-                    </Link>
-                  </ListItemText>
-                </ListItem>
+                    </ListItemText>
+                  </ListItem>
+                </Link>
               </List>
             </Collapse>
+
+            <Link
+              to="/settings"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.settings" />
+              )}
+            >
+              <ListItem button>
+                <ListItemText
+                  className={!this.props.common.open ? classes.hide : ""}
+                  primary={<FormattedMessage id="nav.settings" />}
+                />
+              </ListItem>
+            </Link>
           </List>
         </div>
       </Drawer>

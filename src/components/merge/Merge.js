@@ -50,7 +50,7 @@ const styles = theme => ({
 class Merge extends Component {
   onClickHandler = e => {
     let button;
-    e.target.tagName != "BUTTON"
+    e.target.tagName !== "BUTTON"
       ? (button = e.target.parentNode)
       : (button = e.target);
     const newReq = {
@@ -78,7 +78,7 @@ class Merge extends Component {
           </TableCell>
           <TableCell>{item.nickname}</TableCell>
           <TableCell className={classes.flex_cell}>
-            {item.moder == 0 ? (
+            {item.moder === 0 ? (
               <Button
                 className={classes.submit}
                 data-id={item.utp_id}

@@ -24,7 +24,7 @@ const InputFile = ({ type, classes, name, onChange }) => {
   let icon;
   let accept;
   if (type === "image") {
-    icon = <img src={picture} className={classes.icon} />;
+    icon = <img src={picture} className={classes.icon} alt="" />;
     accept = "image/jpeg,image/png";
   }
 

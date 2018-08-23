@@ -75,11 +75,11 @@ class Players extends Component {
 
     return (
       <div>
-        <Button variant="extendedFab" className={classes.button}>
-          <Link className={classes.button_link} to="/add-player">
+        <Link className={classes.button_link} to="/add-player">
+          <Button variant="extendedFab" className={classes.button}>
             <FormattedMessage id="players.add" />
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <Paper className={classes.root}>
           {membersList ? (
             <Table className={classes.table}>

@@ -22,7 +22,8 @@ export default {
       combining: "Combining",
       combineAppointments: "Combining Appointments",
       combinePlayers: "Combining Players",
-      combineStuff: "Combining Stuff"
+      combineStuff: "Combining Stuff",
+      settings: "Settings"
     },
     leagues: {
       tableHeading: "League's name",
@@ -113,7 +114,8 @@ export default {
       combining: "Об'єднання",
       combineAppointments: "Запити на Об'єднання",
       combinePlayers: "Об'єднання Гравців",
-      combineStuff: "Об'єднання Персоналу"
+      combineStuff: "Об'єднання Персоналу",
+      settings: "Налаштування"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -204,7 +206,8 @@ export default {
       combining: "Объединение",
       combineAppointments: "Запросы на Объединение",
       combinePlayers: "Объединение Игроков",
-      combineStuff: "Объединение Персонала"
+      combineStuff: "Объединение Персонала",
+      settings: "Настройки"
     },
     leagues: {
       tableHeading: "Название лиги",

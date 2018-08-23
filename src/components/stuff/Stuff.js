@@ -75,11 +75,11 @@ class Stuff extends Component {
 
     return (
       <div>
-        <Button variant="extendedFab" className={classes.button}>
-          <Link className={classes.button_link} to="/add-stuff">
+        <Link className={classes.button_link} to="/add-stuff">
+          <Button variant="extendedFab" className={classes.button}>
             <FormattedMessage id="stuff.add" />
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <Paper className={classes.root}>
           {membersList ? (
             <Table className={classes.table}>

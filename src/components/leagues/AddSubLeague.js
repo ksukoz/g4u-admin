@@ -162,7 +162,7 @@ class AddSubLeague extends Component {
             }
             label={<FormattedMessage id="subLeagues.showLabel" />}
           />
-          <FormControl className="select" className={classes.input}>
+          <FormControl className={classes.input}>
             <InputLabel htmlFor="league">
               <FormattedMessage id="subLeagues.leagueLabel" />
             </InputLabel>
@@ -185,7 +185,7 @@ class AddSubLeague extends Component {
               {leaguesList}
             </Select>
           </FormControl>
-          <FormControl className="select" className={classes.input}>
+          <FormControl className={classes.input}>
             <InputLabel htmlFor="region">
               <FormattedMessage id="subLeagues.regionLabel" />
             </InputLabel>
@@ -204,7 +204,7 @@ class AddSubLeague extends Component {
               {regionsList}
             </Select>
           </FormControl>
-          <FormControl className="select" className={classes.input}>
+          <FormControl className={classes.input}>
             <InputLabel htmlFor="city">
               <FormattedMessage id="subLeagues.cityLabel" />
             </InputLabel>

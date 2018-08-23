@@ -161,7 +161,7 @@ class Header extends React.Component {
                   : "Лиги"}
               </Typography>
               <ul className="navigation">
-                {type == 0 ? globalAdminLink : ""}
+                {type === 0 ? globalAdminLink : ""}
                 <li>
                   <FormControl className={classes.input}>
                     <InputLabel htmlFor="locale" className={classes.select}>

@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { OPEN_NAV, CLOSE_NAV, SET_ACTIVE_LINK } from "./types";
 
 export const handleDrawerOpen = () => {

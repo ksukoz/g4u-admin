@@ -2,8 +2,8 @@ import {
   GET_STUFF_TYPES,
   GET_STUFF_MEMBERS,
   GET_STUFF_MEMBERS_BY_NAME,
-  MERGE_STUFF,
-  GET_ERRORS
+  MERGE_STUFF
+  // GET_ERRORS
 } from "../actions/types";
 
 const initialState = {

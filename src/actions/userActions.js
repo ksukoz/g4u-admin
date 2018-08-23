@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
   GET_USERS,
-  GET_USERS_BY_NAME,
-  SET_USER_LANGUAGE
+  GET_USERS_BY_NAME
+  // SET_USER_LANGUAGE
 } from "../actions/types";
 
 export const getUsers = () => dispatch => {
