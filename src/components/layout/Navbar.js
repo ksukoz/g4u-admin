@@ -20,6 +20,17 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 
+import Agenda from "./navigation-icons/agenda.svg";
+import GroupIcon from "./navigation-icons/group.svg";
+import Handshake from "./navigation-icons/handshake.svg";
+import League from "./navigation-icons/league.svg";
+import Player from "./navigation-icons/player.svg";
+import Newspaper from "./navigation-icons/newspaper.svg";
+import Referee from "./navigation-icons/referee.svg";
+import Contacts from "./navigation-icons/agenda.svg";
+import Settings from "./navigation-icons/settings.svg";
+import FootballPlayers from "./navigation-icons/football-shirt.svg";
+
 const drawerWidth = 295;
 
 const styles = theme => ({
@@ -40,7 +51,7 @@ const styles = theme => ({
     }),
     width: theme.spacing.unit * 7,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 10.3
+      width: theme.spacing.unit * 13
     }
   },
   wrapper: {
@@ -123,6 +134,7 @@ class Navbar extends React.Component {
           <Divider />
           <List>
             <ListItem button id="first" onClick={this.handleClick}>
+              <img className={classes.nav_icon} src={League} alt="" />
               <ListItemText
                 primary={<FormattedMessage id="nav.manageLeagues" />}
                 className={!this.props.common.open ? classes.hide : ""}
@@ -182,6 +194,7 @@ class Navbar extends React.Component {
               )}
             >
               <ListItem button>
+                <img className={classes.nav_icon} src={Handshake} alt="" />
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.franchise" />}
@@ -198,6 +211,7 @@ class Navbar extends React.Component {
               )}
             >
               <ListItem button>
+                <img className={classes.nav_icon} src={Referee} alt="" />
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.stuff" />}
@@ -214,6 +228,7 @@ class Navbar extends React.Component {
               )}
             >
               <ListItem button>
+                <img className={classes.nav_icon} src={Player} alt="" />
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.players" />}
@@ -222,6 +237,7 @@ class Navbar extends React.Component {
             </Link>
 
             <ListItem button id="second" onClick={this.onClick}>
+              <img className={classes.nav_icon} src={GroupIcon} alt="" />
               <ListItemText
                 primary={<FormattedMessage id="nav.combining" />}
                 className={!this.props.common.open ? classes.hide : ""}
@@ -303,6 +319,7 @@ class Navbar extends React.Component {
               )}
             >
               <ListItem button>
+                <img className={classes.nav_icon} src={Settings} alt="" />
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.settings" />}

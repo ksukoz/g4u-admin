@@ -40,19 +40,18 @@ export const getUsersByName = name => dispatch => {
 };
 
 export const setUserLanguage = lang => dispatch => {
-  axios
-    .post(`http://api.mygame4u.com/user/setlocale`, lang, {
-      headers: {
-        Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("admin-user")).token
-        }`
-      }
-    })
-    .then(res => {
-      console.log(lang);
-      // dispatch({
-      //   type: SET_USER_LANGUAGE,
-      //   payload: res.data.answer
-      // });
-    });
+  axios.post(`http://api.mygame4u.com/user/setlocale`, lang, {
+    headers: {
+      Authorization: `G4User ${
+        JSON.parse(localStorage.getItem("admin-user")).token
+      }`
+    }
+  });
+  // .then(res => {
+  //   console.log(lang);
+  //   // dispatch({
+  //   //   type: SET_USER_LANGUAGE,
+  //   //   payload: res.data.answer
+  //   // });
+  // });
 };

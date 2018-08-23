@@ -114,8 +114,6 @@ class Header extends React.Component {
         lang: this.props.lang.locale
       });
 
-      console.log(this.props.lang.locale);
-
       this.props.setUserLanguage({ lang: this.props.lang.locale });
     }
   }

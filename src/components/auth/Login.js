@@ -10,6 +10,8 @@ import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 
+import Messages from "../common/Messages";
+
 const styles = {
   root: {
     width: "max-content",
@@ -32,11 +34,15 @@ const styles = {
   error: {
     color: "#ff5e5e",
     paddingBottom: "2rem"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 };
 
 class Login extends Component {
   state = {
+    open: true,
     email: "",
     password: "",
     errors: ""
@@ -45,9 +51,12 @@ class Login extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
+    this.setState({ ...this.state, open: true });
+
     const user = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      lang: this.props.lang.locale
     };
 
     this.props.loginUser(user, this.props.history);
@@ -57,14 +66,13 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors.length > 0) {
-      this.setState({
-        ...this.state,
-        error: nextProps.errors
-      });
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
-  }
+
+    this.setState({ open: false });
+  };
 
   render() {
     const { classes } = this.props;
@@ -75,51 +83,69 @@ class Login extends Component {
     }
 
     return (
-      <Paper className={classes.root}>
-        <h1>
-          <FormattedMessage id="login.heading" />
-        </h1>
-        <p>
-          <FormattedMessage id="login.text" />
-        </p>
-        <form onSubmit={this.onSubmitHandler}>
-          <div>
-            <TextField
-              className={classes.input}
-              type="email"
-              name="email"
-              value={this.state.email}
-              onChange={this.onChangeHandler}
-              label={<FormattedMessage id="login.emailLabel" />}
-            />
-          </div>
-          <div>
-            <TextField
-              className={classes.input}
-              type="password"
-              name="password"
-              label={<FormattedMessage id="login.passwordLabel" />}
-              value={this.state.password}
-              onChange={this.onChangeHandler}
-            />
-          </div>
-          <Button variant="contained" type="submit" className={classes.submit}>
-            <FormattedMessage id="login.submit" />
-          </Button>
-          <div className={classes.error}>
-            <small variant="caption" component="small">
-              {this.state.error}
-            </small>
-          </div>
-        </form>
-      </Paper>
+      <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : (
+          ""
+        )}
+        <Paper className={classes.root}>
+          <h1>
+            <FormattedMessage id="login.heading" />
+          </h1>
+          <p>
+            <FormattedMessage id="login.text" />
+          </p>
+          <form onSubmit={this.onSubmitHandler}>
+            <div>
+              <TextField
+                className={classes.input}
+                type="email"
+                name="email"
+                value={this.state.email}
+                onChange={this.onChangeHandler}
+                label={<FormattedMessage id="login.emailLabel" />}
+              />
+            </div>
+            <div>
+              <TextField
+                className={classes.input}
+                type="password"
+                name="password"
+                label={<FormattedMessage id="login.passwordLabel" />}
+                value={this.state.password}
+                onChange={this.onChangeHandler}
+              />
+            </div>
+            <Button
+              variant="contained"
+              type="submit"
+              className={classes.submit}
+            >
+              <FormattedMessage id="login.submit" />
+            </Button>
+            <div className={classes.error}>
+              <small variant="caption" component="small">
+                {this.state.error}
+              </small>
+            </div>
+          </form>
+        </Paper>
+      </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
+  messages: state.messages,
+  lang: state.lang
 });
 
 export default compose(
