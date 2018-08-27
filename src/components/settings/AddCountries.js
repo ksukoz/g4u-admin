@@ -142,13 +142,13 @@ class AddCountries extends Component {
         )}
         <FormControl className={classes.input}>
           <InputLabel htmlFor="country">
-            <FormattedMessage id="stuff.positionLabel" />
+            <FormattedMessage id="settings.country" />
           </InputLabel>
           <Select
             className={classes.select}
             value={this.state.country}
             onChange={this.onChangeHandler}
-            placeholder={<FormattedMessage id="stuff.positionLabel" />}
+            placeholder={<FormattedMessage id="settings.country" />}
             inputProps={{
               name: "country",
               id: "country"
@@ -160,9 +160,13 @@ class AddCountries extends Component {
             {fullCountriesList}
           </Select>
         </FormControl>
-        <Button onClick={this.onClickHandler}>Изменить</Button>
+        <Button onClick={this.onClickHandler}>
+          <FormattedMessage id="settings.change" />
+        </Button>
         <div>
-          <h3>Включенные страны</h3>
+          <h3>
+            <FormattedMessage id="settings.title" />
+          </h3>
         </div>
         <List>{countriesList}</List>
       </div>

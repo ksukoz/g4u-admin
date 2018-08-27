@@ -90,6 +90,11 @@ export default {
       inputLabel: "Type person`s name",
       inputUserLabel: "Type user`s login",
       combine: "Merge"
+    },
+    settings: {
+      country: "Choose country",
+      title: "Turned on countries",
+      change: "Change"
     }
   },
   uk: {
@@ -183,6 +188,11 @@ export default {
       inputLabel: "Введіть ім'я персонажа",
       inputUserLabel: "Введіть логін користувача",
       combine: "Об'єднати"
+    },
+    settings: {
+      country: "Обрати країну",
+      title: "Включені країни",
+      change: "Змінити"
     }
   },
   "ru-RU": {
@@ -277,6 +287,11 @@ export default {
       inputLabel: "Введите имя персонажа",
       inputUserLabel: "Введите логин пользователя",
       combine: "Объединить"
+    },
+    settings: {
+      country: "Выбрать страну",
+      title: "Включенные страны",
+      change: "Изменить"
     }
   }
 };
