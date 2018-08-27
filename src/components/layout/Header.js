@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import compose from "recompose/compose";
 import { setLanguage } from "../../actions/languageActions";
 import { FormattedMessage } from "react-intl";
@@ -10,8 +9,6 @@ import { Link } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -40,8 +37,6 @@ const theme = createMuiTheme({
     // error: will use the default color
   }
 });
-
-const drawerWidth = 295;
 
 const styles = {
   root: {

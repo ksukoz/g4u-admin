@@ -143,8 +143,6 @@ class AddStuff extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const newStuffMember = {
       name: this.state.name,
       surename: this.state.surname,
@@ -171,6 +169,12 @@ class AddStuff extends Component {
   componentDidMount() {
     this.props.getStuffTypes();
   }
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
 
   render() {
     const { classes } = this.props;

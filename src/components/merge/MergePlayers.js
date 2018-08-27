@@ -133,14 +133,18 @@ class MergePlayers extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const merging = {
       usId: this.state.usId,
       playerId: this.state.playersId
     };
 
     this.props.mergePlayer(merging);
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
   };
 
   render() {

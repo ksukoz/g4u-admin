@@ -31,9 +31,8 @@ const styles = {
     color: "#fff",
     marginBottom: "1rem"
   },
-  error: {
-    color: "#ff5e5e",
-    paddingBottom: "2rem"
+  success: {
+    backgroundColor: "#43A047"
   },
   error: {
     backgroundColor: "#ff5e5e"
@@ -42,16 +41,13 @@ const styles = {
 
 class Login extends Component {
   state = {
-    open: true,
+    open: false,
     email: "",
-    password: "",
-    errors: ""
+    password: ""
   };
 
   onSubmitHandler = e => {
     e.preventDefault();
-
-    this.setState({ ...this.state, open: true });
 
     const user = {
       email: this.state.email,
@@ -74,6 +70,12 @@ class Login extends Component {
     this.setState({ open: false });
   };
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
+
   render() {
     const { classes } = this.props;
     const { isAuthenticated } = this.props.auth;
@@ -90,6 +92,13 @@ class Login extends Component {
             message={this.props.errors}
             onClose={this.handleClose}
             classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
           />
         ) : (
           ""

@@ -81,8 +81,6 @@ class AddFranchise extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const newFranchise = {
       name: this.state.name,
       login: this.state.login,
@@ -91,6 +89,12 @@ class AddFranchise extends Component {
     };
 
     this.props.addFranchise(newFranchise);
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
   };
 
   render() {

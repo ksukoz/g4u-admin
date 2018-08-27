@@ -28,6 +28,7 @@ export default {
     leagues: {
       tableHeading: "League's name",
       nameLabel: "League's name",
+      descLabel: "Description",
       showLabel: "Show on website and in the app",
       countryLabel: "Choose country",
       submit: "Save"
@@ -126,6 +127,7 @@ export default {
     leagues: {
       tableHeading: "Назва ліги",
       nameLabel: "Назва ліги",
+      descLabel: "Описання",
       showLabel: "Показувати на сайті та у додатку",
       countryLabel: "Обрати країну",
       submit: "Зберегти"
@@ -224,6 +226,7 @@ export default {
     leagues: {
       tableHeading: "Название лиги",
       nameLabel: "Название лиги",
+      descLabel: "Описание",
       showLabel: "Показывать на сайте и в приложении",
       countryLabel: "Выбрать страну",
       submit: "Сохранить"

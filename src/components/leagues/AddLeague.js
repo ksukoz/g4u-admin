@@ -171,8 +171,6 @@ class AddLeague extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const newLeague = {
       name: this.state.name,
       description: this.state.desc,
@@ -191,6 +189,12 @@ class AddLeague extends Component {
   componentWillMount() {
     this.props.getCountries();
   }
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
 
   render() {
     const { classes } = this.props;
@@ -235,12 +239,13 @@ class AddLeague extends Component {
             />
             <TextField
               id="multiline-flexible"
-              label="Multiline"
+              label={<FormattedMessage id="leagues.descLabel" />}
               multiline
               rows="4"
               value={this.state.desc}
               onChange={this.onChangeHandler}
               className={classes.input}
+              name="desc"
               margin="normal"
             />
             <FormControlLabel

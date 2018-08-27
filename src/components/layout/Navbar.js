@@ -20,16 +20,12 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 
-import Agenda from "./navigation-icons/agenda.svg";
 import GroupIcon from "./navigation-icons/group.svg";
 import Handshake from "./navigation-icons/handshake.svg";
 import League from "./navigation-icons/league.svg";
 import Player from "./navigation-icons/player.svg";
-import Newspaper from "./navigation-icons/newspaper.svg";
 import Referee from "./navigation-icons/referee.svg";
-import Contacts from "./navigation-icons/agenda.svg";
 import Settings from "./navigation-icons/settings.svg";
-import FootballPlayers from "./navigation-icons/football-shirt.svg";
 
 const drawerWidth = 300;
 

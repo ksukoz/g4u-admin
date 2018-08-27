@@ -162,8 +162,6 @@ class AddPlayers extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const newPlayer = {
       name: this.state.name,
       surename: this.state.surname,
@@ -197,6 +195,12 @@ class AddPlayers extends Component {
   componentDidMount() {
     this.props.getPositions();
   }
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
 
   render() {
     const { classes } = this.props;

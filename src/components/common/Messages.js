@@ -4,15 +4,6 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-const styles = theme => ({
-  success: {
-    backgroundColor: "#43A047"
-  },
-  error: {
-    backgroundColor: "#ff5e5e"
-  }
-});
-
 const Messages = props => {
   return (
     <div>

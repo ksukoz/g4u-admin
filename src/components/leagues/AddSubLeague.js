@@ -108,8 +108,6 @@ class AddSubLeague extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const newSubLeague = {
       name: this.state.name,
       status: this.state.status,
@@ -122,6 +120,12 @@ class AddSubLeague extends Component {
 
   componentDidMount = () => {
     this.props.getLeagues();
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
   };
 
   render() {

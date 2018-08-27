@@ -132,14 +132,18 @@ class MergeStuff extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    this.setState({ ...this.state, open: true });
-
     const merging = {
       usId: this.state.usId,
       persId: this.state.persId
     };
 
     this.props.mergeStuff(merging);
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
   };
 
   render() {
