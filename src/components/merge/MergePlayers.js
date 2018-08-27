@@ -242,7 +242,7 @@ class MergePlayers extends Component {
 
         <div className={classes.wrapper}>
           <TextField
-            label={<FormattedMessage id="combine.inputLabel" />}
+            label={<FormattedMessage id="combine.inputUserLabel" />}
             name="nickname"
             className={classes.input}
             value={this.state.nickname}

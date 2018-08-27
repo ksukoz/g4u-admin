@@ -87,7 +87,8 @@ export default {
       tableUser: "User",
       tableAccept: "Accept",
       tableCancel: "Cancel",
-      inputLabel: "At least 3 letters",
+      inputLabel: "Type person`s name",
+      inputUserLabel: "Type user`s login",
       combine: "Merge"
     }
   },
@@ -179,7 +180,8 @@ export default {
       tableUser: "Користувач",
       tableAccept: "Схвалити",
       tableCancel: "Скасувати",
-      inputLabel: "Мінімум 3 літери",
+      inputLabel: "Введіть ім'я персонажа",
+      inputUserLabel: "Введіть логін користувача",
       combine: "Об'єднати"
     }
   },
@@ -272,7 +274,8 @@ export default {
       tableUser: "Пользователь",
       tableAccept: "Принять",
       tableCancel: "Отменить",
-      inputLabel: "Минимум 3 букви",
+      inputLabel: "Введите имя персонажа",
+      inputUserLabel: "Введите логин пользователя",
       combine: "Объединить"
     }
   }
