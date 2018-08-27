@@ -62,16 +62,8 @@ const styles = {
       duration: theme.transitions.duration.leavingScreen
     })
   },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  hide: {
-    display: "none"
+  title: {
+    marginLeft: "2rem"
   },
   logout: {
     marginLeft: "auto",
@@ -131,29 +123,17 @@ class Header extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          <AppBar
-            position="fixed"
-            className={classNames(
-              classes.appBar,
-              this.props.common.open && classes.appBarShift
-            )}
-          >
+          <AppBar position="absolute" className={classes.appBar}>
             <Toolbar
               className={classes.tollbar}
               disableGutters={!this.props.common.open}
             >
-              <IconButton
+              <Typography
+                variant="title"
                 color="inherit"
-                aria-label="Open drawer"
-                onClick={this.props.handleDrawerOpen}
-                className={classNames(
-                  classes.menuButton,
-                  this.props.common.open && classes.hide
-                )}
+                noWrap
+                className={classes.title}
               >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
                 {this.props.common.activeLink
                   ? this.props.common.activeLink
                   : "Лиги"}

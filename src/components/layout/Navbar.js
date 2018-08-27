@@ -31,7 +31,7 @@ import Contacts from "./navigation-icons/agenda.svg";
 import Settings from "./navigation-icons/settings.svg";
 import FootballPlayers from "./navigation-icons/football-shirt.svg";
 
-const drawerWidth = 295;
+const drawerWidth = 300;
 
 const styles = theme => ({
   drawerPaper: {
@@ -43,21 +43,10 @@ const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen
     })
   },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 13
-    }
-  },
   wrapper: {
     position: "fixed",
-    height: "100vh"
-    // boxShadow: "inset 0 0 1px rgba(0, 0, 0, 0.8)"
+    height: "100vh",
+    paddingTop: "1rem"
   },
   toolbar: {
     display: "flex",
@@ -83,15 +72,11 @@ const styles = theme => ({
   nav_icon: {
     width: 40,
     paddingRight: 10
-  },
-  hide: {
-    display: "none"
   }
 });
 
 class Navbar extends React.Component {
   state = {
-    open: false,
     first: false,
     second: false
   };
@@ -115,10 +100,7 @@ class Navbar extends React.Component {
       <Drawer
         variant="permanent"
         classes={{
-          paper: classNames(
-            classes.drawerPaper,
-            !this.props.common.open && classes.drawerPaperClose
-          )
+          paper: classNames(classes.drawerPaper)
         }}
       >
         <div className={classes.wrapper}>
@@ -152,12 +134,9 @@ class Navbar extends React.Component {
                   )}
                 >
                   <ListItem button>
-                    <ListItemText
-                      className={!this.props.common.open ? classes.hide : ""}
-                    >
+                    <ListItemText>
                       <ListItemText
                         primary={<FormattedMessage id="nav.leagues" />}
-                        className={!this.props.common.open ? classes.hide : ""}
                       />
                     </ListItemText>
                   </ListItem>
