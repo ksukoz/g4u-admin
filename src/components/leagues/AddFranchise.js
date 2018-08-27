@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import compose from "recompose/compose";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
+
+import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
@@ -46,11 +48,18 @@ const styles = theme => ({
     borderRadius: 40,
     color: "#fff",
     marginBottom: "1rem"
+  },
+  success: {
+    backgroundColor: "#43A047"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 });
 
 class AddFranchise extends Component {
   state = {
+    open: false,
     name: "",
     login: "",
     email: "",
@@ -61,8 +70,18 @@ class AddFranchise extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
   onSubmitHandler = e => {
     e.preventDefault();
+
+    this.setState({ ...this.state, open: true });
 
     const newFranchise = {
       name: this.state.name,
@@ -78,6 +97,23 @@ class AddFranchise extends Component {
     const { classes } = this.props;
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <form onSubmit={this.onSubmitHandler} className={classes.form}>
           <div className={classes.input_wrap}>
             <TextField
@@ -130,7 +166,8 @@ class AddFranchise extends Component {
 }
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(

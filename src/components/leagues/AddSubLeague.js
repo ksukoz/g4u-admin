@@ -7,6 +7,7 @@ import { addSubLeague } from "../../actions/leagueActions";
 import { getCities, getRegions } from "../../actions/locationActions";
 import { getLeagues } from "../../actions/leagueActions";
 
+import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -56,11 +57,18 @@ const styles = theme => ({
     borderRadius: 40,
     color: "#fff",
     marginBottom: "1rem"
+  },
+  success: {
+    backgroundColor: "#43A047"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 });
 
 class AddSubLeague extends Component {
   state = {
+    open: false,
     name: "",
     status: false,
     league: null,
@@ -89,13 +97,24 @@ class AddSubLeague extends Component {
     this.props.getCities(e.target.value);
   };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
   onSubmitHandler = e => {
     e.preventDefault();
+
+    this.setState({ ...this.state, open: true });
+
     const newSubLeague = {
       name: this.state.name,
       status: this.state.status,
       city_id: this.state.city,
-      league_id: this.state.league.id
+      league_id: this.state.league !== null ? this.state.league.id : ""
     };
 
     this.props.addSubLeague(newSubLeague);
@@ -143,6 +162,23 @@ class AddSubLeague extends Component {
 
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <form className={classes.input_wrap} onSubmit={this.onSubmitHandler}>
           <TextField
             label={<FormattedMessage id="subLeagues.nameLabel" />}
@@ -239,7 +275,9 @@ class AddSubLeague extends Component {
 
 const mapStateToProps = state => ({
   location: state.location,
-  league: state.league
+  league: state.league,
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(
