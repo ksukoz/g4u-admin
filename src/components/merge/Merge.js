@@ -53,6 +53,7 @@ class Merge extends Component {
     e.target.tagName !== "BUTTON"
       ? (button = e.target.parentNode)
       : (button = e.target);
+
     const newReq = {
       type: button.dataset.type,
       id: button.dataset.id,

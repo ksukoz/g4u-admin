@@ -4,7 +4,7 @@ import {
   GET_POSITION,
   GET_PLAYERS,
   GET_PLAYERS_BY_NAME,
-  MERGE_PLAYER
+  GET_MESSAGES
 } from "../actions/types";
 
 export const getPositions = () => dispatch => {
@@ -73,6 +73,11 @@ export const addPlayer = stuffData => dispatch => {
           type: GET_ERRORS,
           payload: res.data.message
         });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
       }
     });
 };
@@ -89,7 +94,12 @@ export const mergePlayer = playerData => dispatch => {
     .then(res => {
       if (res.data.error) {
         dispatch({
-          type: MERGE_PLAYER,
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
           payload: res.data.message
         });
       }

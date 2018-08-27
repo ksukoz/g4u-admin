@@ -1,9 +1,5 @@
 import axios from "axios";
-import {
-  // GET_CURRENT_LEAGUE,
-  GET_LEAGUES,
-  GET_ERRORS
-} from "./types";
+import { GET_MESSAGES, GET_LEAGUES, GET_ERRORS } from "./types";
 
 // Get leagues
 export const getLeagues = () => dispatch => {
@@ -39,6 +35,11 @@ export const addFranchise = franhiseData => dispatch => {
           type: GET_ERRORS,
           payload: res.data.message
         });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
       }
     });
 };
@@ -59,6 +60,11 @@ export const addLeague = leagueData => dispatch => {
           type: GET_ERRORS,
           payload: res.data.message
         });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
       }
     });
 };
@@ -77,6 +83,11 @@ export const addSubLeague = subLeagueData => dispatch => {
       if (res.data.error) {
         dispatch({
           type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
           payload: res.data.message
         });
       }

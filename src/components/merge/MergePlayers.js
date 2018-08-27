@@ -6,6 +6,7 @@ import { FormattedMessage } from "react-intl";
 import { getPlayersByName, mergePlayer } from "../../actions/playerActions";
 import { getUsersByName } from "../../actions/userActions";
 
+import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -69,16 +70,22 @@ const styles = theme => ({
   checked: {},
   cell: {
     padding: "10px"
+  },
+  success: {
+    backgroundColor: "#43A047"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 });
 
 class MergePlayers extends Component {
   state = {
+    open: false,
     name: "",
     nickname: "",
     usId: "",
-    playersId: "",
-    alert: ""
+    playersId: ""
   };
 
   onRadioChangeHandler = e => {
@@ -86,6 +93,14 @@ class MergePlayers extends Component {
       ...this.state,
       [e.target.name]: e.target.value
     });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
   };
 
   onChangeHandler = e => {
@@ -118,23 +133,14 @@ class MergePlayers extends Component {
   onSubmit = e => {
     e.preventDefault();
 
+    this.setState({ ...this.state, open: true });
+
     const merging = {
       usId: this.state.usId,
       playerId: this.state.playersId
     };
 
-    if (!merging.usId || !merging.playerId) {
-      this.setState({
-        ...this.state,
-        alert: "Выбирете и пользователя, и игрока"
-      });
-    } else {
-      this.props.mergePlayer(merging);
-      this.setState({
-        ...this.state,
-        alert: "Вы успешно объединили персонажей"
-      });
-    }
+    this.props.mergePlayer(merging);
   };
 
   render() {
@@ -207,8 +213,20 @@ class MergePlayers extends Component {
 
     return (
       <div className={classes.container}>
-        {this.state.alert ? (
-          <Paper className={classes.alert}>{this.state.alert}</Paper>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
         ) : (
           ""
         )}
@@ -283,7 +301,9 @@ class MergePlayers extends Component {
 
 const mapStateToProps = state => ({
   players: state.players,
-  users: state.users
+  users: state.users,
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(

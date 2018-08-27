@@ -4,7 +4,8 @@ import {
   GET_STUFF_MEMBERS,
   GET_STUFF_MEMBERS_BY_NAME,
   MERGE_STUFF,
-  GET_ERRORS
+  GET_ERRORS,
+  GET_MESSAGES
 } from "../actions/types";
 
 export const getStuffTypes = () => dispatch => {
@@ -73,6 +74,11 @@ export const addStuffMember = stuffData => dispatch => {
           type: GET_ERRORS,
           payload: res.data.message
         });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
       }
     });
 };
@@ -89,7 +95,12 @@ export const mergeStuff = stuffData => dispatch => {
     .then(res => {
       if (res.data.error) {
         dispatch({
-          type: MERGE_STUFF,
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
           payload: res.data.message
         });
       }

@@ -6,6 +6,7 @@ import { FormattedMessage } from "react-intl";
 import { getStuffMembersByName, mergeStuff } from "../../actions/stuffActions";
 import { getUsersByName } from "../../actions/userActions";
 
+import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -69,16 +70,22 @@ const styles = theme => ({
   checked: {},
   cell: {
     padding: "10px"
+  },
+  success: {
+    backgroundColor: "#43A047"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 });
 
 class MergeStuff extends Component {
   state = {
+    open: false,
     name: "",
     nickname: "",
     usId: "",
-    persId: "",
-    alert: ""
+    persId: ""
   };
 
   onRadioChangeHandler = e => {
@@ -86,6 +93,14 @@ class MergeStuff extends Component {
       ...this.state,
       [e.target.name]: e.target.value
     });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
   };
 
   onChangeHandler = e => {
@@ -117,23 +132,14 @@ class MergeStuff extends Component {
   onSubmit = e => {
     e.preventDefault();
 
+    this.setState({ ...this.state, open: true });
+
     const merging = {
       usId: this.state.usId,
       persId: this.state.persId
     };
 
-    if (!merging.usId || !merging.persId) {
-      this.setState({
-        ...this.state,
-        alert: "Выбирете и пользователя, и персонал"
-      });
-    } else {
-      this.props.mergeStuff(merging);
-      this.setState({
-        ...this.state,
-        alert: "Вы успешно объединили персонажей"
-      });
-    }
+    this.props.mergeStuff(merging);
   };
 
   render() {
@@ -206,8 +212,20 @@ class MergeStuff extends Component {
 
     return (
       <div className={classes.container}>
-        {this.state.alert ? (
-          <Paper className={classes.alert}>{this.state.alert}</Paper>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
         ) : (
           ""
         )}
@@ -282,7 +300,9 @@ class MergeStuff extends Component {
 
 const mapStateToProps = state => ({
   stuff: state.stuff,
-  users: state.users
+  users: state.users,
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(
