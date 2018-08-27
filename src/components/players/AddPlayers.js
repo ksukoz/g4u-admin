@@ -9,6 +9,7 @@ import { addPlayer, getPositions } from "../../actions/playerActions";
 
 import InputFile from "../common/InputFile";
 
+import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -22,7 +23,8 @@ import Button from "@material-ui/core/Button";
 const styles = theme => ({
   root: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    flexWrap: "wrap"
   },
   form: {
     width: "49%"
@@ -66,12 +68,19 @@ const styles = theme => ({
   birthday: {
     marginTop: "1rem",
     width: "100%"
+  },
+  success: {
+    backgroundColor: "#43A047"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 });
 
 class AddPlayers extends Component {
   state = {
     open: false,
+    openModal: false,
     name: "",
     surname: "",
     patronymic: "",
@@ -97,7 +106,7 @@ class AddPlayers extends Component {
   onChangeFileHandler = e => {
     const reader = new FileReader();
     if (e.target.files[0]) {
-      this.setState({ ...this.state, open: true });
+      this.setState({ ...this.state, openModal: true });
       reader.readAsDataURL(e.target.files[0]);
       reader.addEventListener(
         "load",
@@ -153,6 +162,8 @@ class AddPlayers extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
+    this.setState({ ...this.state, open: true });
+
     const newPlayer = {
       name: this.state.name,
       surename: this.state.surname,
@@ -171,7 +182,15 @@ class AddPlayers extends Component {
     this.props.addPlayer(newPlayer);
   };
 
-  handleClose = () => {
+  handleCloseModal = () => {
+    this.setState({ openModal: false });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
     this.setState({ open: false });
   };
 
@@ -338,8 +357,8 @@ class AddPlayers extends Component {
           </form>
 
           <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={this.state.openModal}
+            onClose={this.handleCloseModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -356,7 +375,7 @@ class AddPlayers extends Component {
               )}
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} autoFocus>
+              <Button onClick={this.handleCloseModal} autoFocus>
                 <FormattedMessage id="stuff.close" />
               </Button>
             </DialogActions>
@@ -369,13 +388,32 @@ class AddPlayers extends Component {
             ""
           )}
         </div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  players: state.players
+  players: state.players,
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(

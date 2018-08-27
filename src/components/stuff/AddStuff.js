@@ -9,6 +9,7 @@ import { getStuffTypes, addStuffMember } from "../../actions/stuffActions";
 
 import InputFile from "../common/InputFile";
 
+import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -55,12 +56,19 @@ const styles = theme => ({
     borderRadius: 40,
     color: "#fff",
     marginBottom: "1rem"
+  },
+  success: {
+    backgroundColor: "#43A047"
+  },
+  error: {
+    backgroundColor: "#ff5e5e"
   }
 });
 
 class AddStuff extends Component {
   state = {
     open: false,
+    openModal: false,
     name: "",
     surname: "",
     patronymic: "",
@@ -79,7 +87,7 @@ class AddStuff extends Component {
   onChangeFileHandler = e => {
     const reader = new FileReader();
     if (e.target.files[0]) {
-      this.setState({ ...this.state, open: true });
+      this.setState({ ...this.state, openModal: true });
       reader.readAsDataURL(e.target.files[0]);
       reader.addEventListener(
         "load",
@@ -135,6 +143,8 @@ class AddStuff extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
+    this.setState({ ...this.state, open: true });
+
     const newStuffMember = {
       name: this.state.name,
       surename: this.state.surname,
@@ -146,7 +156,15 @@ class AddStuff extends Component {
     this.props.addStuffMember(newStuffMember);
   };
 
-  handleClose = () => {
+  handleCloseModal = () => {
+    this.setState({ openModal: false });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
     this.setState({ open: false });
   };
 
@@ -233,8 +251,8 @@ class AddStuff extends Component {
           </form>
 
           <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={this.state.openModal}
+            onClose={this.handleCloseModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -251,7 +269,7 @@ class AddStuff extends Component {
               )}
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} autoFocus>
+              <Button onClick={this.handleCloseModal} autoFocus>
                 <FormattedMessage id="stuff.close" />
               </Button>
             </DialogActions>
@@ -264,13 +282,32 @@ class AddStuff extends Component {
             ""
           )}
         </div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  stuff: state.stuff
+  stuff: state.stuff,
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(
