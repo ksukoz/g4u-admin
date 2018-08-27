@@ -118,7 +118,7 @@ class Header extends React.Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          <AppBar position="absolute" className={classes.appBar}>
+          <AppBar position="fixed" className={classes.appBar}>
             <Toolbar
               className={classes.tollbar}
               disableGutters={!this.props.common.open}

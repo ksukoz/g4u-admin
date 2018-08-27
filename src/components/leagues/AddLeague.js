@@ -96,7 +96,7 @@ class AddLeague extends Component {
       y: 30,
       width: 30,
       height: 30,
-      aspect: 16 / 9
+      aspect: 16 / 4
     }
   };
 
