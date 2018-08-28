@@ -4,22 +4,34 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
+import { getPlayersByName } from "../../actions/playerActions";
+
 import InputFile from "../common/InputFile";
 
 import Messages from "../common/Messages";
+// import Downshift from "downshift";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import List from "@material-ui/core/List";
+import TableRow from "@material-ui/core/TableRow";
+import Radio from "@material-ui/core/Radio";
+import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    justifyContent: "space-between"
+    color: "#55a462",
+    "&$checked": {
+      color: "#55a462"
+    }
   },
   checkbox: {
     color: "#43A047",
@@ -49,6 +61,21 @@ const styles = theme => ({
   },
   select: {
     width: "100%"
+  },
+  listWrap: {
+    position: "relative",
+    zIndex: 2
+  },
+  list: {
+    position: "absolute",
+    width: "100%",
+    background: "#fff",
+    boxShadow: "0 5px 1rem rgba(0,0,0,.5)",
+    padding: 0
+  },
+  listItem: {
+    padding: "8px",
+    height: "auto"
   },
   button: {
     margin: theme.spacing.unit,
@@ -89,7 +116,10 @@ class AddCommands extends Component {
   state = {
     open: false,
     name: "",
-    image: ""
+    playerName: "",
+    playersId: "",
+    image: "",
+    playersList: null
   };
 
   onChangeFileHandler = e => {
@@ -111,14 +141,70 @@ class AddCommands extends Component {
 
   onChangeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
+
+    if (e.target.name === "playerName" && e.target.value.length >= 3) {
+      this.props.getPlayersByName(e.target.value);
+    }
+  };
+
+  onRadioChangeHandler = e => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  onClickHandler = (type, player) => {
+    if (type === "player") {
+      this.setState({
+        ...this.state,
+        playerName: player,
+        playersList: null
+      });
+    }
   };
 
   toggleChange = () => {
     this.setState({ status: !this.state.status });
   };
 
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.players.members) {
+      this.setState({ ...this.state, playersList: nextProps.players.members });
+    }
+  };
+
   render() {
     const { classes } = this.props;
+    // const { members } = this.props.players;
+
+    // let memberList;
+
+    // if (members !== null) {
+    //   memberList = members.map(member => (
+    //     <MenuItem
+    //       key={member.player_id}
+    //       className={classes.listItem}
+    //       component="div"
+    //       onClick={this.onClickHandler.bind(
+    //         this,
+    //         "player",
+    //         `${member.surename} ${member.name} ${member.patronymic}`
+    //       )}
+    //     >
+    //       <span>
+    //         <img
+    //           src={member.photo}
+    //           style={{ width: "50px", marginRight: 8 }}
+    //           alt=""
+    //         />
+    //       </span>
+    //       <span>{`${member.surename} ${member.name} ${
+    //         member.patronymic
+    //       }`}</span>
+    //     </MenuItem>
+    //   ));
+    // }
 
     return (
       <div className={classes.wrap}>
@@ -145,7 +231,7 @@ class AddCommands extends Component {
             />
             <div className={classes.imgWrap}>
               <InputFile
-                type="image"
+                type="png"
                 name="photo"
                 onChange={this.onChangeFileHandler}
               />
@@ -155,6 +241,46 @@ class AddCommands extends Component {
                 ""
               )}
             </div>
+            <TextField
+              label={<FormattedMessage id="combine.inputLabel" />}
+              name="playerName"
+              className={classes.input}
+              value={this.state.playerName}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <Paper className={classes.listWrap}>
+              {this.state.playersList !== null ? (
+                // <List className={classes.list}>{memberList}</List>
+                <List className={classes.list}>
+                  {this.state.playersList.map(player => (
+                    <MenuItem
+                      key={player.player_id}
+                      className={classes.listItem}
+                      component="div"
+                      onClick={this.onClickHandler.bind(
+                        this,
+                        "player",
+                        `${player.surename} ${player.name} ${player.patronymic}`
+                      )}
+                    >
+                      <span>
+                        <img
+                          src={player.photo}
+                          style={{ width: "50px", marginRight: 8 }}
+                          alt=""
+                        />
+                      </span>
+                      <span>{`${player.surename} ${player.name} ${
+                        player.patronymic
+                      }`}</span>
+                    </MenuItem>
+                  ))}
+                </List>
+              ) : (
+                ""
+              )}
+            </Paper>
             <Button
               variant="contained"
               color="primary"
@@ -199,6 +325,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    null
+    { getPlayersByName }
   )
 )(AddCommands);
