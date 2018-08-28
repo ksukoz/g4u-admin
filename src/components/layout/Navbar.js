@@ -195,6 +195,23 @@ class Navbar extends React.Component {
             </Link>
 
             <Link
+              to="/commands"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.commands" />
+              )}
+            >
+              <ListItem button>
+                <img className={classes.nav_icon} src={Player} alt="" />
+                <ListItemText
+                  className={!this.props.common.open ? classes.hide : ""}
+                  primary={<FormattedMessage id="nav.commands" />}
+                />
+              </ListItem>
+            </Link>
+
+            <Link
               to="/players"
               className={classes.nav_link}
               onClick={this.onClickHandler.bind(

@@ -18,6 +18,7 @@ export default {
       leagues: "Leagues",
       subLeagues: "Subleagues",
       stuff: "Stuff",
+      commands: "Commands",
       players: "Players",
       combining: "Combining",
       combineAppointments: "Combining Appointments",
@@ -60,6 +61,11 @@ export default {
       submit: "Save",
       add: "Add stuff",
       close: "Close"
+    },
+    commands: {
+      nameLabel: "Command`s name",
+      showLabel: "Show on website and in the app",
+      submit: "Create"
     },
     players: {
       tableName: "Players' full name",
@@ -117,6 +123,7 @@ export default {
       leagues: "Ліги",
       subLeagues: "Підліги",
       stuff: "Персонал",
+      commands: "Команди",
       players: "Гравці",
       combining: "Об'єднання",
       combineAppointments: "Запити на Об'єднання",
@@ -159,6 +166,11 @@ export default {
       submit: "Зберегти",
       add: "Додати персонал",
       close: "Закрити"
+    },
+    commands: {
+      nameLabel: "Назва команди",
+      showLabel: "Показувати на сайті та у додатку",
+      submit: "Створити"
     },
     players: {
       tableName: "ПІБ гравця",
@@ -216,6 +228,7 @@ export default {
       leagues: "Лиги",
       subLeagues: "Подлиги",
       stuff: "Персонал",
+      commands: "Команды",
       players: "Игроки",
       combining: "Объединение",
       combineAppointments: "Запросы на Объединение",
@@ -258,6 +271,11 @@ export default {
       submit: "Сохранить",
       add: "Добавить персонал",
       close: "Закрыть"
+    },
+    commands: {
+      nameLabel: "Название команды",
+      showLabel: "Показывать на сайте и в приложении",
+      submit: "Создать"
     },
     players: {
       tableName: "ФИО",
