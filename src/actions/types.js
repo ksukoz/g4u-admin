@@ -25,6 +25,8 @@ export const MERGE_STUFF = "MERGE_STUFF";
 export const GET_USERS = "GET_USERS";
 export const GET_USERS_BY_NAME = "GET_USERS_BY_NAME";
 
+export const GET_TOURNAMENTS = "GET_TOURNAMENTS";
+
 export const GET_POSITION = "GET_POSITION";
 export const GET_PLAYERS = "GET_PLAYERS";
 export const GET_PLAYERS_BY_NAME = "GET_PLAYERS_BY_NAME";

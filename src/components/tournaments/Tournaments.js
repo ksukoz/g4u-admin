@@ -6,8 +6,9 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
 import { getLeagues, getSubLeagues } from "../../actions/leagueActions";
+import { getTournaments } from "../../actions/tournamentActions";
 
-import Messages from "../common/Messages";
+import List from "@material-ui/core/List";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
@@ -85,7 +86,8 @@ class Tournaments extends Component {
     subLeague: "",
     region: "",
     city: "",
-    subLeagues: null
+    subLeagues: null,
+    tournamentsList: null
   };
 
   onLeagueChange = e => {
@@ -99,6 +101,7 @@ class Tournaments extends Component {
       this.setState({
         [e.target.name]: e.target.value
       });
+      this.props.getTournaments(e.target.value);
     }
   };
 
@@ -107,8 +110,14 @@ class Tournaments extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
+    // console.log(nextProps.tournaments);
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.tournaments.list !== null) {
+      this.setState({
+        ...this.state,
+        tournamentsList: nextProps.tournaments.list
+      });
     } else if (nextProps.league.subLeagues !== null) {
       this.setState({ ...this.state, subLeagues: nextProps.league.subLeagues });
     }
@@ -134,77 +143,96 @@ class Tournaments extends Component {
 
     return (
       <div>
-        <FormControl className={classes.input}>
-          <InputLabel htmlFor="league">
-            <FormattedMessage id="subLeagues.leagueLabel" />
-          </InputLabel>
-          <Select
-            value={
-              this.state.league !== null
-                ? JSON.stringify(this.state.league)
-                : ""
+        <div>
+          <FormControl className={classes.input}>
+            <InputLabel htmlFor="league">
+              <FormattedMessage id="subLeagues.leagueLabel" />
+            </InputLabel>
+            <Select
+              value={
+                this.state.league !== null
+                  ? JSON.stringify(this.state.league)
+                  : ""
+              }
+              className={classes.select}
+              onChange={this.onLeagueChange}
+              inputProps={{
+                name: "league",
+                id: "league"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {leaguesList}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.input}>
+            <InputLabel htmlFor="subLeague">
+              <FormattedMessage id="subLeagues.leagueLabel" />
+            </InputLabel>
+            <Select
+              value={this.state.subLeague}
+              className={classes.select}
+              onChange={this.onLeagueChange}
+              inputProps={{
+                name: "subLeague",
+                id: "subLeague"
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {this.state.subLeagues !== null
+                ? this.state.subLeagues.map(league => (
+                    <MenuItem key={league.sblgId} value={league.sblgId}>
+                      {league.name}
+                    </MenuItem>
+                  ))
+                : ""}
+            </Select>
+          </FormControl>
+          <Link
+            className={classes.button_link}
+            to={
+              this.state.subLeague
+                ? `/tournaments/add/${this.state.subLeague}`
+                : "/"
             }
-            className={classes.select}
-            onChange={this.onLeagueChange}
-            inputProps={{
-              name: "league",
-              id: "league"
-            }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {leaguesList}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.input}>
-          <InputLabel htmlFor="subLeague">
-            <FormattedMessage id="subLeagues.leagueLabel" />
-          </InputLabel>
-          <Select
-            value={this.state.subLeague}
-            className={classes.select}
-            onChange={this.onLeagueChange}
-            inputProps={{
-              name: "subLeague",
-              id: "subLeague"
-            }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {this.state.subLeagues !== null
-              ? this.state.subLeagues.map(league => (
-                  <MenuItem key={league.sblgId} value={league.sblgId}>
-                    {league.name}
-                  </MenuItem>
-                ))
+            <Button
+              variant="extendedFab"
+              className={classes.button}
+              disabled={!this.state.subLeague}
+            >
+              <FormattedMessage id="tournaments.add" />
+            </Button>
+          </Link>
+        </div>
+        <div>
+          <List>
+            {this.state.tournamentsList !== null
+              ? // <MenuItem
+                //   key={league.id}
+                //   value={JSON.stringify({
+                //     country: league.country,
+                //     id: league.id
+                //   })}
+                //   data-id={league.id}
+                // >
+                //   {league.title}
+                // </MenuItem>
+                ""
               : ""}
-          </Select>
-        </FormControl>
-        <Link
-          className={classes.button_link}
-          to={
-            this.state.subLeague
-              ? `/tournaments/add/${this.state.subLeague}`
-              : "/"
-          }
-        >
-          <Button
-            variant="extendedFab"
-            className={classes.button}
-            disabled={!this.state.subLeague}
-          >
-            <FormattedMessage id="tournaments.add" />
-          </Button>
-        </Link>
+          </List>
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  location: state.location,
+  tournaments: state.tournaments,
   league: state.league,
   errors: state.errors,
   messages: state.messages
@@ -214,6 +242,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getLeagues, getSubLeagues }
+    { getLeagues, getSubLeagues, getTournaments }
   )
 )(Tournaments);

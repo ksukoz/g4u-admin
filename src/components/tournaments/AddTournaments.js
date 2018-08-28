@@ -4,6 +4,8 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
+import { addTournament } from "../../actions/tournamentActions";
+
 import Messages from "../common/Messages";
 
 import TextField from "@material-ui/core/TextField";
@@ -65,6 +67,7 @@ const styles = theme => ({
 
 class AddTournaments extends Component {
   state = {
+    open: false,
     subLeague: "",
     name: "",
     vk: "",
@@ -96,9 +99,23 @@ class AddTournaments extends Component {
     this.props.addTournament(newTournament);
   };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
   toggleChange = e => {
     this.setState({ [e.target.name]: !this.state[e.target.name] });
     console.log(e.target);
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
   };
 
   componentDidMount() {
@@ -113,6 +130,23 @@ class AddTournaments extends Component {
 
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <form className="player__form" onSubmit={this.onSubmitHandler}>
           <TextField
             label={<FormattedMessage id="tournaments.nameLabel" />}
@@ -203,6 +237,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    null
+    { addTournament }
   )
 )(AddTournaments);
