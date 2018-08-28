@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_MESSAGES, GET_LEAGUES, GET_ERRORS } from "./types";
+import {
+  GET_MESSAGES,
+  GET_LEAGUES,
+  GET_SUB_LEAGUES,
+  GET_ERRORS
+} from "./types";
 
 // Get leagues
 export const getLeagues = () => dispatch => {
@@ -14,6 +19,23 @@ export const getLeagues = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_LEAGUES,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getSubLeagues = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/portal/subleagues?lgId=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_SUB_LEAGUES,
         payload: res.data.answer
       });
     });

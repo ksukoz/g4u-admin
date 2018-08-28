@@ -14,6 +14,7 @@ export default {
     },
     nav: {
       manageLeagues: "Manage Leagues",
+      tournaments: "Tournaments",
       franchise: "Franchises",
       leagues: "Leagues",
       subLeagues: "Subleagues",
@@ -25,6 +26,17 @@ export default {
       combinePlayers: "Combining Players",
       combineStuff: "Combining Stuff",
       settings: "Settings"
+    },
+    tournaments: {
+      nameLabel: "Tournament`s name",
+      vkLabel: "Vkontakte",
+      fbLabel: "Facebook",
+      youtubeLabel: "Youtube",
+      ratingLabel: "Include games to commands rating",
+      showLabel: "Show on website and in the app",
+      typeLabel: "Choose tournament`s type",
+      submit: "Save",
+      add: "Add tournament"
     },
     leagues: {
       tableHeading: "League's name",
@@ -120,6 +132,7 @@ export default {
     },
     nav: {
       manageLeagues: "Керування лігами",
+      tournaments: "Турніри",
       franchise: "Франшизи",
       leagues: "Ліги",
       subLeagues: "Підліги",
@@ -131,6 +144,17 @@ export default {
       combinePlayers: "Об'єднання Гравців",
       combineStuff: "Об'єднання Персоналу",
       settings: "Налаштування"
+    },
+    tournaments: {
+      nameLabel: "Назва турніру",
+      vkLabel: "Vkontakte",
+      fbLabel: "Facebook",
+      youtubeLabel: "Youtube",
+      ratingLabel: "Ігри враховуються у рейтингу команд",
+      showLabel: "Показувати на сайті та у додатку",
+      typeLabel: "Обрати тип турніру",
+      submit: "Зберегти",
+      add: "Додати турнір"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -226,6 +250,7 @@ export default {
     },
     nav: {
       manageLeagues: "Управление лигами",
+      tournaments: "Турниры",
       franchise: "Франшизы",
       leagues: "Лиги",
       subLeagues: "Подлиги",
@@ -237,6 +262,17 @@ export default {
       combinePlayers: "Объединение Игроков",
       combineStuff: "Объединение Персонала",
       settings: "Настройки"
+    },
+    tournaments: {
+      nameLabel: "Название турнира",
+      vkLabel: "Vkontakte",
+      fbLabel: "Facebook",
+      youtubeLabel: "Youtube",
+      ratingLabel: "Игры идут в рейтинг команд",
+      showLabel: "Показывать на сайте и в приложении",
+      typeLabel: "Выбрать тип турнира",
+      submit: "Сохранить",
+      add: "Добавить турнир"
     },
     leagues: {
       tableHeading: "Название лиги",

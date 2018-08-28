@@ -41,7 +41,7 @@ const styles = theme => ({
   },
   wrapper: {
     position: "fixed",
-    height: "100vh",
+    minHeight: "100vh",
     paddingTop: "1rem"
   },
   toolbar: {
@@ -73,8 +73,8 @@ const styles = theme => ({
 
 class Navbar extends React.Component {
   state = {
-    first: false,
-    second: false
+    first: true,
+    second: true
   };
 
   handleClick = () => {
@@ -159,6 +159,23 @@ class Navbar extends React.Component {
                 </Link>
               </List>
             </Collapse>
+
+            <Link
+              to="/tournaments"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.tournaments" />
+              )}
+            >
+              <ListItem button>
+                <img className={classes.nav_icon} src={Handshake} alt="" />
+                <ListItemText
+                  className={!this.props.common.open ? classes.hide : ""}
+                  primary={<FormattedMessage id="nav.tournaments" />}
+                />
+              </ListItem>
+            </Link>
 
             <Link
               to="/franchise/add"

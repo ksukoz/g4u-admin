@@ -24,6 +24,8 @@ import Merge from "./components/merge/Merge";
 import AddPlayers from "./components/players/AddPlayers";
 import AddCountries from "./components/settings/AddCountries";
 import AddCommands from "./components/commands/AddCommands";
+import Tournaments from "./components/tournaments/Tournaments";
+import AddTournaments from "./components/tournaments/AddTournaments";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -59,6 +61,20 @@ class App extends Component {
                     exact
                     path="/franchise/add"
                     component={AddFranchise}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/tournaments"
+                    component={Tournaments}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/tournaments/add/:id`}
+                    component={AddTournaments}
                   />
                 </Switch>
                 <Switch>
