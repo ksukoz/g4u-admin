@@ -105,7 +105,7 @@ class MergePlayers extends Component {
 
   onChangeHandler = e => {
     if (e.target.name === "name" && e.target.value.length >= 3) {
-      this.props.getPlayersByName(e.target.value);
+      this.props.getPlayersByName(`${e.target.value}&tied=0`);
     } else if (e.target.name === "nickname" && e.target.value.length >= 3) {
       this.props.getUsersByName(e.target.value);
     }
@@ -246,14 +246,6 @@ class MergePlayers extends Component {
           <Paper className={classes.root}>
             {memberList ? (
               <Table className={classes.table}>
-                {/* <TableHead>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell>ФИО</TableCell>
-                    <TableCell>Должность</TableCell>
-                    <TableCell>Изображение</TableCell>
-                  </TableRow>
-                </TableHead> */}
                 <TableBody>{memberList}</TableBody>
               </Table>
             ) : (

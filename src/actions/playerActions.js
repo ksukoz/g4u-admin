@@ -43,7 +43,7 @@ export const getPlayers = () => dispatch => {
 
 export const getPlayersByName = search => dispatch => {
   axios
-    .get(`http://api.mygame4u.com/admin/players?name=${search}&tied=0`, {
+    .get(`http://api.mygame4u.com/admin/players?name=${search}`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

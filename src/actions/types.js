@@ -25,3 +25,4 @@ export const GET_MERGING = "GET_MERGING";
 export const OPEN_NAV = "OPEN_NAV";
 export const CLOSE_NAV = "CLOSE_NAV";
 export const SET_ACTIVE_LINK = "SET_ACTIVE_LINK";
+export const GET_COMMANDS_BY_NAME = "GET_COMMANDS_BY_NAME";

@@ -6,7 +6,7 @@ import { FormattedMessage } from "react-intl";
 
 import { getCountries } from "../../actions/locationActions";
 import { getPlayersByName } from "../../actions/playerActions";
-import { addCommand } from "../../actions/commandsActions";
+import { addCommand, getCommandsByName } from "../../actions/commandsActions";
 
 import InputFile from "../common/InputFile";
 
@@ -18,12 +18,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
 import List from "@material-ui/core/List";
-import TableRow from "@material-ui/core/TableRow";
-import Radio from "@material-ui/core/Radio";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
@@ -120,9 +115,12 @@ class AddCommands extends Component {
     name: "",
     playerName: "",
     playerId: "",
+    double: "",
+    doubleId: "",
     image: "",
     country: "",
-    playersList: null
+    playersList: null,
+    commandsList: null
   };
 
   onChangeFileHandler = e => {
@@ -146,7 +144,9 @@ class AddCommands extends Component {
     this.setState({ [e.target.name]: e.target.value });
 
     if (e.target.name === "playerName" && e.target.value.length >= 3) {
-      this.props.getPlayersByName(e.target.value);
+      this.props.getPlayersByName(`${e.target.value}&tied=1`);
+    } else if (e.target.name === "double" && e.target.value.length >= 3) {
+      this.props.getCommandsByName(e.target.value);
     }
   };
 
@@ -165,6 +165,13 @@ class AddCommands extends Component {
         playerId: id,
         playersList: null
       });
+    } else if (type === "command") {
+      this.setState({
+        ...this.state,
+        double: player,
+        doubleId: id,
+        commandsList: null
+      });
     }
   };
 
@@ -176,7 +183,8 @@ class AddCommands extends Component {
       player_id: this.state.playerId,
       status: this.state.status,
       country_id: this.state.country,
-      logo: this.state.image
+      logo: this.state.image,
+      sub_command_id: this.state.doubleId
     };
 
     this.props.addCommand(newCommand);
@@ -203,6 +211,11 @@ class AddCommands extends Component {
       this.setState({ ...this.state, open: true });
     } else if (nextProps.players.members) {
       this.setState({ ...this.state, playersList: nextProps.players.members });
+    } else if (nextProps.commands.commands) {
+      this.setState({
+        ...this.state,
+        commandsList: nextProps.commands.commands
+      });
     }
   };
 
@@ -314,6 +327,44 @@ class AddCommands extends Component {
                 ""
               )}
             </Paper>
+            <TextField
+              label={<FormattedMessage id="commands.doubleLabel" />}
+              name="double"
+              className={classes.input}
+              value={this.state.double}
+              onChange={this.onChangeHandler}
+              margin="normal"
+            />
+            <Paper className={classes.listWrap}>
+              {this.state.commandsList !== null ? (
+                <List className={classes.list}>
+                  {this.state.commandsList.map(command => (
+                    <MenuItem
+                      key={command.command_id}
+                      className={classes.listItem}
+                      component="div"
+                      onClick={this.onClickHandler.bind(
+                        this,
+                        "command",
+                        command.title,
+                        command.command_id
+                      )}
+                    >
+                      <span>
+                        <img
+                          src={command.logo}
+                          style={{ width: "50px", marginRight: 8 }}
+                          alt=""
+                        />
+                      </span>
+                      <span>{command.title}</span>
+                    </MenuItem>
+                  ))}
+                </List>
+              ) : (
+                ""
+              )}
+            </Paper>
             <Button
               variant="contained"
               color="primary"
@@ -351,6 +402,7 @@ class AddCommands extends Component {
 const mapStateToProps = state => ({
   location: state.location,
   players: state.players,
+  commands: state.commands,
   errors: state.errors,
   messages: state.messages
 });
@@ -359,6 +411,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlayersByName, addCommand, getCountries }
+    { getPlayersByName, addCommand, getCountries, getCommandsByName }
   )
 )(AddCommands);

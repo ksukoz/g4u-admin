@@ -65,6 +65,7 @@ export default {
     commands: {
       nameLabel: "Command`s name",
       showLabel: "Show on website and in the app",
+      doubleLabel: "Double",
       submit: "Create"
     },
     players: {
@@ -170,6 +171,7 @@ export default {
     commands: {
       nameLabel: "Назва команди",
       showLabel: "Показувати на сайті та у додатку",
+      doubleLabel: "Дубль",
       submit: "Створити"
     },
     players: {
@@ -275,6 +277,7 @@ export default {
     commands: {
       nameLabel: "Название команды",
       showLabel: "Показывать на сайте и в приложении",
+      doubleLabel: "Дубль",
       submit: "Создать"
     },
     players: {
