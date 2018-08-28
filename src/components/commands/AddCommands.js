@@ -4,7 +4,9 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
+import { getCountries } from "../../actions/locationActions";
 import { getPlayersByName } from "../../actions/playerActions";
+import { addCommand } from "../../actions/commandsActions";
 
 import InputFile from "../common/InputFile";
 
@@ -117,8 +119,9 @@ class AddCommands extends Component {
     open: false,
     name: "",
     playerName: "",
-    playersId: "",
+    playerId: "",
     image: "",
+    country: "",
     playersList: null
   };
 
@@ -154,57 +157,66 @@ class AddCommands extends Component {
     });
   };
 
-  onClickHandler = (type, player) => {
+  onClickHandler = (type, player, id) => {
     if (type === "player") {
       this.setState({
         ...this.state,
         playerName: player,
+        playerId: id,
         playersList: null
       });
     }
+  };
+
+  onSubmitHandler = e => {
+    e.preventDefault();
+
+    const newCommand = {
+      title: this.state.name,
+      player_id: this.state.playerId,
+      status: this.state.status,
+      country_id: this.state.country,
+      logo: this.state.image
+    };
+
+    this.props.addCommand(newCommand);
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
   };
 
   toggleChange = () => {
     this.setState({ status: !this.state.status });
   };
 
+  componentWillMount() {
+    this.props.getCountries();
+  }
+
   componentWillReceiveProps = nextProps => {
-    if (nextProps.players.members) {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    } else if (nextProps.players.members) {
       this.setState({ ...this.state, playersList: nextProps.players.members });
     }
   };
 
   render() {
     const { classes } = this.props;
-    // const { members } = this.props.players;
-
-    // let memberList;
-
-    // if (members !== null) {
-    //   memberList = members.map(member => (
-    //     <MenuItem
-    //       key={member.player_id}
-    //       className={classes.listItem}
-    //       component="div"
-    //       onClick={this.onClickHandler.bind(
-    //         this,
-    //         "player",
-    //         `${member.surename} ${member.name} ${member.patronymic}`
-    //       )}
-    //     >
-    //       <span>
-    //         <img
-    //           src={member.photo}
-    //           style={{ width: "50px", marginRight: 8 }}
-    //           alt=""
-    //         />
-    //       </span>
-    //       <span>{`${member.surename} ${member.name} ${
-    //         member.patronymic
-    //       }`}</span>
-    //     </MenuItem>
-    //   ));
-    // }
+    const { countries } = this.props.location;
+    let countriesList;
+    if (countries !== null && countries !== undefined) {
+      countriesList = countries.map(country => (
+        <MenuItem key={country.id} value={country.id}>
+          {country.name}
+        </MenuItem>
+      ));
+    }
 
     return (
       <div className={classes.wrap}>
@@ -218,6 +230,25 @@ class AddCommands extends Component {
               onChange={this.onChangeHandler}
               margin="normal"
             />
+            <FormControl className={classes.input}>
+              <InputLabel htmlFor="country">
+                <FormattedMessage id="leagues.countryLabel" />
+              </InputLabel>
+              <Select
+                value={this.state.country}
+                className={classes.select}
+                onChange={this.onChangeHandler}
+                inputProps={{
+                  name: "country",
+                  id: "country"
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {countriesList}
+              </Select>
+            </FormControl>
             <FormControlLabel
               control={
                 <Checkbox
@@ -251,7 +282,6 @@ class AddCommands extends Component {
             />
             <Paper className={classes.listWrap}>
               {this.state.playersList !== null ? (
-                // <List className={classes.list}>{memberList}</List>
                 <List className={classes.list}>
                   {this.state.playersList.map(player => (
                     <MenuItem
@@ -261,7 +291,10 @@ class AddCommands extends Component {
                       onClick={this.onClickHandler.bind(
                         this,
                         "player",
-                        `${player.surename} ${player.name} ${player.patronymic}`
+                        `${player.surename} ${player.name} ${
+                          player.patronymic
+                        }`,
+                        player.player_id
                       )}
                     >
                       <span>
@@ -316,6 +349,7 @@ class AddCommands extends Component {
 }
 
 const mapStateToProps = state => ({
+  location: state.location,
   players: state.players,
   errors: state.errors,
   messages: state.messages
@@ -325,6 +359,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlayersByName }
+    { getPlayersByName, addCommand, getCountries }
   )
 )(AddCommands);
