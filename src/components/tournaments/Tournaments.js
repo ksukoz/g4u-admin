@@ -216,13 +216,18 @@ class Tournaments extends Component {
           <List>
             {this.state.tournamentsList !== null
               ? this.state.tournamentsList.map(tournament => (
-                  <MenuItem
-                    className={classes.listItem}
-                    key={tournament.tournament_id}
-                    value={tournament.tournament_id}
+                  <Link
+                    className={classes.button_link}
+                    to={`/seasons/${tournament.tournament_id}`}
                   >
-                    {tournament.title}
-                  </MenuItem>
+                    <MenuItem
+                      className={classes.listItem}
+                      key={tournament.tournament_id}
+                      value={tournament.tournament_id}
+                    >
+                      {tournament.title}
+                    </MenuItem>
+                  </Link>
                 ))
               : ""}
           </List>

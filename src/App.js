@@ -26,6 +26,8 @@ import AddCountries from "./components/settings/AddCountries";
 import AddCommands from "./components/commands/AddCommands";
 import Tournaments from "./components/tournaments/Tournaments";
 import AddTournaments from "./components/tournaments/AddTournaments";
+import Seasons from "./components/tournaments/Seasons";
+import AddSeason from "./components/tournaments/AddSeason";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -75,6 +77,20 @@ class App extends Component {
                     exact
                     path={`/tournaments/add/:id`}
                     component={AddTournaments}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/seasons/:id`}
+                    component={Seasons}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/seasons/add/:id`}
+                    component={AddSeason}
                   />
                 </Switch>
                 <Switch>
