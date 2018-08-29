@@ -144,7 +144,7 @@ class AddSubtournament extends Component {
         )}
         <form className="player__form" onSubmit={this.onSubmitHandler}>
           <TextField
-            label={<FormattedMessage id="tournaments.nameLabel" />}
+            label={<FormattedMessage id="subtournaments.nameLabel" />}
             name="name"
             className={classes.input}
             value={this.state.name}
@@ -160,11 +160,11 @@ class AddSubtournament extends Component {
                 onChange={this.toggleChange}
               />
             }
-            label={<FormattedMessage id="tournaments.showLabel" />}
+            label={<FormattedMessage id="subtournaments.showLabel" />}
           />
           <FormControl className={classes.input}>
             <InputLabel htmlFor="stat">
-              <FormattedMessage id="tournaments.typeLabel" />
+              <FormattedMessage id="subtournaments.statLabel" />
             </InputLabel>
             <Select
               value={this.state.stat}
@@ -176,13 +176,17 @@ class AddSubtournament extends Component {
               }}
             >
               <MenuItem value="" />
-              <MenuItem value="league">Лига</MenuItem>
-              <MenuItem value="cup">Кубок</MenuItem>
+              <MenuItem value="league">
+                <FormattedMessage id="subtournaments.leagueLabel" />
+              </MenuItem>
+              <MenuItem value="cup">
+                <FormattedMessage id="subtournaments.cupLabel" />
+              </MenuItem>
             </Select>
           </FormControl>
           <FormControl className={classes.input}>
             <InputLabel htmlFor="position">
-              <FormattedMessage id="tournaments.typeLabel" />
+              <FormattedMessage id="subtournaments.positionLabel" />
             </InputLabel>
             <Select
               value={this.state.position}
@@ -195,16 +199,16 @@ class AddSubtournament extends Component {
             >
               <MenuItem value="" />
               <MenuItem value="difference">
-                <FormattedMessage id="tournaments.typeLabel" />
+                <FormattedMessage id="subtournaments.differenceLabel" />
               </MenuItem>
               <MenuItem value="meeting">
-                <FormattedMessage id="tournaments.typeLabel" />
+                <FormattedMessage id="subtournaments.meetingLabel" />
               </MenuItem>
             </Select>
           </FormControl>
           <FormControl className={classes.input}>
             <InputLabel htmlFor="type">
-              <FormattedMessage id="tournaments.typeLabel" />
+              <FormattedMessage id="subtournaments.typeLabel" />
             </InputLabel>
             <Select
               value={this.state.type}
@@ -219,7 +223,7 @@ class AddSubtournament extends Component {
             </Select>
           </FormControl>
           <Button size="large" type="submit" className={classes.submit}>
-            <FormattedMessage id="tournaments.submit" />
+            <FormattedMessage id="subtournaments.submit" />
           </Button>
         </form>
       </div>

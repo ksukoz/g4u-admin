@@ -47,6 +47,19 @@ export default {
       submit: "Save",
       add: "Add  season"
     },
+    subtournaments: {
+      nameLabel: "Subtournament`s name",
+      showLabel: "Show on website and in the app",
+      statLabel: "Choose subtournament`s type",
+      leagueLabel: "League",
+      cupLabel: "Cup",
+      positionLabel: "Choose position",
+      differenceLabel: "Balls` difference",
+      meetingLabel: "Meeting",
+      typeLabel: "Include stats",
+      submit: "Save",
+      add: "Add subtournament"
+    },
     leagues: {
       tableHeading: "League's name",
       nameLabel: "League's name",
@@ -174,6 +187,19 @@ export default {
       submit: "Зберегти",
       add: "Додати сезон"
     },
+    subtournaments: {
+      nameLabel: "Назва підтурніру",
+      showLabel: "Показувати на сайті та у додатку",
+      statLabel: "Обрати тип підтурніру",
+      leagueLabel: "Ліга",
+      cupLabel: "Кубок",
+      positionLabel: "Врахування позицій",
+      differenceLabel: "За різницею м'ячів",
+      meetingLabel: "За особистими зустрічами",
+      typeLabel: "Враховувати статистику з",
+      submit: "Зберегти",
+      add: "Додати підтурнір"
+    },
     leagues: {
       tableHeading: "Назва ліги",
       nameLabel: "Назва ліги",
@@ -300,6 +326,19 @@ export default {
       showLabel: "Показывать на сайте и в приложении",
       submit: "Сохранить",
       add: "Добавить сезон"
+    },
+    subtournaments: {
+      nameLabel: "Название подтурнира",
+      showLabel: "Показывать на сайте и в приложении",
+      statLabel: "Выбрать тип подтурнира",
+      leagueLabel: "Лига",
+      cupLabel: "Кубок",
+      positionLabel: "Определение позиций",
+      differenceLabel: "По разнице мячей",
+      meetingLabel: "По личным встречам",
+      typeLabel: "Учитывать статистику из",
+      submit: "Сохранить",
+      add: "Добавить подтурнир"
     },
     leagues: {
       tableHeading: "Название лиги",

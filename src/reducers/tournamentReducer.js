@@ -1,8 +1,13 @@
-import { GET_TOURNAMENTS, GET_SEASONS } from "../actions/types";
+import {
+  GET_TOURNAMENTS,
+  GET_SEASONS,
+  GET_SUBTOURNAMENTS
+} from "../actions/types";
 
 const initialState = {
   list: null,
-  seasons: null
+  seasons: null,
+  subtournaments: null
 };
 
 export default function(state = initialState, action) {
@@ -16,6 +21,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         seasons: action.payload
+      };
+    case GET_SUBTOURNAMENTS:
+      return {
+        ...state,
+        subtournaments: action.payload
       };
     default:
       return state;

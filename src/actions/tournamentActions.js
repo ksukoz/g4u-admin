@@ -3,6 +3,7 @@ import {
   GET_MESSAGES,
   GET_TOURNAMENTS,
   GET_SEASONS,
+  GET_SUBTOURNAMENTS,
   GET_ERRORS
 } from "./types";
 
@@ -111,6 +112,23 @@ export const getSeasons = id => dispatch => {
     .then(res => {
       dispatch({
         type: GET_SEASONS,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getSubtournaments = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/tournaments/getsubtour?seaId=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_SUBTOURNAMENTS,
         payload: res.data.answer
       });
     });

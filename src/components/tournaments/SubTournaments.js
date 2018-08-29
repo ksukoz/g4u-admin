@@ -5,7 +5,7 @@ import compose from "recompose/compose";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
-import { getSeasons } from "../../actions/tournamentActions";
+import { getSubtournaments } from "../../actions/tournamentActions";
 
 import List from "@material-ui/core/List";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -81,15 +81,30 @@ const styles = theme => ({
 
 class SubTournaments extends Component {
   state = {
-    season: ""
+    season: "",
+    subtournamentsList: null
   };
 
   componentDidMount() {
+    this.props.getSubtournaments(this.props.match.url.replace(/\D/g, ""));
     this.setState({
       ...this.state,
       season: this.props.match.url.replace(/\D/g, "")
     });
   }
+
+  componentWillReceiveProps = nextProps => {
+    // console.log(nextProps.tournaments);
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    } else if (nextProps.tournaments.subtournaments !== null) {
+      this.setState({
+        ...this.state,
+        subtournamentsList: nextProps.tournaments.subtournaments
+      });
+    }
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -104,19 +119,19 @@ class SubTournaments extends Component {
             <FormattedMessage id="seasons.add" />
           </Button>
         </Link>
-        {/* <List>
-      {this.state.seasons !== null
-        ? this.state.seasons.map(season => (
-            <MenuItem
-              className={classes.listItem}
-              key={season.season_id}
-              value={season.season_id}
-            >
-              {season.title}
-            </MenuItem>
-          ))
-        : ""}
-    </List> */}
+        <List>
+          {this.state.subtournamentsList !== null
+            ? this.state.subtournamentsList.map(subtournament => (
+                <MenuItem
+                  className={classes.listItem}
+                  key={subtournament.id}
+                  value={subtournament.id}
+                >
+                  {subtournament.title}
+                </MenuItem>
+              ))
+            : ""}
+        </List>
       </div>
     );
   }
@@ -132,6 +147,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getSeasons }
+    { getSubtournaments }
   )
 )(SubTournaments);
