@@ -4,17 +4,12 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { addTournament } from "../../actions/tournamentActions";
+import { addSeason } from "../../actions/tournamentActions";
 
 import Messages from "../common/Messages";
 
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
 
@@ -68,22 +63,58 @@ const styles = theme => ({
 class AddSeason extends Component {
   state = {
     open: false,
-    subLeague: "",
+    tournament: "",
     name: "",
-    vk: "",
-    fb: "",
-    youtube: "",
-    rating: false,
-    status: false,
-    type: ""
+    status: false
   };
+
+  onChangeHandler = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onSubmitHandler = e => {
+    e.preventDefault();
+
+    const newSeason = {
+      title: this.state.name,
+      status: this.state.status,
+      tournament_id: this.state.tournament
+    };
+
+    this.props.addSeason(newSeason);
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
+  toggleChange = e => {
+    this.setState({ [e.target.name]: !this.state[e.target.name] });
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
+
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      tournament: this.props.match.url.replace(/\D/g, "")
+    });
+  }
 
   render() {
     const { classes } = this.props;
 
     return (
       <div>
-        {/* {this.props.errors ? (
+        {this.props.errors ? (
           <Messages
             open={this.state.open}
             message={this.props.errors}
@@ -99,7 +130,7 @@ class AddSeason extends Component {
           />
         ) : (
           ""
-        )} */}
+        )}
         <form className="player__form" onSubmit={this.onSubmitHandler}>
           <TextField
             label={<FormattedMessage id="tournaments.nameLabel" />}
@@ -108,41 +139,6 @@ class AddSeason extends Component {
             value={this.state.name}
             onChange={this.onChangeHandler}
             margin="normal"
-          />
-          <TextField
-            label={<FormattedMessage id="tournaments.vkLabel" />}
-            name="vk"
-            className={classes.input}
-            value={this.state.vk}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <TextField
-            label={<FormattedMessage id="tournaments.fbLabel" />}
-            name="fb"
-            className={classes.input}
-            value={this.state.fb}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <TextField
-            label={<FormattedMessage id="tournaments.youtubeLabel" />}
-            name="youtube"
-            className={classes.input}
-            value={this.state.youtube}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="rating"
-                checked={this.state.rating}
-                classes={{ root: classes.checkbox, checked: classes.checked }}
-                onChange={this.toggleChange}
-              />
-            }
-            label={<FormattedMessage id="tournaments.ratingLabel" />}
           />
           <FormControlLabel
             control={
@@ -153,26 +149,9 @@ class AddSeason extends Component {
                 onChange={this.toggleChange}
               />
             }
+            className={classes.input}
             label={<FormattedMessage id="tournaments.showLabel" />}
           />
-          <FormControl className={classes.input}>
-            <InputLabel htmlFor="type">
-              <FormattedMessage id="tournaments.typeLabel" />
-            </InputLabel>
-            <Select
-              value={this.state.type}
-              className={classes.select}
-              onChange={this.onChangeHandler}
-              inputProps={{
-                name: "type",
-                id: "type"
-              }}
-            >
-              <MenuItem value="" />
-              <MenuItem value="league">Лига</MenuItem>
-              <MenuItem value="cup">Кубок</MenuItem>
-            </Select>
-          </FormControl>
           <Button size="large" type="submit" className={classes.submit}>
             <FormattedMessage id="tournaments.submit" />
           </Button>
@@ -182,10 +161,15 @@ class AddSeason extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  errors: state.errors,
+  messages: state.messages
+});
+
 export default compose(
   withStyles(styles),
   connect(
-    null,
-    null
+    mapStateToProps,
+    { addSeason }
   )
 )(AddSeason);

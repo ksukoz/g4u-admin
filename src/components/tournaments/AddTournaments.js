@@ -109,7 +109,6 @@ class AddTournaments extends Component {
 
   toggleChange = e => {
     this.setState({ [e.target.name]: !this.state[e.target.name] });
-    console.log(e.target);
   };
 
   componentWillReceiveProps = nextProps => {
