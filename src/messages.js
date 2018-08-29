@@ -16,6 +16,8 @@ export default {
       manageLeagues: "Manage Leagues",
       manageTournaments: "Manage Tournaments",
       tournaments: "Tournaments",
+      seasons: "Seasons",
+      subtournaments: "Subtournaments",
       franchise: "Franchises",
       leagues: "Leagues",
       subLeagues: "Subleagues",
@@ -38,6 +40,12 @@ export default {
       typeLabel: "Choose tournament`s type",
       submit: "Save",
       add: "Add tournament"
+    },
+    seasons: {
+      nameLabel: "Seasons`s name",
+      showLabel: "Show on website and in the app",
+      submit: "Save",
+      add: "Add  season"
     },
     leagues: {
       tableHeading: "League's name",
@@ -135,6 +143,8 @@ export default {
       manageLeagues: "Керування лігами",
       manageTournaments: "Керування турнірами",
       tournaments: "Турніри",
+      seasons: "Сезони",
+      subtournaments: "Підтурніри",
       franchise: "Франшизи",
       leagues: "Ліги",
       subLeagues: "Підліги",
@@ -157,6 +167,12 @@ export default {
       typeLabel: "Обрати тип турніру",
       submit: "Зберегти",
       add: "Додати турнір"
+    },
+    seasons: {
+      nameLabel: "Назва сезону",
+      showLabel: "Показувати на сайті та у додатку",
+      submit: "Зберегти",
+      add: "Додати сезон"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -254,6 +270,8 @@ export default {
       manageLeagues: "Управление лигами",
       manageTournaments: "Управление турнирами",
       tournaments: "Турниры",
+      seasons: "Сезоны",
+      subtournaments: "Подтурниры",
       franchise: "Франшизы",
       leagues: "Лиги",
       subLeagues: "Подлиги",
@@ -276,6 +294,12 @@ export default {
       typeLabel: "Выбрать тип турнира",
       submit: "Сохранить",
       add: "Добавить турнир"
+    },
+    seasons: {
+      nameLabel: "Название сезона",
+      showLabel: "Показывать на сайте и в приложении",
+      submit: "Сохранить",
+      add: "Добавить сезон"
     },
     leagues: {
       tableHeading: "Название лиги",

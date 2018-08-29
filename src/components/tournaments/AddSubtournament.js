@@ -4,12 +4,17 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { addSeason } from "../../actions/tournamentActions";
+import { addSubTournament } from "../../actions/tournamentActions";
 
 import Messages from "../common/Messages";
 
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
 
@@ -60,12 +65,15 @@ const styles = theme => ({
   }
 });
 
-class AddSeason extends Component {
+class AddSubtournament extends Component {
   state = {
     open: false,
-    tournament: "",
+    season: "",
     name: "",
-    status: false
+    position: "",
+    stat: "",
+    status: false,
+    type: ""
   };
 
   onChangeHandler = e => {
@@ -75,13 +83,16 @@ class AddSeason extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    const newSeason = {
+    const newSubTournament = {
       title: this.state.name,
+      // type: this.state.type,
+      stat_type: this.state.stat,
       status: this.state.status,
-      tournament_id: this.state.tournament
+      rait_type: this.state.position,
+      season_id: this.state.season
     };
 
-    this.props.addSeason(newSeason);
+    this.props.addSubTournament(newSubTournament);
   };
 
   handleClose = (event, reason) => {
@@ -105,7 +116,7 @@ class AddSeason extends Component {
   componentDidMount() {
     this.setState({
       ...this.state,
-      tournament: this.props.match.url.replace(/\D/g, "")
+      season: this.props.match.url.replace(/\D/g, "")
     });
   }
 
@@ -133,7 +144,7 @@ class AddSeason extends Component {
         )}
         <form className="player__form" onSubmit={this.onSubmitHandler}>
           <TextField
-            label={<FormattedMessage id="seasons.nameLabel" />}
+            label={<FormattedMessage id="tournaments.nameLabel" />}
             name="name"
             className={classes.input}
             value={this.state.name}
@@ -149,11 +160,66 @@ class AddSeason extends Component {
                 onChange={this.toggleChange}
               />
             }
-            className={classes.input}
-            label={<FormattedMessage id="seasons.showLabel" />}
+            label={<FormattedMessage id="tournaments.showLabel" />}
           />
+          <FormControl className={classes.input}>
+            <InputLabel htmlFor="stat">
+              <FormattedMessage id="tournaments.typeLabel" />
+            </InputLabel>
+            <Select
+              value={this.state.stat}
+              className={classes.select}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "stat",
+                id: "stat"
+              }}
+            >
+              <MenuItem value="" />
+              <MenuItem value="league">Лига</MenuItem>
+              <MenuItem value="cup">Кубок</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.input}>
+            <InputLabel htmlFor="position">
+              <FormattedMessage id="tournaments.typeLabel" />
+            </InputLabel>
+            <Select
+              value={this.state.position}
+              className={classes.select}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "position",
+                id: "position"
+              }}
+            >
+              <MenuItem value="" />
+              <MenuItem value="difference">
+                <FormattedMessage id="tournaments.typeLabel" />
+              </MenuItem>
+              <MenuItem value="meeting">
+                <FormattedMessage id="tournaments.typeLabel" />
+              </MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.input}>
+            <InputLabel htmlFor="type">
+              <FormattedMessage id="tournaments.typeLabel" />
+            </InputLabel>
+            <Select
+              value={this.state.type}
+              className={classes.select}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "type",
+                id: "type"
+              }}
+            >
+              <MenuItem value="" />
+            </Select>
+          </FormControl>
           <Button size="large" type="submit" className={classes.submit}>
-            <FormattedMessage id="seasons.submit" />
+            <FormattedMessage id="tournaments.submit" />
           </Button>
         </form>
       </div>
@@ -170,6 +236,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { addSeason }
+    { addSubTournament }
   )
-)(AddSeason);
+)(AddSubtournament);

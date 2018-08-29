@@ -79,31 +79,17 @@ const styles = theme => ({
   }
 });
 
-class Seasons extends Component {
+class SubTournaments extends Component {
   state = {
-    tournament: "",
-    seasonsList: null
+    season: ""
   };
 
   componentDidMount() {
-    this.props.getSeasons(this.props.match.url.replace(/\D/g, ""));
     this.setState({
       ...this.state,
-      tournament: this.props.match.url.replace(/\D/g, "")
+      season: this.props.match.url.replace(/\D/g, "")
     });
   }
-
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.errors || nextProps.messages) {
-      this.setState({ ...this.state, open: true });
-    } else if (nextProps.tournaments.seasons !== null) {
-      this.setState({
-        ...this.state,
-        seasonsList: nextProps.tournaments.seasons
-      });
-    }
-  };
-
   render() {
     const { classes } = this.props;
     return (
@@ -111,33 +97,26 @@ class Seasons extends Component {
         <Link
           className={classes.button_link}
           to={
-            this.state.tournament
-              ? `/seasons/add/${this.state.tournament}`
-              : "/"
+            this.state.season ? `/subtournaments/add/${this.state.season}` : "/"
           }
         >
           <Button variant="extendedFab" className={classes.button}>
             <FormattedMessage id="seasons.add" />
           </Button>
         </Link>
-        <List>
-          {this.state.seasonsList !== null
-            ? this.state.seasonsList.map(season => (
-                <Link
-                  className={classes.button_link}
-                  to={`/subtournaments/${season.seaid}`}
-                >
-                  <MenuItem
-                    className={classes.listItem}
-                    key={season.seaid}
-                    value={season.seaid}
-                  >
-                    {season.title}
-                  </MenuItem>
-                </Link>
-              ))
-            : ""}
-        </List>
+        {/* <List>
+      {this.state.seasons !== null
+        ? this.state.seasons.map(season => (
+            <MenuItem
+              className={classes.listItem}
+              key={season.season_id}
+              value={season.season_id}
+            >
+              {season.title}
+            </MenuItem>
+          ))
+        : ""}
+    </List> */}
       </div>
     );
   }
@@ -155,4 +134,4 @@ export default compose(
     mapStateToProps,
     { getSeasons }
   )
-)(Seasons);
+)(SubTournaments);
