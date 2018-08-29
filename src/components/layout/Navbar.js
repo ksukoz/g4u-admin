@@ -27,22 +27,41 @@ import Player from "./navigation-icons/player.svg";
 import Referee from "./navigation-icons/referee.svg";
 import Settings from "./navigation-icons/settings.svg";
 
-const drawerWidth = 300;
+const drawerWidth = 325;
 
 const styles = theme => ({
   drawerPaper: {
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
+    "&::-webkit-scrollbar-track": {
+      boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#43A047",
+      outline: "1px solid slategrey"
+    },
+    "&::-webkit-scrollbar": {
+      width: 5
+    },
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
     })
   },
   wrapper: {
-    position: "fixed",
     minHeight: "100vh",
-    paddingTop: "1rem"
+    paddingTop: "1rem",
+    "&::-webkit-scrollbar-track": {
+      boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "olive",
+      outline: "1px solid slategrey"
+    },
+    "&::-webkit-scrollbar": {
+      width: "1em"
+    }
   },
   toolbar: {
     display: "flex",
@@ -74,16 +93,17 @@ const styles = theme => ({
 class Navbar extends React.Component {
   state = {
     first: true,
-    second: true
+    second: true,
+    third: true
   };
 
-  handleClick = () => {
-    this.setState({ first: !this.state.first });
+  handleClick = id => {
+    this.setState({ [id]: !this.state[id] });
   };
 
-  onClick = () => {
-    this.setState({ second: !this.state.second });
-  };
+  // onClick = () => {
+  //   this.setState({ second: !this.state.second });
+  // };
 
   onClickHandler = text => {
     this.props.setActiveLink(text);
@@ -111,7 +131,11 @@ class Navbar extends React.Component {
           </div>
           <Divider />
           <List>
-            <ListItem button id="first" onClick={this.handleClick}>
+            <ListItem
+              button
+              id="first"
+              onClick={this.handleClick.bind(this, "first")}
+            >
               <img className={classes.nav_icon} src={League} alt="" />
               <ListItemText
                 primary={<FormattedMessage id="nav.manageLeagues" />}
@@ -160,22 +184,69 @@ class Navbar extends React.Component {
               </List>
             </Collapse>
 
-            <Link
-              to="/tournaments"
-              className={classes.nav_link}
-              onClick={this.onClickHandler.bind(
-                this,
-                <FormattedMessage id="nav.tournaments" />
-              )}
+            <ListItem
+              button
+              id="second"
+              onClick={this.handleClick.bind(this, "second")}
             >
-              <ListItem button>
-                <img className={classes.nav_icon} src={Handshake} alt="" />
-                <ListItemText
-                  className={!this.props.common.open ? classes.hide : ""}
-                  primary={<FormattedMessage id="nav.tournaments" />}
-                />
-              </ListItem>
-            </Link>
+              <img className={classes.nav_icon} src={Handshake} alt="" />
+              <ListItemText
+                className={!this.props.common.open ? classes.hide : ""}
+                primary={<FormattedMessage id="nav.manageTournaments" />}
+              />
+              {this.state.second ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={this.state.second} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <Link
+                  to="/tournaments"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.tournaments" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
+                      primary={<FormattedMessage id="nav.tournaments" />}
+                    />
+                  </ListItem>
+                </Link>
+
+                <Link
+                  to="/seasons"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.seasons" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
+                      primary={<FormattedMessage id="nav.seasons" />}
+                    />
+                  </ListItem>
+                </Link>
+
+                <Link
+                  to="/subtournaments"
+                  className={classes.nav_link}
+                  onClick={this.onClickHandler.bind(
+                    this,
+                    <FormattedMessage id="nav.subtournaments" />
+                  )}
+                >
+                  <ListItem button>
+                    <ListItemText
+                      className={!this.props.common.open ? classes.hide : ""}
+                      primary={<FormattedMessage id="nav.subtournaments" />}
+                    />
+                  </ListItem>
+                </Link>
+              </List>
+            </Collapse>
 
             <Link
               to="/franchise/add"
@@ -245,15 +316,19 @@ class Navbar extends React.Component {
               </ListItem>
             </Link>
 
-            <ListItem button id="second" onClick={this.onClick}>
+            <ListItem
+              button
+              id="third"
+              onClick={this.handleClick.bind(this, "third")}
+            >
               <img className={classes.nav_icon} src={GroupIcon} alt="" />
               <ListItemText
                 primary={<FormattedMessage id="nav.combining" />}
                 className={!this.props.common.open ? classes.hide : ""}
               />
-              {this.state.second ? <ExpandLess /> : <ExpandMore />}
+              {this.state.third ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={this.state.second} timeout="auto" unmountOnExit>
+            <Collapse in={this.state.third} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <Link
                   to="/merge"

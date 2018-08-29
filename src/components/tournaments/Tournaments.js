@@ -30,7 +30,7 @@ const styles = theme => ({
   },
   checked: {},
   input: {
-    width: "24%"
+    width: "40%"
   },
   input_wrap: {
     display: "flex",
@@ -68,6 +68,9 @@ const styles = theme => ({
     borderRadius: 40,
     color: "#fff",
     marginBottom: "1rem"
+  },
+  listItem: {
+    border: "1px solid rgba(0,0,0,.2)"
   },
   success: {
     backgroundColor: "#43A047"
@@ -143,7 +146,7 @@ class Tournaments extends Component {
 
     return (
       <div>
-        <div>
+        <div className={classes.input_wrap}>
           <FormControl className={classes.input}>
             <InputLabel htmlFor="league">
               <FormattedMessage id="subLeagues.leagueLabel" />
@@ -192,37 +195,35 @@ class Tournaments extends Component {
                 : ""}
             </Select>
           </FormControl>
-          <Link
-            className={classes.button_link}
-            to={
-              this.state.subLeague
-                ? `/tournaments/add/${this.state.subLeague}`
-                : "/"
-            }
-          >
-            <Button
-              variant="extendedFab"
-              className={classes.button}
-              disabled={!this.state.subLeague}
-            >
-              <FormattedMessage id="tournaments.add" />
-            </Button>
-          </Link>
         </div>
+        <Link
+          className={classes.button_link}
+          to={
+            this.state.subLeague
+              ? `/tournaments/add/${this.state.subLeague}`
+              : "/"
+          }
+        >
+          <Button
+            variant="extendedFab"
+            className={classes.button}
+            disabled={!this.state.subLeague}
+          >
+            <FormattedMessage id="tournaments.add" />
+          </Button>
+        </Link>
         <div>
           <List>
             {this.state.tournamentsList !== null
-              ? // <MenuItem
-                //   key={league.id}
-                //   value={JSON.stringify({
-                //     country: league.country,
-                //     id: league.id
-                //   })}
-                //   data-id={league.id}
-                // >
-                //   {league.title}
-                // </MenuItem>
-                ""
+              ? this.state.tournamentsList.map(tournament => (
+                  <MenuItem
+                    className={classes.listItem}
+                    key={tournament.tournament_id}
+                    value={tournament.tournament_id}
+                  >
+                    {tournament.title}
+                  </MenuItem>
+                ))
               : ""}
           </List>
         </div>

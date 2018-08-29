@@ -14,6 +14,7 @@ export default {
     },
     nav: {
       manageLeagues: "Manage Leagues",
+      manageTournaments: "Manage Tournaments",
       tournaments: "Tournaments",
       franchise: "Franchises",
       leagues: "Leagues",
@@ -132,6 +133,7 @@ export default {
     },
     nav: {
       manageLeagues: "Керування лігами",
+      manageTournaments: "Керування турнірами",
       tournaments: "Турніри",
       franchise: "Франшизи",
       leagues: "Ліги",
@@ -250,6 +252,7 @@ export default {
     },
     nav: {
       manageLeagues: "Управление лигами",
+      manageTournaments: "Управление турнирами",
       tournaments: "Турниры",
       franchise: "Франшизы",
       leagues: "Лиги",
