@@ -58,7 +58,8 @@ export default {
       meetingLabel: "Meeting",
       typeLabel: "Include stats",
       submit: "Save",
-      add: "Add subtournament"
+      add: "Add subtournament",
+      commands: "Commands"
     },
     leagues: {
       tableHeading: "League's name",
@@ -198,7 +199,8 @@ export default {
       meetingLabel: "За особистими зустрічами",
       typeLabel: "Враховувати статистику з",
       submit: "Зберегти",
-      add: "Додати підтурнір"
+      add: "Додати підтурнір",
+      commands: "Команди"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -338,7 +340,8 @@ export default {
       meetingLabel: "По личным встречам",
       typeLabel: "Учитывать статистику из",
       submit: "Сохранить",
-      add: "Добавить подтурнир"
+      add: "Добавить подтурнир",
+      commands: "Команды"
     },
     leagues: {
       tableHeading: "Название лиги",

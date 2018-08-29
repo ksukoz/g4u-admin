@@ -116,7 +116,7 @@ class SubTournaments extends Component {
           }
         >
           <Button variant="extendedFab" className={classes.button}>
-            <FormattedMessage id="seasons.add" />
+            <FormattedMessage id="subtournaments.add" />
           </Button>
         </Link>
         <List>
@@ -128,6 +128,18 @@ class SubTournaments extends Component {
                   value={subtournament.id}
                 >
                   {subtournament.title}
+                  <Link
+                    className={classes.button_link}
+                    to={
+                      this.state.season
+                        ? `/subtournaments/commands/${subtournament.id}`
+                        : "/"
+                    }
+                  >
+                    <Button variant="extendedFab" className={classes.button}>
+                      <FormattedMessage id="subtournaments.commands" />
+                    </Button>
+                  </Link>
                 </MenuItem>
               ))
             : ""}
