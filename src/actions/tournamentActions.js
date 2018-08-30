@@ -5,6 +5,7 @@ import {
   GET_SEASONS,
   GET_SUBTOURNAMENTS,
   GET_TOUR_COMMANDS,
+  GET_TOUR_GAMES,
   GET_ERRORS
 } from "./types";
 
@@ -112,6 +113,30 @@ export const addCommands = commandData => dispatch => {
     });
 };
 
+export const addGame = commandData => dispatch => {
+  axios
+    .post("http://api.mygame4u.com/admin/tournaments/addgame", commandData, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
 export const deleteCommands = commandData => dispatch => {
   axios
     .post(
@@ -203,6 +228,23 @@ export const getCommands = id => dispatch => {
     .then(res => {
       dispatch({
         type: GET_TOUR_COMMANDS,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getGames = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/tournaments/listgames?subId=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_TOUR_GAMES,
         payload: res.data.answer
       });
     });

@@ -5,8 +5,12 @@ import compose from "recompose/compose";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
-import { getCommands } from "../../actions/tournamentActions";
-
+import {
+  getCommands,
+  addGame,
+  getGames
+} from "../../actions/tournamentActions";
+import Messages from "../common/Messages";
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
@@ -40,7 +44,10 @@ const styles = theme => ({
   },
   select: {
     width: "100%",
-    paddingTop: "1rem"
+    paddingTop: "1rem",
+    "& div div": {
+      display: "flex"
+    }
   },
   button: {
     display: "block",
@@ -83,6 +90,15 @@ const styles = theme => ({
     backgroundColor: "#43A047",
     color: "#fff"
   },
+  flex: {
+    display: "flex",
+    "& span": {
+      padding: "0 3rem"
+    }
+  },
+  smSelect: {
+    width: 100
+  },
   success: {
     backgroundColor: "#43A047"
   },
@@ -93,12 +109,15 @@ const styles = theme => ({
 
 class Calendar extends Component {
   state = {
+    open: false,
     tours: null,
     tour: "",
     commands: null,
     home: "",
     guest: "",
-    value: 1
+    value: 1,
+    subtour: "",
+    games: null
   };
 
   handleChange = (event, value) => {
@@ -112,6 +131,14 @@ class Calendar extends Component {
     });
   };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
   onChangeHandler = e => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
@@ -119,20 +146,33 @@ class Calendar extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    const newGame = {};
+    const newGame = {
+      sub_id: this.state.subtour,
+      command_id_in: this.state.home,
+      command_id_out: this.state.guest,
+      tour: this.state.tour
+    };
+
+    this.props.addGame(newGame);
   };
 
   componentDidMount() {
     this.props.getCommands(this.props.match.url.replace(/\D/g, ""));
+    this.props.getGames(this.props.match.url.replace(/\D/g, ""));
     this.setState({
       ...this.state,
-      tournament: this.props.match.url.replace(/\D/g, "")
+      subtour: this.props.match.url.replace(/\D/g, "")
     });
   }
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.tournaments.games !== null) {
+      this.setState({
+        ...this.state,
+        games: nextProps.tournaments.games
+      });
     } else if (nextProps.tournaments.commands !== null) {
       this.setState({
         ...this.state,
@@ -149,6 +189,23 @@ class Calendar extends Component {
     const { classes } = this.props;
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <Link
           className={classes.button_link}
           to={
@@ -190,12 +247,12 @@ class Calendar extends Component {
         </BottomNavigation>
         <form onSubmit={this.onSubmitHandler}>
           {this.state.tours !== null ? (
-            <FormControl className={classes.input}>
+            <FormControl className={classes.smSelect}>
               <InputLabel htmlFor="tour">
                 <FormattedMessage id="subtournaments.statLabel" />
               </InputLabel>
               <Select
-                value={this.state.stat}
+                value={this.state.tour}
                 className={classes.select}
                 onChange={this.onChangeHandler}
                 inputProps={{
@@ -230,7 +287,14 @@ class Calendar extends Component {
               >
                 <MenuItem value="" />
                 {this.state.commands.map(command => (
-                  <MenuItem value={command.command_id}>
+                  <MenuItem
+                    value={command.command_id}
+                    disabled={
+                      this.state.guest
+                        ? this.state.guest === command.command_id
+                        : this.state.guest
+                    }
+                  >
                     <Avatar alt="" src={command.logo} />
                     {command.title}
                   </MenuItem>
@@ -256,7 +320,14 @@ class Calendar extends Component {
               >
                 <MenuItem value="" />
                 {this.state.commands.map(command => (
-                  <MenuItem value={command.command_id}>
+                  <MenuItem
+                    value={command.command_id}
+                    disabled={
+                      this.state.home
+                        ? this.state.home === command.command_id
+                        : this.state.home
+                    }
+                  >
                     <Avatar alt="" src={command.logo} />
                     {command.title}
                   </MenuItem>
@@ -271,6 +342,30 @@ class Calendar extends Component {
             <FormattedMessage id="subtournaments.submit" />
           </Button>
         </form>
+        <List>
+          {this.state.games !== null
+            ? this.state.games.map(game => (
+                <MenuItem
+                  className={classes.listItem}
+                  key={game.id}
+                  value={game.id}
+                >
+                  <div className={classes.flex}>
+                    <div className={classes.flex}>{game.tour} тур</div>
+                    <div className={classes.flex}>
+                      <Avatar alt="" src={game.in.logo} />
+                      {game.in.title}
+                    </div>
+                    <span>:</span>
+                    <div className={classes.flex}>
+                      {game.out.title}
+                      <Avatar alt="" src={game.out.logo} />
+                    </div>
+                  </div>
+                </MenuItem>
+              ))
+            : ""}
+        </List>
       </div>
     );
   }
@@ -286,6 +381,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommands }
+    { getCommands, addGame, getGames }
   )
 )(Calendar);
