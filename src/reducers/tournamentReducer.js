@@ -3,6 +3,7 @@ import {
   GET_SEASONS,
   GET_SUBTOURNAMENTS,
   GET_TOUR_COMMANDS,
+  GET_GAMES_BY_NAME,
   GET_TOUR_GAMES
 } from "../actions/types";
 
@@ -37,6 +38,11 @@ export default function(state = initialState, action) {
         commands: action.payload
       };
     case GET_TOUR_GAMES:
+      return {
+        ...state,
+        games: action.payload
+      };
+    case GET_GAMES_BY_NAME:
       return {
         ...state,
         games: action.payload

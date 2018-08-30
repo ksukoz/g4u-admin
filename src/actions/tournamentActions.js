@@ -6,6 +6,7 @@ import {
   GET_SUBTOURNAMENTS,
   GET_TOUR_COMMANDS,
   GET_TOUR_GAMES,
+  GET_GAMES_BY_NAME,
   GET_ERRORS
 } from "./types";
 
@@ -245,6 +246,23 @@ export const getGames = id => dispatch => {
     .then(res => {
       dispatch({
         type: GET_TOUR_GAMES,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getGamesByName = name => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/asgmt/game?name=${name}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_GAMES_BY_NAME,
         payload: res.data.answer
       });
     });

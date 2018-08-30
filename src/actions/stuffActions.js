@@ -3,6 +3,7 @@ import {
   GET_STUFF_TYPES,
   GET_STUFF_MEMBERS,
   GET_STUFF_MEMBERS_BY_NAME,
+  GET_STUFF_FOR_APP,
   GET_ERRORS,
   GET_MESSAGES
 } from "../actions/types";
@@ -53,6 +54,23 @@ export const getStuffMembersByName = search => dispatch => {
     .then(res => {
       dispatch({
         type: GET_STUFF_MEMBERS_BY_NAME,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getStuffForAppoint = search => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/asgmt/personal?name=${search}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_STUFF_FOR_APP,
         payload: res.data.answer
       });
     });

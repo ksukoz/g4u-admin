@@ -4,9 +4,8 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { getCountries } from "../../actions/locationActions";
-import { getPlayersByName } from "../../actions/playerActions";
-import { addCommand, getCommandsByName } from "../../actions/commandsActions";
+import { getStuffForAppoint } from "../../actions/stuffActions";
+import { getGamesByName } from "../../actions/tournamentActions";
 
 import InputFile from "../common/InputFile";
 
@@ -127,7 +126,7 @@ class Appointments extends Component {
     this.setState({ [e.target.name]: e.target.value });
 
     if (e.target.name === "stuffName" && e.target.value.length >= 3) {
-      this.props.getStuffByName(`${e.target.value}&tied=1`);
+      this.props.getStuffForAppoint(`${e.target.value}`);
     } else if (e.target.name === "gameName" && e.target.value.length >= 3) {
       this.props.getGamesByName(e.target.value);
     }
@@ -171,16 +170,16 @@ class Appointments extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    // if (nextProps.errors || nextProps.messages) {
-    //   this.setState({ ...this.state, open: true });
-    // } else if (nextProps.stuff.members) {
-    //   this.setState({ ...this.state, playersList: nextProps.players.members });
-    // } else if (nextProps.commands.commands) {
-    //   this.setState({
-    //     ...this.state,
-    //     commandsList: nextProps.commands.commands
-    //   });
-    // }
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    } else if (nextProps.stuff.members) {
+      this.setState({ ...this.state, stuffList: nextProps.stuff.members });
+    } else if (nextProps.tournaments.games) {
+      this.setState({
+        ...this.state,
+        gamesList: nextProps.tournaments.games
+      });
+    }
   };
 
   render() {
@@ -212,7 +211,7 @@ class Appointments extends Component {
                           this,
                           "stuff",
                           `${stuff.surename} ${stuff.name} ${stuff.patronymic}`,
-                          stuff.player_id
+                          stuff.id
                         )}
                       >
                         <span>
@@ -236,7 +235,7 @@ class Appointments extends Component {
             <div className={classes.inputWrap}>
               <TextField
                 label={<FormattedMessage id="commands.doubleLabel" />}
-                name="gameId"
+                name="gameName"
                 className={classes.input}
                 value={this.state.double}
                 onChange={this.onChangeHandler}
@@ -254,18 +253,27 @@ class Appointments extends Component {
                         onClick={this.onClickHandler.bind(
                           this,
                           "game",
-                          game.title,
+                          `${game.in.title}:${game.out.title}`,
                           game.game_id
                         )}
                       >
                         <span>
                           <img
-                            src={game.logo}
-                            style={{ width: "50px", marginRight: 8 }}
+                            src={game.in.logo}
+                            style={{ width: "25px", marginRight: 8 }}
                             alt=""
                           />
                         </span>
-                        <span>{game.title}</span>
+                        <span>{game.in.title}</span>
+                        <span> : </span>
+                        <span>{game.out.title}</span>
+                        <span>
+                          <img
+                            src={game.out.logo}
+                            style={{ width: "25px", marginRight: 8 }}
+                            alt=""
+                          />
+                        </span>
                       </MenuItem>
                     ))}
                   </List>
@@ -309,8 +317,8 @@ class Appointments extends Component {
 }
 
 const mapStateToProps = state => ({
-  location: state.location,
-  players: state.players,
+  stuff: state.stuff,
+  tournaments: state.tournaments,
   commands: state.commands,
   errors: state.errors,
   messages: state.messages
@@ -320,6 +328,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlayersByName, addCommand, getCountries, getCommandsByName }
+    { getStuffForAppoint, getGamesByName }
   )
 )(Appointments);

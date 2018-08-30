@@ -2,8 +2,8 @@ import {
   GET_STUFF_TYPES,
   GET_STUFF_MEMBERS,
   GET_STUFF_MEMBERS_BY_NAME,
-  MERGE_STUFF
-  // GET_ERRORS
+  MERGE_STUFF,
+  GET_STUFF_FOR_APP
 } from "../actions/types";
 
 const initialState = {
@@ -25,6 +25,11 @@ export default function(state = initialState, action) {
         members: action.payload
       };
     case GET_STUFF_MEMBERS_BY_NAME:
+      return {
+        ...state,
+        members: action.payload
+      };
+    case GET_STUFF_FOR_APP:
       return {
         ...state,
         members: action.payload
