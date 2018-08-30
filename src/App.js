@@ -31,6 +31,7 @@ import AddSeason from "./components/tournaments/AddSeason";
 import SubTournaments from "./components/tournaments/SubTournaments";
 import AddSubtournament from "./components/tournaments/AddSubtournament";
 import AddTournamentCommand from "./components/tournaments/AddTournamentCommand";
+import Calendar from "./components/tournaments/Calendar";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -115,6 +116,13 @@ class App extends Component {
                     exact
                     path={`/subtournaments/commands/:id`}
                     component={AddTournamentCommand}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/subtournaments/calendar/:id`}
+                    component={Calendar}
                   />
                 </Switch>
                 <Switch>

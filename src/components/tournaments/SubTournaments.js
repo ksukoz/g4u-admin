@@ -165,7 +165,7 @@ class SubTournaments extends Component {
                     <Link
                       to={
                         this.state.season
-                          ? `/subtournaments/commands/${subtournament.id}`
+                          ? `/subtournaments/calendar/${subtournament.id}`
                           : "/"
                       }
                     >
