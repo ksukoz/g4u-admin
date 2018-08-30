@@ -8,11 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { getSubtournaments } from "../../actions/tournamentActions";
 
 import List from "@material-ui/core/List";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Select from "@material-ui/core/Select";
 
 import Button from "@material-ui/core/Button";
 

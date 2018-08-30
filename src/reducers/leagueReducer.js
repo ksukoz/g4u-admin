@@ -1,9 +1,4 @@
-import {
-  // GET_CURRENT_LEAGUE,
-  GET_LEAGUES,
-  GET_SUB_LEAGUES,
-  GET_ERRORS
-} from "../actions/types";
+import { GET_LEAGUES, GET_SUB_LEAGUES } from "../actions/types";
 
 const initialState = {
   // currentLeague: "",

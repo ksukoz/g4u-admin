@@ -233,14 +233,12 @@ class AddTournamentCommand extends Component {
               <Paper className={classes.listWrap}>
                 {this.state.commandsList !== null ? (
                   <List className={classes.list}>
-                    {this.state.commandsList.map(command => {
-                      if (
+                    {this.state.commandsList.map(
+                      command =>
                         this.state.commands.every(
                           mainCommand =>
                             mainCommand.command_id !== command.command_id
-                        )
-                      ) {
-                        return (
+                        ) ? (
                           <MenuItem
                             key={command.command_id}
                             className={classes.listItem}
@@ -256,9 +254,10 @@ class AddTournamentCommand extends Component {
                             </span>
                             <span>{command.title}</span>
                           </MenuItem>
-                        );
-                      }
-                    })}
+                        ) : (
+                          ""
+                        )
+                    )}
                   </List>
                 ) : (
                   ""
