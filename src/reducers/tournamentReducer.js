@@ -1,13 +1,15 @@
 import {
   GET_TOURNAMENTS,
   GET_SEASONS,
-  GET_SUBTOURNAMENTS
+  GET_SUBTOURNAMENTS,
+  GET_TOUR_COMMANDS
 } from "../actions/types";
 
 const initialState = {
   list: null,
   seasons: null,
-  subtournaments: null
+  subtournaments: null,
+  commands: null
 };
 
 export default function(state = initialState, action) {
@@ -26,6 +28,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         subtournaments: action.payload
+      };
+    case GET_TOUR_COMMANDS:
+      return {
+        ...state,
+        commands: action.payload
       };
     default:
       return state;

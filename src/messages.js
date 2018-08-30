@@ -59,7 +59,8 @@ export default {
       typeLabel: "Include stats",
       submit: "Save",
       add: "Add subtournament",
-      commands: "Commands"
+      commands: "Commands",
+      addCommands: "Add commands"
     },
     leagues: {
       tableHeading: "League's name",
@@ -200,7 +201,8 @@ export default {
       typeLabel: "Враховувати статистику з",
       submit: "Зберегти",
       add: "Додати підтурнір",
-      commands: "Команди"
+      commands: "Команди",
+      addCommands: "Додати команду"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -341,7 +343,8 @@ export default {
       typeLabel: "Учитывать статистику из",
       submit: "Сохранить",
       add: "Добавить подтурнир",
-      commands: "Команды"
+      commands: "Команды",
+      addCommands: "Добавить команду"
     },
     leagues: {
       tableHeading: "Название лиги",

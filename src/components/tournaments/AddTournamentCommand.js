@@ -5,6 +5,11 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
 import { getCommandsByName } from "../../actions/commandsActions";
+import {
+  addCommands,
+  getCommands,
+  deleteCommands
+} from "../../actions/tournamentActions";
 
 import Messages from "../common/Messages";
 // import Downshift from "downshift";
@@ -121,27 +126,19 @@ class AddTournamentCommand extends Component {
     let addedCommand = this.state.commands;
     addedCommand.push(command);
 
+    const addCommand = {
+      command_id: command.command_id,
+      sub_id: this.props.match.url.replace(/\D/g, "")
+    };
+
+    this.props.addCommands(addCommand);
+
     this.setState({
       ...this.state,
       commands: addedCommand,
       commandsList: null,
       name: ""
     });
-  };
-
-  onSubmitHandler = e => {
-    e.preventDefault();
-
-    // const addCommands = {
-    //   title: this.state.name,
-    //   player_id: this.state.playerId,
-    //   status: this.state.status,
-    //   country_id: this.state.country,
-    //   logo: this.state.image,
-    //   sub_command_id: this.state.doubleId
-    // };
-
-    // this.props.addCommand(addCommands);
   };
 
   handleClose = (event, reason) => {
@@ -154,21 +151,29 @@ class AddTournamentCommand extends Component {
 
   handleDelete = e => {
     let commands = this.state.commands;
+    const deletedCommand = {
+      sub_id: this.props.match.url.replace(/\D/g, ""),
+      command_id: ""
+    };
 
     if (e.target.parentNode.tagName !== "DIV") {
+      deletedCommand.command_id = e.target.parentNode.parentNode.id;
       this.setState({
         ...this.state,
         commands: commands.filter(
           command => command.command_id !== e.target.parentNode.parentNode.id
         )
       });
+      this.props.deleteCommands(deletedCommand);
     } else {
+      deletedCommand.command_id = e.target.parentNode.id;
       this.setState({
         ...this.state,
         commands: commands.filter(
-          command => command.command_id !== e.target.parentNode.parentNode.id
+          command => command.command_id !== e.target.parentNode.id
         )
       });
+      this.props.deleteCommands(deletedCommand);
     }
   };
 
@@ -180,84 +185,22 @@ class AddTournamentCommand extends Component {
         ...this.state,
         commandsList: nextProps.commands.commands
       });
+    } else if (nextProps.tournaments.commands) {
+      this.setState({
+        ...this.state,
+        commands: nextProps.tournaments.commands
+      });
     }
   };
+
+  componentWillMount() {
+    this.props.getCommands(this.props.match.url.replace(/\D/g, ""));
+  }
 
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.wrap}>
-        <div className={classes.form}>
-          <form className="player__form" onSubmit={this.onSubmitHandler}>
-            <TextField
-              label={<FormattedMessage id="commands.doubleLabel" />}
-              name="name"
-              className={classes.input}
-              value={this.state.name}
-              onChange={this.onChangeHandler}
-              margin="normal"
-              autoComplete="off"
-            />
-            <Paper className={classes.listWrap}>
-              {this.state.commandsList !== null ? (
-                <List className={classes.list}>
-                  {this.state.commandsList.map(command => {
-                    if (
-                      this.state.commands.every(
-                        mainCommand =>
-                          mainCommand.command_id !== command.command_id
-                      )
-                    ) {
-                      return (
-                        <MenuItem
-                          key={command.command_id}
-                          className={classes.listItem}
-                          component="div"
-                          onClick={this.onClickHandler.bind(this, command)}
-                        >
-                          <span>
-                            <img
-                              src={command.logo}
-                              style={{ width: "50px", marginRight: 8 }}
-                              alt=""
-                            />
-                          </span>
-                          <span>{command.title}</span>
-                        </MenuItem>
-                      );
-                    }
-                  })}
-                </List>
-              ) : (
-                ""
-              )}
-            </Paper>
-            <div className={classes.chipsWrap}>
-              {this.state.commands.length > 0
-                ? this.state.commands.map(command => (
-                    <Chip
-                      id={command.command_id}
-                      key={command.command_id}
-                      avatar={<Avatar src={command.logo} />}
-                      label={command.title}
-                      onDelete={this.handleDelete}
-                      className={classes.chip}
-                    />
-                  ))
-                : ""}
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              type="submit"
-              className={classes.submit}
-            >
-              {<FormattedMessage id="commands.submit" />}
-            </Button>
-          </form>
-        </div>
-
+      <div>
         {this.props.errors ? (
           <Messages
             open={this.state.open}
@@ -275,11 +218,102 @@ class AddTournamentCommand extends Component {
         ) : (
           ""
         )}
+        <div className={classes.wrap}>
+          <div className={classes.form}>
+            <form className="player__form" onSubmit={this.onSubmitHandler}>
+              <TextField
+                label={<FormattedMessage id="subtournaments.addCommands" />}
+                name="name"
+                className={classes.input}
+                value={this.state.name}
+                onChange={this.onChangeHandler}
+                margin="normal"
+                autoComplete="off"
+              />
+              <Paper className={classes.listWrap}>
+                {this.state.commandsList !== null ? (
+                  <List className={classes.list}>
+                    {this.state.commandsList.map(command => {
+                      if (
+                        this.state.commands.every(
+                          mainCommand =>
+                            mainCommand.command_id !== command.command_id
+                        )
+                      ) {
+                        return (
+                          <MenuItem
+                            key={command.command_id}
+                            className={classes.listItem}
+                            component="div"
+                            onClick={this.onClickHandler.bind(this, command)}
+                          >
+                            <span>
+                              <img
+                                src={command.logo}
+                                style={{ width: "50px", marginRight: 8 }}
+                                alt=""
+                              />
+                            </span>
+                            <span>{command.title}</span>
+                          </MenuItem>
+                        );
+                      }
+                    })}
+                  </List>
+                ) : (
+                  ""
+                )}
+              </Paper>
+              <div className={classes.chipsWrap}>
+                {this.state.commands.length > 0
+                  ? this.state.commands.map(command => (
+                      <Chip
+                        id={command.command_id}
+                        key={command.command_id}
+                        avatar={<Avatar src={command.logo} />}
+                        label={command.title}
+                        onDelete={this.handleDelete}
+                        className={classes.chip}
+                      />
+                    ))
+                  : ""}
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                type="submit"
+                className={classes.submit}
+              >
+                {<FormattedMessage id="commands.submit" />}
+              </Button>
+            </form>
+          </div>
+
+          {this.props.errors ? (
+            <Messages
+              open={this.state.open}
+              message={this.props.errors}
+              onClose={this.handleClose}
+              classes={classes.error}
+            />
+          ) : this.props.messages ? (
+            <Messages
+              open={this.state.open}
+              message={this.props.messages}
+              onClose={this.handleClose}
+              classes={classes.success}
+            />
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     );
   }
 }
 const mapStateToProps = state => ({
+  tournaments: state.tournaments,
   commands: state.commands,
   errors: state.errors,
   messages: state.messages
@@ -289,6 +323,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommandsByName }
+    { getCommandsByName, addCommands, getCommands, deleteCommands }
   )
 )(AddTournamentCommand);
