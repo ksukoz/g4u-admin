@@ -12,6 +12,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
 
+import Commands from "./icons/commands.svg";
+import Calendar from "./icons/calendar.svg";
+import Arrow from "./icons/arrow.svg";
+
 const styles = theme => ({
   root: {
     display: "flex",
@@ -58,6 +62,24 @@ const styles = theme => ({
     textDecoration: "none",
     transition: ".3s"
   },
+  button_fab: {
+    background: "#fff",
+    border: "1px solid #55a462",
+    margin: "0 .5rem",
+
+    "&:hover,&:active": {
+      background: "#55a462"
+    },
+
+    "&:hover img,&:active img": {
+      filter: "brightness(10)"
+    },
+    "& img": {
+      width: "2rem",
+
+      transition: ".3s"
+    }
+  },
   submit: {
     backgroundColor: "#43A047",
     borderRadius: 40,
@@ -65,7 +87,10 @@ const styles = theme => ({
     marginBottom: "1rem"
   },
   listItem: {
-    border: "1px solid rgba(0,0,0,.2)"
+    display: "flex",
+    justifyContent: "space-between",
+    border: "1px solid rgba(0,0,0,.2)",
+    padding: "2rem 1rem"
   },
   success: {
     backgroundColor: "#43A047"
@@ -123,19 +148,45 @@ class SubTournaments extends Component {
                   key={subtournament.id}
                   value={subtournament.id}
                 >
-                  {subtournament.title}
-                  <Link
-                    className={classes.button_link}
-                    to={
-                      this.state.season
-                        ? `/subtournaments/commands/${subtournament.id}`
-                        : "/"
-                    }
-                  >
-                    <Button variant="extendedFab" className={classes.button}>
-                      <FormattedMessage id="subtournaments.commands" />
-                    </Button>
-                  </Link>
+                  <h4>{subtournament.title}</h4>
+                  <div className={classes.button_wrap}>
+                    <Link
+                      to={
+                        this.state.season
+                          ? `/subtournaments/commands/${subtournament.id}`
+                          : "/"
+                      }
+                    >
+                      <Button variant="fab" className={classes.button_fab}>
+                        {/* <FormattedMessage id="subtournaments.commands" /> */}
+                        <img src={Commands} alt="" />
+                      </Button>
+                    </Link>
+                    <Link
+                      to={
+                        this.state.season
+                          ? `/subtournaments/commands/${subtournament.id}`
+                          : "/"
+                      }
+                    >
+                      <Button variant="fab" className={classes.button_fab}>
+                        {/* <FormattedMessage id="subtournaments.commands" /> */}
+                        <img src={Calendar} alt="" />
+                      </Button>
+                    </Link>
+                    <Link
+                      to={
+                        this.state.season
+                          ? `/subtournaments/commands/${subtournament.id}`
+                          : "/"
+                      }
+                    >
+                      <Button variant="fab" className={classes.button_fab}>
+                        {/* <FormattedMessage id="subtournaments.commands" /> */}
+                        <img src={Arrow} alt="" />
+                      </Button>
+                    </Link>
+                  </div>
                 </MenuItem>
               ))
             : ""}
