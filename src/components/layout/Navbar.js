@@ -184,22 +184,22 @@ class Navbar extends React.Component {
               </List>
             </Collapse>
 
-            <ListItem button>
-              <Link
-                to="/tournaments"
-                className={classes.nav_link}
-                onClick={this.onClickHandler.bind(
-                  this,
-                  <FormattedMessage id="nav.tournaments" />
-                )}
-              >
+            <Link
+              to="/tournaments"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.tournaments" />
+              )}
+            >
+              <ListItem button>
                 <img className={classes.nav_icon} src={Handshake} alt="" />
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.manageTournaments" />}
                 />
-              </Link>
-            </ListItem>
+              </ListItem>
+            </Link>
 
             <Link
               to="/franchise/add"
@@ -231,6 +231,22 @@ class Navbar extends React.Component {
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
                   primary={<FormattedMessage id="nav.stuff" />}
+                />
+              </ListItem>
+            </Link>
+            <Link
+              to="/appointments"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.appointments" />
+              )}
+            >
+              <ListItem button>
+                <img className={classes.nav_icon} src={Referee} alt="" />
+                <ListItemText
+                  className={!this.props.common.open ? classes.hide : ""}
+                  primary={<FormattedMessage id="nav.appointments" />}
                 />
               </ListItem>
             </Link>

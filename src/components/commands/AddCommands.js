@@ -292,6 +292,7 @@ class AddCommands extends Component {
               value={this.state.playerName}
               onChange={this.onChangeHandler}
               margin="normal"
+              autoComplete="false"
             />
             <Paper className={classes.listWrap}>
               {this.state.playersList !== null ? (
@@ -334,6 +335,7 @@ class AddCommands extends Component {
               value={this.state.double}
               onChange={this.onChangeHandler}
               margin="normal"
+              autoComplete="false"
             />
             <Paper className={classes.listWrap}>
               {this.state.commandsList !== null ? (
