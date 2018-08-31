@@ -68,6 +68,7 @@ export default {
       descLabel: "Description",
       showLabel: "Show on website and in the app",
       countryLabel: "Choose country",
+      subLeagueLabel: "Choose subleague",
       submit: "Save"
     },
     subLeagues: {
@@ -211,6 +212,7 @@ export default {
       descLabel: "Описання",
       showLabel: "Показувати на сайті та у додатку",
       countryLabel: "Обрати країну",
+      subLeagueLabel: "Обрати підлігу",
       submit: "Зберегти"
     },
     subLeagues: {
@@ -354,6 +356,7 @@ export default {
       descLabel: "Описание",
       showLabel: "Показывать на сайте и в приложении",
       countryLabel: "Выбрать страну",
+      subLeagueLabel: "Выбрать подлигу",
       submit: "Сохранить"
     },
     subLeagues: {

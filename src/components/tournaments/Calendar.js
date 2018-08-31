@@ -161,9 +161,11 @@ class Calendar extends Component {
 
     this.props.addGame(newGame);
   };
+  componentWillMount() {
+    this.props.getCommands(this.props.match.url.replace(/\D/g, ""));
+  }
 
   componentDidMount() {
-    this.props.getCommands(this.props.match.url.replace(/\D/g, ""));
     this.props.getGames(this.props.match.url.replace(/\D/g, ""));
     this.setState({
       ...this.state,
@@ -174,15 +176,13 @@ class Calendar extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
-    } else if (nextProps.tournaments.games !== null) {
+    } else if (
+      nextProps.tournaments.commands !== null ||
+      nextProps.tournaments.games !== null
+    ) {
       this.setState({
-        ...this.state,
-        games: nextProps.tournaments.games
-      });
-    } else if (nextProps.tournaments.commands !== null) {
-      this.setState({
-        ...this.state,
         commands: nextProps.tournaments.commands,
+        games: nextProps.tournaments.games,
         tours: Array.from(
           { length: nextProps.tournaments.commands.length - 1 },
           (v, k) => k + 1
@@ -256,7 +256,7 @@ class Calendar extends Component {
               >
                 <MenuItem value="" />
                 {this.state.tours.map(tour => (
-                  <MenuItem value={tour}>
+                  <MenuItem value={tour} key={tour}>
                     {tour}
                     <FormattedMessage id="subtournaments.tours" />
                   </MenuItem>
@@ -284,6 +284,7 @@ class Calendar extends Component {
                 {this.state.commands.map(command => (
                   <MenuItem
                     value={command.command_id}
+                    key={command.command_id}
                     disabled={
                       this.state.guest
                         ? this.state.guest === command.command_id
@@ -320,6 +321,7 @@ class Calendar extends Component {
                 <MenuItem value="" />
                 {this.state.commands.map(command => (
                   <MenuItem
+                    key={command.command_id}
                     value={command.command_id}
                     disabled={
                       this.state.home

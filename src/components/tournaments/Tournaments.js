@@ -170,7 +170,7 @@ class Tournaments extends Component {
           </FormControl>
           <FormControl className={classes.input}>
             <InputLabel htmlFor="subLeague">
-              <FormattedMessage id="subLeagues.leagueLabel" />
+              <FormattedMessage id="leagues.subLeagueLabel" />
             </InputLabel>
             <Select
               value={this.state.subLeague}
@@ -217,10 +217,10 @@ class Tournaments extends Component {
                   <Link
                     className={classes.button_link}
                     to={`/seasons/${tournament.tournament_id}`}
+                    key={tournament.tournament_id}
                   >
                     <MenuItem
                       className={classes.listItem}
-                      key={tournament.tournament_id}
                       value={tournament.tournament_id}
                     >
                       {tournament.title}

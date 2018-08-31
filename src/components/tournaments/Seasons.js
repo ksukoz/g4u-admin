@@ -122,12 +122,9 @@ class Seasons extends Component {
                 <Link
                   className={classes.button_link}
                   to={`/subtournaments/${season.seaid}`}
+                  key={season.seaid}
                 >
-                  <MenuItem
-                    className={classes.listItem}
-                    key={season.seaid}
-                    value={season.seaid}
-                  >
+                  <MenuItem className={classes.listItem} value={season.seaid}>
                     {season.title}
                   </MenuItem>
                 </Link>
