@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
 import { getStuffForAppoint } from "../../actions/stuffActions";
-import { getGamesByName } from "../../actions/tournamentActions";
+import { getGamesByName, addAppoint } from "../../actions/tournamentActions";
 
 import InputFile from "../common/InputFile";
 
@@ -125,10 +125,25 @@ class Appointments extends Component {
   onChangeHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
 
-    if (e.target.name === "stuffName" && e.target.value.length >= 3) {
-      this.props.getStuffForAppoint(`${e.target.value}`);
-    } else if (e.target.name === "gameName" && e.target.value.length >= 3) {
-      this.props.getGamesByName(e.target.value);
+    if (e.target.name === "stuffName") {
+      this.setState({
+        ...this.state,
+        [e.target.name]: e.target.value,
+        stuffId: ""
+      });
+
+      if (e.target.value.length >= 3) {
+        this.props.getStuffForAppoint(e.target.value);
+      }
+    } else if (e.target.name === "gameName") {
+      this.setState({
+        ...this.state,
+        [e.target.name]: e.target.value,
+        gameId: ""
+      });
+      if (e.target.value.length >= 3) {
+        this.props.getGamesByName(e.target.value);
+      }
     }
   };
 
@@ -154,11 +169,11 @@ class Appointments extends Component {
     e.preventDefault();
 
     const newAsign = {
-      stuffId: this.state.stuffId,
-      gameId: this.state.gameId
+      pers_id: this.state.stuffId,
+      game_id: this.state.gameId
     };
 
-    this.props.addCommand(newAsign);
+    this.props.addAppoint(newAsign);
   };
 
   handleClose = (event, reason) => {
@@ -172,13 +187,13 @@ class Appointments extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
-    } else if (nextProps.stuff.members) {
-      this.setState({ ...this.state, stuffList: nextProps.stuff.members });
-    } else if (nextProps.tournaments.games) {
+    } else if (nextProps.tournaments.games && !this.state.gameId) {
       this.setState({
         ...this.state,
         gamesList: nextProps.tournaments.games
       });
+    } else if (nextProps.stuff.members && !this.state.stuffId) {
+      this.setState({ ...this.state, stuffList: nextProps.stuff.members });
     }
   };
 
@@ -197,20 +212,22 @@ class Appointments extends Component {
                 value={this.state.stuffName}
                 onChange={this.onChangeHandler}
                 margin="normal"
-                autoComplete="false"
+                autoComplete="off"
               />
               <Paper className={classes.listWrap}>
                 {this.state.stuffList !== null ? (
                   <List className={classes.list}>
                     {this.state.stuffList.map(stuff => (
                       <MenuItem
-                        key={stuff.player_id}
+                        key={stuff.id}
                         className={classes.listItem}
                         component="div"
                         onClick={this.onClickHandler.bind(
                           this,
                           "stuff",
-                          `${stuff.surename} ${stuff.name} ${stuff.patronymic}`,
+                          `${stuff.surename} ${stuff.name} ${
+                            stuff.patronymic
+                          } - ${stuff.type}`,
                           stuff.id
                         )}
                       >
@@ -223,7 +240,7 @@ class Appointments extends Component {
                         </span>
                         <span>{`${stuff.surename} ${stuff.name} ${
                           stuff.patronymic
-                        }`}</span>
+                        } - ${stuff.type}`}</span>
                       </MenuItem>
                     ))}
                   </List>
@@ -237,24 +254,24 @@ class Appointments extends Component {
                 label={<FormattedMessage id="commands.doubleLabel" />}
                 name="gameName"
                 className={classes.input}
-                value={this.state.double}
+                value={this.state.gameName}
                 onChange={this.onChangeHandler}
                 margin="normal"
-                autoComplete="false"
+                autoComplete="off"
               />
               <Paper className={classes.listWrap}>
                 {this.state.gamesList !== null ? (
                   <List className={classes.list}>
                     {this.state.gamesList.map(game => (
                       <MenuItem
-                        key={game.game_id}
+                        key={game.id}
                         className={classes.listItem}
                         component="div"
                         onClick={this.onClickHandler.bind(
                           this,
                           "game",
-                          `${game.in.title}:${game.out.title}`,
-                          game.game_id
+                          `${game.in.title} : ${game.out.title}`,
+                          game.id
                         )}
                       >
                         <span>
@@ -264,13 +281,11 @@ class Appointments extends Component {
                             alt=""
                           />
                         </span>
-                        <span>{game.in.title}</span>
-                        <span> : </span>
-                        <span>{game.out.title}</span>
+                        <span>{`${game.in.title} : ${game.out.title} `}</span>
                         <span>
                           <img
                             src={game.out.logo}
-                            style={{ width: "25px", marginRight: 8 }}
+                            style={{ width: "25px", marginLeft: 8 }}
                             alt=""
                           />
                         </span>
@@ -328,6 +343,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getStuffForAppoint, getGamesByName }
+    { getStuffForAppoint, getGamesByName, addAppoint }
   )
 )(Appointments);
