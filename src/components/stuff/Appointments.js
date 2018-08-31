@@ -8,7 +8,8 @@ import { getStuffForAppoint } from "../../actions/stuffActions";
 import {
   getGamesByName,
   addAppoint,
-  getAppoints
+  getAppoints,
+  deleteAppoint
 } from "../../actions/tournamentActions";
 
 import InputFile from "../common/InputFile";
@@ -169,7 +170,9 @@ class Appointments extends Component {
     }
   };
 
-  onDelHandler = id => {};
+  onDelHandler = id => {
+    this.props.deleteAppoint({ id: id });
+  };
 
   onSubmitHandler = e => {
     e.preventDefault();
@@ -232,6 +235,7 @@ class Appointments extends Component {
                   alt=""
                 />
               </TableCell>
+              <TableCell>&#x21d2;</TableCell>
               <TableCell component="th" scope="row">
                 <img
                   src={appoint.game.in.logo}
@@ -384,11 +388,18 @@ class Appointments extends Component {
                   <FormattedMessage id="players.tableName" />
                 </TableCell>
                 <TableCell>
-                  <FormattedMessage id="players.tablePosition" />
+                  <FormattedMessage id="stuff.tablePosition" />
                 </TableCell>
                 <TableCell>
                   <FormattedMessage id="players.tableImage" />
                 </TableCell>
+                <TableCell />
+                <TableCell />
+                <TableCell>Принимающая команда</TableCell>
+                <TableCell />
+                <TableCell>Гостевая команда</TableCell>
+                <TableCell />
+                <TableCell>Удалить</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{appointsList}</TableBody>
@@ -429,6 +440,12 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getStuffForAppoint, getGamesByName, addAppoint, getAppoints }
+    {
+      getStuffForAppoint,
+      getGamesByName,
+      addAppoint,
+      getAppoints,
+      deleteAppoint
+    }
   )
 )(Appointments);
