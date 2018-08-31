@@ -57,7 +57,10 @@ export default {
       submit: "Save",
       add: "Add subtournament",
       commands: "Commands",
-      addCommands: "Add commands"
+      addCommands: "Add commands",
+      tours: "Tour",
+      homeCommands: "Home command",
+      guestCommands: "Guest command"
     },
     leagues: {
       tableHeading: "League's name",
@@ -197,7 +200,10 @@ export default {
       submit: "Зберегти",
       add: "Додати підтурнір",
       commands: "Команди",
-      addCommands: "Додати команду"
+      addCommands: "Додати команду",
+      tours: "Тур",
+      homeCommands: "Приймаюча команда",
+      guestCommands: "Виїзна команда"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -337,7 +343,10 @@ export default {
       submit: "Сохранить",
       add: "Добавить подтурнир",
       commands: "Команды",
-      addCommands: "Добавить команду"
+      addCommands: "Добавить команду",
+      tours: "Тур",
+      homeCommands: "Принимающая команда",
+      guestCommands: "Выездная команда"
     },
     leagues: {
       tableHeading: "Название лиги",

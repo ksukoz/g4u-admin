@@ -35,7 +35,8 @@ const styles = theme => ({
   },
   checked: {},
   input: {
-    width: "40%"
+    width: "40%",
+    marginRight: 8
   },
   input_wrap: {
     display: "flex",
@@ -81,7 +82,8 @@ const styles = theme => ({
     border: "1px solid rgba(0,0,0,.2)"
   },
   rounds: {
-    width: 500
+    width: 500,
+    marginBottom: "1rem"
   },
   roundsBtn: {
     border: "1px solid #43A047"
@@ -97,7 +99,8 @@ const styles = theme => ({
     }
   },
   smSelect: {
-    width: 100
+    width: 100,
+    marginRight: 8
   },
   success: {
     backgroundColor: "#43A047"
@@ -136,7 +139,10 @@ class Calendar extends Component {
       return;
     }
 
-    this.setState({ open: false });
+    this.setState(
+      { open: false },
+      this.props.getGames(this.props.match.url.replace(/\D/g, ""))
+    );
   };
 
   onChangeHandler = e => {
@@ -206,18 +212,6 @@ class Calendar extends Component {
         ) : (
           ""
         )}
-        <Link
-          className={classes.button_link}
-          to={
-            this.state.tournament
-              ? `/subtournaments/addgame/${this.state.tournament}`
-              : "/"
-          }
-        >
-          <Button variant="extendedFab" className={classes.button}>
-            <FormattedMessage id="seasons.add" />
-          </Button>
-        </Link>
         <BottomNavigation
           value={this.state.value}
           onChange={this.handleChange}
@@ -249,7 +243,7 @@ class Calendar extends Component {
           {this.state.tours !== null ? (
             <FormControl className={classes.smSelect}>
               <InputLabel htmlFor="tour">
-                <FormattedMessage id="subtournaments.statLabel" />
+                <FormattedMessage id="subtournaments.tours" />
               </InputLabel>
               <Select
                 value={this.state.tour}
@@ -263,7 +257,8 @@ class Calendar extends Component {
                 <MenuItem value="" />
                 {this.state.tours.map(tour => (
                   <MenuItem value={tour}>
-                    {tour} <FormattedMessage id="subtournaments.leagueLabel" />
+                    {tour}
+                    <FormattedMessage id="subtournaments.tours" />
                   </MenuItem>
                 ))}
               </Select>
@@ -274,7 +269,7 @@ class Calendar extends Component {
           {this.state.commands !== null ? (
             <FormControl className={classes.input}>
               <InputLabel htmlFor="home">
-                <FormattedMessage id="subtournaments.statLabel" />
+                <FormattedMessage id="subtournaments.homeCommands" />
               </InputLabel>
               <Select
                 value={this.state.home}
@@ -295,7 +290,11 @@ class Calendar extends Component {
                         : this.state.guest
                     }
                   >
-                    <Avatar alt="" src={command.logo} />
+                    <Avatar
+                      alt=""
+                      src={command.logo}
+                      style={{ marginRight: 8 }}
+                    />
                     {command.title}
                   </MenuItem>
                 ))}
@@ -307,7 +306,7 @@ class Calendar extends Component {
           {this.state.commands !== null ? (
             <FormControl className={classes.input}>
               <InputLabel htmlFor="guest">
-                <FormattedMessage id="subtournaments.statLabel" />
+                <FormattedMessage id="subtournaments.guestCommands" />
               </InputLabel>
               <Select
                 value={this.state.guest}
@@ -328,7 +327,11 @@ class Calendar extends Component {
                         : this.state.home
                     }
                   >
-                    <Avatar alt="" src={command.logo} />
+                    <Avatar
+                      alt=""
+                      src={command.logo}
+                      style={{ marginRight: 8 }}
+                    />
                     {command.title}
                   </MenuItem>
                 ))}
