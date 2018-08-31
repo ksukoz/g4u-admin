@@ -5,21 +5,25 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
 import { getStuffForAppoint } from "../../actions/stuffActions";
-import { getGamesByName, addAppoint } from "../../actions/tournamentActions";
+import {
+  getGamesByName,
+  addAppoint,
+  getAppoints
+} from "../../actions/tournamentActions";
 
 import InputFile from "../common/InputFile";
 
 import Messages from "../common/Messages";
 // import Downshift from "downshift";
 import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-import InputLabel from "@material-ui/core/InputLabel";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
-import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
@@ -165,6 +169,8 @@ class Appointments extends Component {
     }
   };
 
+  onDelHandler = id => {};
+
   onSubmitHandler = e => {
     e.preventDefault();
 
@@ -181,7 +187,11 @@ class Appointments extends Component {
       return;
     }
 
-    this.setState({ open: false });
+    this.setState({ open: false }, this.props.getAppoints());
+  };
+
+  componentWillMount = () => {
+    this.props.getAppoints();
   };
 
   componentWillReceiveProps = nextProps => {
@@ -199,6 +209,66 @@ class Appointments extends Component {
 
   render() {
     const { classes } = this.props;
+    const { appoints } = this.props.tournaments;
+
+    let appointsList;
+    if (appoints !== null && appoints !== undefined) {
+      appointsList = appoints.map(
+        appoint =>
+          appoint.personal !== null ? (
+            <TableRow key={appoint.id}>
+              <TableCell component="th" scope="row">
+                {`${appoint.personal.surename} ${appoint.personal.name} ${
+                  appoint.personal.patronymic
+                }`}
+              </TableCell>
+              <TableCell>
+                <span>{appoint.personal.type}</span>
+              </TableCell>
+              <TableCell>
+                <img
+                  src={appoint.personal.photo}
+                  style={{ width: "50px" }}
+                  alt=""
+                />
+              </TableCell>
+              <TableCell component="th" scope="row">
+                <img
+                  src={appoint.game.in.logo}
+                  style={{ width: "50px" }}
+                  alt=""
+                />
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {appoint.game.in.title}
+              </TableCell>
+              <TableCell>
+                <span>vs</span>
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {appoint.game.out.title}
+              </TableCell>
+              <TableCell component="th" scope="row">
+                <img
+                  src={appoint.game.out.logo}
+                  style={{ width: "50px" }}
+                  alt=""
+                />
+              </TableCell>
+              <TableCell component="th" scope="row">
+                <Button
+                  className={classes.button}
+                  onClick={this.onDelHandler.bind(this, appoint.id)}
+                >
+                  &#10006;
+                </Button>
+              </TableCell>
+            </TableRow>
+          ) : (
+            ""
+          )
+      );
+    }
 
     return (
       <div className={classes.wrap}>
@@ -307,6 +377,22 @@ class Appointments extends Component {
               {<FormattedMessage id="commands.submit" />}
             </Button>
           </form>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <FormattedMessage id="players.tableName" />
+                </TableCell>
+                <TableCell>
+                  <FormattedMessage id="players.tablePosition" />
+                </TableCell>
+                <TableCell>
+                  <FormattedMessage id="players.tableImage" />
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{appointsList}</TableBody>
+          </Table>
         </div>
 
         {this.props.errors ? (
@@ -343,6 +429,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getStuffForAppoint, getGamesByName, addAppoint }
+    { getStuffForAppoint, getGamesByName, addAppoint, getAppoints }
   )
 )(Appointments);
