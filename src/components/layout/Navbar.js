@@ -185,6 +185,23 @@ class Navbar extends React.Component {
             </Collapse>
 
             <Link
+              to="/stadiums"
+              className={classes.nav_link}
+              onClick={this.onClickHandler.bind(
+                this,
+                <FormattedMessage id="nav.stadiums" />
+              )}
+            >
+              <ListItem button>
+                <img className={classes.nav_icon} src={Handshake} alt="" />
+                <ListItemText
+                  className={!this.props.common.open ? classes.hide : ""}
+                  primary={<FormattedMessage id="nav.stadiums" />}
+                />
+              </ListItem>
+            </Link>
+
+            <Link
               to="/tournaments"
               className={classes.nav_link}
               onClick={this.onClickHandler.bind(
@@ -196,7 +213,7 @@ class Navbar extends React.Component {
                 <img className={classes.nav_icon} src={Handshake} alt="" />
                 <ListItemText
                   className={!this.props.common.open ? classes.hide : ""}
-                  primary={<FormattedMessage id="nav.manageTournaments" />}
+                  primary={<FormattedMessage id="nav.tournaments" />}
                 />
               </ListItem>
             </Link>
