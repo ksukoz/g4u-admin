@@ -12,6 +12,7 @@ import errorReducer from "./errorReducer";
 import messagesReducer from "./messagesReducer";
 import commandReducer from "./commandReducer";
 import tournamentReducer from "./tournamentReducer";
+import stadiumReducer from "./stadiumReducer";
 
 export default combineReducers({
   lang: languageReducer,
@@ -25,6 +26,7 @@ export default combineReducers({
   common: commonReducer,
   commands: commandReducer,
   tournaments: tournamentReducer,
+  stadiums: stadiumReducer,
   messages: messagesReducer,
   errors: errorReducer
 });

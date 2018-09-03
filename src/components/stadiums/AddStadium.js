@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { GoogleApiWrapper } from "google-maps-react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import compose from "recompose/compose";
@@ -9,7 +10,6 @@ import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
-import { getStadium } from "../../actions/stadiumAction";
 
 const styles = theme => ({
   root: {
@@ -71,47 +71,20 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  mapContainer: {
+    width: "100%",
+    height: "calc(100vh - (3rem + 64px))",
+    backgroundColor: "#000"
   }
 });
 
-class Stadiums extends Component {
-  componentDidMount = () => {
-    this.props.getStadium();
-  };
-
+class AddStadium extends Component {
   render() {
     const { classes } = this.props;
-    const { stadiums } = this.props.stadiums;
-
     return (
-      <div>
-        <Link
-          className={classes.button_link}
-          to={{
-            pathname: "/stadiums/add",
-            state: stadiums !== null ? { apiKey: stadiums.apiKey } : ""
-          }}
-          // params={}
-        >
-          <Button variant="extendedFab" className={classes.button}>
-            <FormattedMessage id="stadiums.add" />
-          </Button>
-        </Link>
-        {/* <List>
-          {this.state.seasonsList !== null
-            ? this.state.seasonsList.map(season => (
-                <Link
-                  className={classes.button_link}
-                  to={`/subtournaments/${season.seaid}`}
-                  key={season.seaid}
-                >
-                  <MenuItem className={classes.listItem} value={season.seaid}>
-                    {season.title}
-                  </MenuItem>
-                </Link>
-              ))
-            : ""}
-        </List> */}
+      <div className={classes.mapContainer}>
+        <div />
       </div>
     );
   }
@@ -119,14 +92,21 @@ class Stadiums extends Component {
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  messages: state.messages,
-  stadiums: state.stadiums
+  messages: state.messages
 });
 
 export default compose(
   withStyles(styles),
+  GoogleApiWrapper(
+    props =>
+      props.location.state
+        ? {
+            apiKey: props.location.state.apiKey
+          }
+        : ""
+  ),
   connect(
     mapStateToProps,
-    { getStadium }
+    null
   )
-)(Stadiums);
+)(AddStadium);

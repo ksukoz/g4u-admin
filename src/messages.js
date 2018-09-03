@@ -29,6 +29,9 @@ export default {
       combineStuff: "Combining Stuff",
       settings: "Settings"
     },
+    stadiums: {
+      add: "Add stadium"
+    },
     tournaments: {
       nameLabel: "Tournament`s name",
       vkLabel: "Vkontakte",
@@ -174,6 +177,10 @@ export default {
       combineStuff: "Об'єднання Персоналу",
       settings: "Налаштування"
     },
+
+    stadiums: {
+      add: "Додати стадіон"
+    },
     tournaments: {
       nameLabel: "Назва турніру",
       vkLabel: "Vkontakte",
@@ -318,6 +325,9 @@ export default {
       combinePlayers: "Объединение Игроков",
       combineStuff: "Объединение Персонала",
       settings: "Настройки"
+    },
+    stadiums: {
+      add: "Добавить стадион"
     },
     tournaments: {
       nameLabel: "Название турнира",
