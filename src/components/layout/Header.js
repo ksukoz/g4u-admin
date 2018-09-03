@@ -39,9 +39,6 @@ const theme = createMuiTheme({
 });
 
 const styles = {
-  root: {
-    flexGrow: 1
-  },
   flex: {
     flexGrow: 1
   },

@@ -1,3 +1,9 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .auth {
   width: max-content;
   margin: 0 auto;
@@ -40,11 +46,27 @@
 
 .main {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  flex: 1;
+  min-height: 0;
 }
+
 .main .container {
+  flex: 1;
+  overflow: auto;
   padding: 2rem;
-  padding-top: calc(2rem + 84px);
+  padding-top: calc(2rem + 64px);
   flex-grow: 1;
+}
+
+.main .container::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.main .container::-webkit-scrollbar-thumb {
+  background-color: #43a047;
+  outline: 1px solid slategrey;
+}
+
+.main .container::-webkit-scrollbar {
+  width: 5px;
 }

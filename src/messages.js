@@ -15,6 +15,7 @@ export default {
     nav: {
       manageLeagues: "Manage Leagues",
       manageTournaments: "Tournaments",
+      franchise: "Franchise",
       leagues: "Leagues",
       subLeagues: "Subleagues",
       appointments: "Appointments",
