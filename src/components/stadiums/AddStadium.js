@@ -10,30 +10,36 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
+import Messages from "../common/Messages";
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
 
-import { compose, withProps } from "recompose";
+import { compose, withProps, lifecycle } from "recompose";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker
+  Marker,
+  InfoBox
 } from "react-google-maps";
 import { TextField } from "@material-ui/core";
+import { addStadium } from "../../actions/stadiumAction";
 
 const MyMapComponent = compose(
   withProps({
     googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyAwlzhR2g7O7r4r4pwVUz-Hc60Oz4T3GqY&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
-  withGoogleMap
+  withGoogleMap,
+  lifecycle({
+    componentDidUpdate() {}
+  })
 )(props => (
   <GoogleMap
     defaultZoom={8}
@@ -41,7 +47,10 @@ const MyMapComponent = compose(
     onClick={props.onClick}
   >
     {props.isMarkerShown && (
-      <Marker position={{ lat: props.lat, lng: props.lng }} />
+      <Marker
+        position={{ lat: props.lat, lng: props.lng }}
+        onClick={props.onToggleOpen}
+      />
     )}
   </GoogleMap>
 ));
@@ -118,16 +127,27 @@ const styles = theme => ({
 
 class AddStadium extends Component {
   state = {
+    open: false,
     name: "",
     defaultCenter: null
   };
 
-  onSubmit(e) {
-    e.preventDefault();
-  }
-  onChangeHandler = e => {
-    this.setState({ ...this.state, name: e.target.value });
+  onClick = e => {
+    // e.preventDefault();
+
+    const newStadium = {
+      title: "Тестовый стадион",
+      address: this.state.name,
+      status: 1,
+      latitude: this.state.defaultCenter.lat,
+      longitude: this.state.defaultCenter.lng
+    };
+
+    this.props.addStadium(newStadium);
   };
+  // onChangeHandler = e => {
+  //   this.setState({ ...this.state, name: e.target.value });
+  // };
 
   onSuggestSelect = place => {
     const { location } = place;
@@ -140,6 +160,20 @@ class AddStadium extends Component {
     });
   };
 
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
+
   // onClickHandler = e => {
 
   // }
@@ -147,36 +181,80 @@ class AddStadium extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.mapContainer}>
-        <TextField
-          name="name"
-          value={this.state.name}
-          onChange={this.onChangeHandler}
-        />
-        <Geosuggest
-          placeholder="Start typing!"
-          onSuggestSelect={this.onSuggestSelect}
-          location={
-            this.state.defaultCenter
-              ? this.state.defaultCenter
-              : new google.maps.LatLng(53.558572, 9.9278215)
-          }
-          radius={20}
-        />
-        {this.state.defaultCenter && (
-          <MyMapComponent
-            isMarkerShown
-            defaultCenter={this.state.defaultCenter}
-            lat={this.state.defaultCenter.lat}
-            lng={this.state.defaultCenter.lng}
-            onClick={x => {
-              const lat = x.latLng.lat();
-              const lng = x.latLng.lng();
-
-              this.setState({ ...this.state, defaultCenter: { lat, lng } });
-            }}
+      <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
           />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
         )}
+        <div className={classes.mapContainer}>
+          <p>{this.state.name}</p>
+          <Button
+            onClick={this.onClick}
+            disabled={!this.state.name || !this.state.defaultCenter}
+          >
+            Добавить стадион
+          </Button>
+          <Geosuggest
+            placeholder="Start typing!"
+            onSuggestSelect={this.onSuggestSelect}
+            location={
+              this.state.defaultCenter
+                ? this.state.defaultCenter
+                : new google.maps.LatLng(53.558572, 9.9278215)
+            }
+            radius={20}
+          />
+          {this.state.defaultCenter && (
+            <MyMapComponent
+              isMarkerShown
+              defaultCenter={this.state.defaultCenter}
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwlzhR2g7O7r4r4pwVUz-Hc60Oz4T3GqY&libraries=geometry,drawing,places"
+              lat={this.state.defaultCenter.lat}
+              lng={this.state.defaultCenter.lng}
+              onClick={x => {
+                const lat = x.latLng.lat();
+                const lng = x.latLng.lng();
+                const that = this;
+
+                let address;
+
+                let geocoder = new window.google.maps.Geocoder();
+                geocoder.geocode(
+                  { location: { lat, lng } },
+                  (results, status) => {
+                    if (status == "OK") {
+                      address = results[0].formatted_address;
+                      console.log("here result of geocoder", results);
+                      that.setState({
+                        ...that.state,
+                        defaultCenter: { lat, lng },
+                        name: address
+                      });
+                    } else {
+                      console.log(
+                        "Geocode was not successful for the following reason: " +
+                          status
+                      );
+                    }
+                  }
+                );
+              }}
+            />
+          )}
+        </div>
       </div>
     );
   }
@@ -200,6 +278,6 @@ export default compose(
   // ),
   connect(
     mapStateToProps,
-    null
+    { addStadium }
   )
 )(AddStadium);

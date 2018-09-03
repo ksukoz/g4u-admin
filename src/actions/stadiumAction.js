@@ -3,7 +3,7 @@ import { GET_ERRORS, GET_MESSAGES, GET_STADIUMS } from "../actions/types";
 
 export const addStadium = stadiumData => dispatch => {
   axios
-    .post("http://api.mygame4u.com/admin/statiums/add", stadiumData, {
+    .post("http://api.mygame4u.com/admin/stadiums/add", stadiumData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
