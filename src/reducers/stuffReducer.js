@@ -40,6 +40,9 @@ export default function(state = initialState, action) {
         errors: action.payload
       };
     default:
-      return state;
+      return {
+        ...state,
+        members: null
+      };
   }
 }

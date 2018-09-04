@@ -124,14 +124,18 @@ class Calendar extends Component {
   };
 
   handleChange = (event, value) => {
-    this.setState({
-      ...this.state,
-      value,
-      tours: Array.from(
-        { length: (this.state.commands.length - 1) * value },
-        (v, k) => k + 1
-      )
-    });
+    if (this.state.commands.length === 0) {
+      event.preventDefault();
+    } else {
+      this.setState({
+        ...this.state,
+        value,
+        tours: Array.from(
+          { length: (this.state.commands.length - 1) * value },
+          (v, k) => k + 1
+        )
+      });
+    }
   };
 
   handleClose = (event, reason) => {
@@ -216,7 +220,12 @@ class Calendar extends Component {
         ) : (
           ""
         )}
-        <Button onClick={() => this.props.history.goBack()}>Назад</Button>
+        <Button
+          onClick={() => this.props.history.goBack()}
+          style={{ marginBottom: "1rem" }}
+        >
+          Назад
+        </Button>
         <BottomNavigation
           value={this.state.value}
           onChange={this.handleChange}

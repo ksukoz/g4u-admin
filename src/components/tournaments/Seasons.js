@@ -104,6 +104,12 @@ class Seasons extends Component {
     const { classes } = this.props;
     return (
       <div>
+        <Button
+          onClick={() => this.props.history.goBack()}
+          style={{ marginBottom: "1rem" }}
+        >
+          Назад
+        </Button>
         <Link
           className={classes.button_link}
           to={
