@@ -163,6 +163,10 @@ class AddStuff extends Component {
       return;
     }
 
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
+    }
+
     this.setState({ open: false });
   };
 
@@ -192,6 +196,7 @@ class AddStuff extends Component {
     return (
       <div className={classes.root}>
         <div className={classes.form}>
+          <Button onClick={() => this.props.history.goBack()}>Назад</Button>
           <form className="stuff__form" onSubmit={this.onSubmitHandler}>
             <TextField
               label={<FormattedMessage id="stuff.nameLabel" />}

@@ -278,6 +278,7 @@ class AddCommands extends Component {
     return (
       <div className={classes.wrap}>
         <div className={classes.form}>
+          <Button onClick={() => this.props.history.goBack()}>Назад</Button>
           <form className="player__form" onSubmit={this.onSubmitHandler}>
             <TextField
               label={<FormattedMessage id="commands.nameLabel" />}

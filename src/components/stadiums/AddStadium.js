@@ -226,6 +226,7 @@ class AddStadium extends Component {
         ) : (
           ""
         )}
+        <Button onClick={() => this.props.history.goBack()}>Назад</Button>
         <div className={classes.mapContainer}>
           <TextField
             label="Название стадиона"
