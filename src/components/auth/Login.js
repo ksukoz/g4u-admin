@@ -59,7 +59,9 @@ class Login extends Component {
   };
 
   onChangeHandler = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+    });
   };
 
   handleClose = (event, reason) => {

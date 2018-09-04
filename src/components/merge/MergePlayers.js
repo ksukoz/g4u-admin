@@ -112,7 +112,7 @@ class MergePlayers extends Component {
 
     this.setState({
       ...this.state,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
     });
   };
 

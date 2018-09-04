@@ -128,12 +128,14 @@ class Appointments extends Component {
   };
 
   onChangeHandler = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+    });
 
     if (e.target.name === "stuffName") {
       this.setState({
         ...this.state,
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, ""),
         stuffId: ""
       });
 
@@ -143,7 +145,7 @@ class Appointments extends Component {
     } else if (e.target.name === "gameName") {
       this.setState({
         ...this.state,
-        [e.target.name]: e.target.value,
+        [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, ""),
         gameId: ""
       });
       if (e.target.value.length >= 3) {

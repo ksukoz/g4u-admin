@@ -147,7 +147,9 @@ class AddCommands extends Component {
   };
 
   onChangeHandler = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+    });
 
     if (e.target.name === "playerName" && e.target.value.length >= 3) {
       this.props.getPlayersByName(`${e.target.value}&tied=1`);
