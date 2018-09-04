@@ -177,6 +177,8 @@ class AddStadium extends Component {
           }
         }
       );
+      if (this.state.defaultCenter) {
+      }
       this.setState({
         ...this.state,
         defaultCenter: {
@@ -245,14 +247,16 @@ class AddStadium extends Component {
             margin="normal"
           />
           <Geosuggest
-            placeholder="Введите город"
+            placeholder="Введите приблизительный адрес"
             onSuggestSelect={this.onSuggestSelect}
+            disabled={this.state.defaultCenter}
             location={
               this.state.defaultCenter
                 ? this.state.defaultCenter
                 : new google.maps.LatLng(53.558572, 9.9278215)
             }
             radius={20}
+            country={["ru", "ua", "pl"]}
           />
           <FormControlLabel
             control={
