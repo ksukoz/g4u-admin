@@ -5,11 +5,13 @@ import compose from "recompose/compose";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
+import Messages from "../common/Messages";
+
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
-import { getStadium } from "../../actions/stadiumAction";
+import { getStadium, delStadium } from "../../actions/stadiumAction";
 
 const styles = theme => ({
   root: {
@@ -71,10 +73,46 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  cross: {
+    color: "#ff5e5e",
+    marginLeft: "auto"
   }
 });
 
 class Stadiums extends Component {
+  state = {
+    open: false
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.getStadium());
+    }
+
+    this.setState({ open: false });
+  };
+
+  onClickHandler = e => {
+    e.preventDefault();
+    if (!e.target.name) {
+      this.props.delStadium(e.target.parentNode.name);
+    } else {
+      this.props.delStadium(e.target.name);
+    }
+    console.log(e.target);
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.errors || nextProps.messages) {
+      this.setState({ ...this.state, open: true });
+    }
+  };
+
   componentDidMount = () => {
     this.props.getStadium();
   };
@@ -85,6 +123,23 @@ class Stadiums extends Component {
 
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <Link
           className={classes.button_link}
           to={{
@@ -97,21 +152,31 @@ class Stadiums extends Component {
             <FormattedMessage id="stadiums.add" />
           </Button>
         </Link>
-        {/* <List>
-          {this.state.seasonsList !== null
-            ? this.state.seasonsList.map(season => (
+        <List>
+          {stadiums !== null
+            ? stadiums.map(stadium => (
                 <Link
                   className={classes.button_link}
-                  to={`/subtournaments/${season.seaid}`}
-                  key={season.seaid}
+                  to={`/stadiums/${stadium.stadiums_id}`}
+                  key={stadium.stadiums_id}
                 >
-                  <MenuItem className={classes.listItem} value={season.seaid}>
-                    {season.title}
+                  <MenuItem
+                    className={classes.listItem}
+                    value={stadium.stadiums_id}
+                  >
+                    {stadium.title} - {stadium.address}
+                    <Button
+                      className={classes.cross}
+                      onClick={this.onClickHandler}
+                      name={stadium.stadiums_id}
+                    >
+                      &#10006;
+                    </Button>
                   </MenuItem>
                 </Link>
               ))
             : ""}
-        </List> */}
+        </List>
       </div>
     );
   }
@@ -127,6 +192,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getStadium }
+    { getStadium, delStadium }
   )
 )(Stadiums);

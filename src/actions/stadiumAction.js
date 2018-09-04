@@ -43,7 +43,31 @@ export const getStadium = () => dispatch => {
       } else {
         dispatch({
           type: GET_STADIUMS,
-          payload: res.data.answer
+          payload: res.data.answer.list
+        });
+      }
+    });
+};
+
+export const delStadium = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/stadiums/del?id=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
         });
       }
     });
