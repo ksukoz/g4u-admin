@@ -89,6 +89,10 @@ class AddSeason extends Component {
       return;
     }
 
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
+    }
+
     this.setState({ open: false });
   };
 
@@ -131,6 +135,7 @@ class AddSeason extends Component {
         ) : (
           ""
         )}
+        <Button onClick={() => this.props.history.goBack()}>Назад</Button>
         <form className="player__form" onSubmit={this.onSubmitHandler}>
           <TextField
             label={<FormattedMessage id="seasons.nameLabel" />}

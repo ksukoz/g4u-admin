@@ -139,6 +139,10 @@ class Calendar extends Component {
       return;
     }
 
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
+    }
+
     this.setState(
       { open: false },
       this.props.getGames(this.props.match.url.replace(/\D/g, ""))
@@ -212,6 +216,7 @@ class Calendar extends Component {
         ) : (
           ""
         )}
+        <Button onClick={() => this.props.history.goBack()}>Назад</Button>
         <BottomNavigation
           value={this.state.value}
           onChange={this.handleChange}

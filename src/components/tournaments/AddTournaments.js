@@ -74,8 +74,7 @@ class AddTournaments extends Component {
     fb: "",
     youtube: "",
     rating: false,
-    status: false,
-    type: ""
+    status: false
   };
 
   onChangeHandler = e => {
@@ -102,6 +101,10 @@ class AddTournaments extends Component {
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
+    }
+
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
     }
 
     this.setState({ open: false });
@@ -146,6 +149,7 @@ class AddTournaments extends Component {
         ) : (
           ""
         )}
+        <Button onClick={() => this.props.history.goBack()}>Назад</Button>
         <form className="player__form" onSubmit={this.onSubmitHandler}>
           <TextField
             label={<FormattedMessage id="tournaments.nameLabel" />}
@@ -201,24 +205,6 @@ class AddTournaments extends Component {
             }
             label={<FormattedMessage id="tournaments.showLabel" />}
           />
-          <FormControl className={classes.input}>
-            <InputLabel htmlFor="type">
-              <FormattedMessage id="tournaments.typeLabel" />
-            </InputLabel>
-            <Select
-              value={this.state.type}
-              className={classes.select}
-              onChange={this.onChangeHandler}
-              inputProps={{
-                name: "type",
-                id: "type"
-              }}
-            >
-              <MenuItem value="" />
-              <MenuItem value="league">Лига</MenuItem>
-              <MenuItem value="cup">Кубок</MenuItem>
-            </Select>
-          </FormControl>
           <Button size="large" type="submit" className={classes.submit}>
             <FormattedMessage id="tournaments.submit" />
           </Button>

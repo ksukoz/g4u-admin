@@ -146,6 +146,10 @@ class AddTournamentCommand extends Component {
       return;
     }
 
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
+    }
+
     this.setState({ open: false });
   };
 
@@ -220,6 +224,7 @@ class AddTournamentCommand extends Component {
         )}
         <div className={classes.wrap}>
           <div className={classes.form}>
+            <Button onClick={() => this.props.history.goBack()}>Назад</Button>
             <form className="player__form" onSubmit={this.onSubmitHandler}>
               <TextField
                 label={<FormattedMessage id="subtournaments.addCommands" />}
