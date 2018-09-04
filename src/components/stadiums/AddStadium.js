@@ -1,22 +1,13 @@
 /*global google*/
 
 import React, { Component } from "react";
-import { GoogleApiWrapper } from "google-maps-react";
 import Geosuggest from "react-geosuggest";
+import { compose, withProps, lifecycle } from "recompose";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-// import compose from "recompose/compose";
 import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
-
-import Messages from "../common/Messages";
-import List from "@material-ui/core/List";
-import MenuItem from "@material-ui/core/MenuItem";
-
-import Button from "@material-ui/core/Button";
-
-import { compose, withProps, lifecycle } from "recompose";
 import {
   withScriptjs,
   withGoogleMap,
@@ -24,13 +15,20 @@ import {
   Marker,
   InfoBox
 } from "react-google-maps";
-import { TextField } from "@material-ui/core";
+
+import Messages from "../common/Messages";
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
+import Button from "@material-ui/core/Button";
 import { addStadium } from "../../actions/stadiumAction";
 
 const MyMapComponent = compose(
   withProps({
     googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyAwlzhR2g7O7r4r4pwVUz-Hc60Oz4T3GqY&libraries=geometry,drawing,places",
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyAwlzhR2g7O7r4r4pwVUz-Hc60Oz4T3GqY&language=en&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
     mapElement: <div style={{ height: `100%` }} />
@@ -68,7 +66,7 @@ const styles = theme => ({
   },
   checked: {},
   input: {
-    width: "40%"
+    width: "100%"
   },
   input_wrap: {
     display: "flex",
@@ -129,14 +127,14 @@ class AddStadium extends Component {
   state = {
     open: false,
     name: "",
+    title: "",
+    status: false,
     defaultCenter: null
   };
 
   onClick = e => {
-    // e.preventDefault();
-
     const newStadium = {
-      title: "Тестовый стадион",
+      title: this.state.title,
       address: this.state.name,
       status: 1,
       latitude: this.state.defaultCenter.lat,
@@ -145,24 +143,35 @@ class AddStadium extends Component {
 
     this.props.addStadium(newStadium);
   };
-  // onChangeHandler = e => {
-  //   this.setState({ ...this.state, name: e.target.value });
-  // };
+
+  toggleChange = e => {
+    this.setState({ [e.target.name]: !this.state[e.target.name] });
+  };
+
+  onChangeHandler = e => {
+    this.setState({ ...this.state, [e.target.name]: e.target.value });
+  };
 
   onSuggestSelect = place => {
-    const { location } = place;
-    this.setState({
-      ...this.state,
-      defaultCenter: {
-        lat: parseFloat(location.lat),
-        lng: parseFloat(location.lng)
-      }
-    });
+    if (place) {
+      const { location } = place;
+      this.setState({
+        ...this.state,
+        defaultCenter: {
+          lat: parseFloat(location.lat),
+          lng: parseFloat(location.lng)
+        }
+      });
+    }
   };
 
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
+    }
+
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
     }
 
     this.setState({ open: false });
@@ -173,10 +182,6 @@ class AddStadium extends Component {
       this.setState({ ...this.state, open: true });
     }
   };
-
-  // onClickHandler = e => {
-
-  // }
 
   render() {
     const { classes } = this.props;
@@ -200,15 +205,24 @@ class AddStadium extends Component {
           ""
         )}
         <div className={classes.mapContainer}>
-          <p>{this.state.name}</p>
-          <Button
-            onClick={this.onClick}
-            disabled={!this.state.name || !this.state.defaultCenter}
-          >
-            Добавить стадион
-          </Button>
+          <TextField
+            label="Название стадиона"
+            name="title"
+            className={classes.input}
+            value={this.state.title}
+            onChange={this.onChangeHandler}
+            margin="normal"
+          />
+          <TextField
+            label="Адрес"
+            name="name"
+            className={classes.input}
+            value={this.state.name}
+            onChange={this.onChangeHandler}
+            margin="normal"
+          />
           <Geosuggest
-            placeholder="Start typing!"
+            placeholder="Введите город"
             onSuggestSelect={this.onSuggestSelect}
             location={
               this.state.defaultCenter
@@ -217,11 +231,30 @@ class AddStadium extends Component {
             }
             radius={20}
           />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="status"
+                checked={this.state.status}
+                classes={{ root: classes.checkbox, checked: classes.checked }}
+                onChange={this.toggleChange}
+              />
+            }
+            className={classes.input}
+            label={<FormattedMessage id="subtournaments.showLabel" />}
+          />
+          <Button
+            onClick={this.onClick}
+            disabled={!this.state.name || !this.state.defaultCenter}
+            className={classes.submit}
+          >
+            Добавить стадион
+          </Button>
           {this.state.defaultCenter && (
             <MyMapComponent
               isMarkerShown
               defaultCenter={this.state.defaultCenter}
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwlzhR2g7O7r4r4pwVUz-Hc60Oz4T3GqY&libraries=geometry,drawing,places"
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwlzhR2g7O7r4r4pwVUz-Hc60Oz4T3GqY&language=en&libraries=geometry,drawing,places"
               lat={this.state.defaultCenter.lat}
               lng={this.state.defaultCenter.lng}
               onClick={x => {
@@ -243,11 +276,6 @@ class AddStadium extends Component {
                         defaultCenter: { lat, lng },
                         name: address
                       });
-                    } else {
-                      console.log(
-                        "Geocode was not successful for the following reason: " +
-                          status
-                      );
                     }
                   }
                 );
@@ -267,15 +295,6 @@ const mapStateToProps = state => ({
 
 export default compose(
   withStyles(styles),
-  // GoogleApiWrapper(
-  //   props =>
-  //     props.location.state
-  //       ? {
-  //           apiKey: props.location.state.apiKey,
-  //           libraries: ["places"]
-  //         }
-  //       : ""
-  // ),
   connect(
     mapStateToProps,
     { addStadium }
