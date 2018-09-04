@@ -12,6 +12,9 @@ export default function(state = initialState, action) {
         commands: action.payload
       };
     default:
-      return state;
+      return {
+        ...state,
+        commands: null
+      };
   }
 }

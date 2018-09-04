@@ -40,7 +40,7 @@ const MyMapComponent = compose(
   })
 )(props => (
   <GoogleMap
-    defaultZoom={8}
+    defaultZoom={17}
     defaultCenter={props.defaultCenter}
     onClick={props.onClick}
   >
@@ -155,6 +155,28 @@ class AddStadium extends Component {
   onSuggestSelect = place => {
     if (place) {
       const { location } = place;
+      const that = this;
+      let address;
+
+      let geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode(
+        {
+          location: {
+            lat: parseFloat(location.lat),
+            lng: parseFloat(location.lng)
+          }
+        },
+        (results, status) => {
+          if (status == "OK") {
+            address = results[0].formatted_address;
+            console.log("here result of geocoder", results);
+            that.setState({
+              ...that.state,
+              name: address
+            });
+          }
+        }
+      );
       this.setState({
         ...this.state,
         defaultCenter: {

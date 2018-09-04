@@ -4,7 +4,11 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { getCountries } from "../../actions/locationActions";
+import {
+  getCountries,
+  getCities,
+  getRegions
+} from "../../actions/locationActions";
 import { getPlayersByName } from "../../actions/playerActions";
 import { addCommand, getCommandsByName } from "../../actions/commandsActions";
 
@@ -43,7 +47,7 @@ const styles = theme => ({
     flexWrap: "wrap"
   },
   form: {
-    width: "49%"
+    width: "100%"
   },
   imgWrap: {
     display: "flex"
@@ -118,9 +122,11 @@ class AddCommands extends Component {
     double: "",
     doubleId: "",
     image: "",
-    country: "",
+    country: null,
     playersList: null,
-    commandsList: null
+    commandsList: null,
+    region: "",
+    city: ""
   };
 
   onChangeFileHandler = e => {
@@ -147,7 +153,15 @@ class AddCommands extends Component {
       this.props.getPlayersByName(`${e.target.value}&tied=1`);
     } else if (e.target.name === "double" && e.target.value.length >= 3) {
       this.props.getCommandsByName(e.target.value);
+    } else if (e.target.name === "country") {
+      this.setState({ [e.target.name]: JSON.parse(e.target.value) });
+      this.props.getRegions(JSON.parse(e.target.value).iso);
     }
+  };
+
+  onRegionChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+    this.props.getCities(e.target.value);
   };
 
   onRadioChangeHandler = e => {
@@ -183,6 +197,7 @@ class AddCommands extends Component {
       player_id: this.state.playerId,
       status: this.state.status,
       country_id: this.state.country,
+      city_id: this.state.city,
       logo: this.state.image,
       sub_command_id: this.state.doubleId
     };
@@ -221,12 +236,37 @@ class AddCommands extends Component {
 
   render() {
     const { classes } = this.props;
-    const { countries } = this.props.location;
+    const { countries, regions, cities } = this.props.location;
+
+    const {} = this.props.location;
+
     let countriesList;
+    let regionsList;
+    let citiesList;
+
     if (countries !== null && countries !== undefined) {
       countriesList = countries.map(country => (
-        <MenuItem key={country.id} value={country.id}>
+        <MenuItem
+          key={country.id}
+          value={JSON.stringify({ id: country.id, iso: country.iso })}
+        >
           {country.name}
+        </MenuItem>
+      ));
+    }
+
+    if (regions !== null) {
+      regionsList = regions.map(region => (
+        <MenuItem key={region.id} value={region.id}>
+          {region.name}
+        </MenuItem>
+      ));
+    }
+
+    if (cities !== null) {
+      citiesList = cities.map(cities => (
+        <MenuItem key={cities.id} value={cities.id}>
+          {cities.name}
         </MenuItem>
       ));
     }
@@ -248,7 +288,7 @@ class AddCommands extends Component {
                 <FormattedMessage id="leagues.countryLabel" />
               </InputLabel>
               <Select
-                value={this.state.country}
+                value={JSON.stringify(this.state.country)}
                 className={classes.select}
                 onChange={this.onChangeHandler}
                 inputProps={{
@@ -256,10 +296,48 @@ class AddCommands extends Component {
                   id: "country"
                 }}
               >
-                <MenuItem value="">
+                <MenuItem value={null}>
                   <em>None</em>
                 </MenuItem>
                 {countriesList}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.input}>
+              <InputLabel htmlFor="region">
+                <FormattedMessage id="subLeagues.regionLabel" />
+              </InputLabel>
+              <Select
+                value={this.state.region}
+                className={classes.select}
+                onChange={this.onRegionChange}
+                inputProps={{
+                  name: "region",
+                  id: "region"
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {regionsList}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.input}>
+              <InputLabel htmlFor="city">
+                <FormattedMessage id="subLeagues.cityLabel" />
+              </InputLabel>
+              <Select
+                value={this.state.city}
+                className={classes.select}
+                onChange={this.onChangeHandler}
+                inputProps={{
+                  name: "city",
+                  id: "city"
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {citiesList}
               </Select>
             </FormControl>
             <FormControlLabel
@@ -292,7 +370,7 @@ class AddCommands extends Component {
               value={this.state.playerName}
               onChange={this.onChangeHandler}
               margin="normal"
-              autoComplete="false"
+              autoComplete="off"
             />
             <Paper className={classes.listWrap}>
               {this.state.playersList !== null ? (
@@ -335,7 +413,7 @@ class AddCommands extends Component {
               value={this.state.double}
               onChange={this.onChangeHandler}
               margin="normal"
-              autoComplete="false"
+              autoComplete="off"
             />
             <Paper className={classes.listWrap}>
               {this.state.commandsList !== null ? (
@@ -413,6 +491,13 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlayersByName, addCommand, getCountries, getCommandsByName }
+    {
+      getPlayersByName,
+      addCommand,
+      getCountries,
+      getCommandsByName,
+      getRegions,
+      getCities
+    }
   )
 )(AddCommands);
