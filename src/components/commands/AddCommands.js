@@ -152,7 +152,7 @@ class AddCommands extends Component {
     if (e.target.name === "playerName" && e.target.value.length >= 3) {
       this.props.getPlayersByName(`${e.target.value}&tied=1`);
     } else if (e.target.name === "double" && e.target.value.length >= 3) {
-      this.props.getCommandsByName(e.target.value);
+      this.props.getCommandsByName(`${e.target.value}&sub=1`);
     } else if (e.target.name === "country") {
       this.setState({ [e.target.name]: JSON.parse(e.target.value) });
       this.props.getRegions(JSON.parse(e.target.value).iso);
@@ -208,6 +208,10 @@ class AddCommands extends Component {
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
+    }
+
+    if (this.props.messages) {
+      this.setState({ open: false }, this.props.history.goBack());
     }
 
     this.setState({ open: false });

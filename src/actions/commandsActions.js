@@ -2,7 +2,8 @@ import axios from "axios";
 import {
   GET_ERRORS,
   GET_MESSAGES,
-  GET_COMMANDS_BY_NAME
+  GET_COMMANDS_BY_NAME,
+  GET_COMMANDS
 } from "../actions/types";
 
 export const addCommand = commandData => dispatch => {
@@ -47,6 +48,30 @@ export const getCommandsByName = value => dispatch => {
       } else {
         dispatch({
           type: GET_COMMANDS_BY_NAME,
+          payload: res.data.answer
+        });
+      }
+    });
+};
+
+export const getCommands = () => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/commands/list`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_COMMANDS,
           payload: res.data.answer
         });
       }

@@ -43,3 +43,4 @@ export const MERGE_PLAYER = "MERGE_PLAYER";
 export const GET_MERGING = "GET_MERGING";
 
 export const GET_COMMANDS_BY_NAME = "GET_COMMANDS_BY_NAME";
+export const GET_COMMANDS = "GET_COMMANDS";
