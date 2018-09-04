@@ -68,7 +68,7 @@ class AddFranchise extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
     });
   };
 

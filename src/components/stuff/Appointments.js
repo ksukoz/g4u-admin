@@ -129,13 +129,13 @@ class Appointments extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
     });
 
     if (e.target.name === "stuffName") {
       this.setState({
         ...this.state,
-        [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, ""),
+        [e.target.name]: e.target.value.replace(/[а-я]+/ig, ""),
         stuffId: ""
       });
 
@@ -145,7 +145,7 @@ class Appointments extends Component {
     } else if (e.target.name === "gameName") {
       this.setState({
         ...this.state,
-        [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, ""),
+        [e.target.name]: e.target.value.replace(/[а-я]+/ig, ""),
         gameId: ""
       });
       if (e.target.value.length >= 3) {

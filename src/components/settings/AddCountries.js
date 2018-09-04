@@ -60,7 +60,7 @@ class AddCountries extends Component {
   onChangeHandler = e => {
     this.setState({
       ...this.state,
-      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
     });
   };
 

@@ -148,7 +148,7 @@ class AddCommands extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[^a-zA-Z0-9]+/, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
     });
 
     if (e.target.name === "playerName" && e.target.value.length >= 3) {
