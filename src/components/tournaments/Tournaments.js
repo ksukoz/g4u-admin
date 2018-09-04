@@ -95,7 +95,9 @@ class Tournaments extends Component {
   onLeagueChange = e => {
     if (e.target.name === "league") {
       this.setState({
-        [e.target.name]: JSON.parse(e.target.value)
+        [e.target.name]: JSON.parse(e.target.value),
+        subLeague: "",
+        tournamentsList: null
       });
 
       this.props.getSubLeagues(JSON.parse(e.target.value).id);
@@ -112,16 +114,31 @@ class Tournaments extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    // console.log(nextProps.tournaments);
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
-    } else if (nextProps.tournaments.list !== null) {
+    }
+    if (nextProps.league.subLeagues) {
+      this.setState({ ...this.state, subLeagues: nextProps.league.subLeagues });
+    }
+    if (nextProps.tournaments.list) {
       this.setState({
         ...this.state,
         tournamentsList: nextProps.tournaments.list
       });
-    } else if (nextProps.league.subLeagues !== null) {
-      this.setState({ ...this.state, subLeagues: nextProps.league.subLeagues });
+    }
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.league.subLeagues !== this.props.league.subLeagues) {
+      this.setState({
+        ...this.state,
+        subLeagues: this.props.league.subLeagues
+      });
+    } else if (prevProps.tournaments.list !== this.props.tournaments.list) {
+      this.setState({
+        ...this.state,
+        tournamentsList: this.props.tournaments.list
+      });
     }
   };
 

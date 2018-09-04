@@ -55,6 +55,9 @@ export default function(state = initialState, action) {
         appoints: action.payload
       };
     default:
-      return state;
+      return {
+        ...state,
+        list: null
+      };
   }
 }
