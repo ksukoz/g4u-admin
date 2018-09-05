@@ -78,9 +78,15 @@ class AddSubtournament extends Component {
   };
 
   onChangeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
-    });
+    if (e.target.name !== "rounds") {
+      this.setState({
+        [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
+      });
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+    }
   };
 
   onSubmitHandler = e => {

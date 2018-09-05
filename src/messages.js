@@ -108,6 +108,7 @@ export default {
     commands: {
       nameLabel: "Command`s name",
       showLabel: "Show on website and in the app",
+      captainLabel: "Type captain`s name",
       doubleLabel: "Double",
       submit: "Create",
       add: "Add command"
@@ -259,6 +260,8 @@ export default {
     commands: {
       nameLabel: "Назва команди",
       showLabel: "Показувати на сайті та у додатку",
+
+      captainLabel: "Введіть ім'я капитана команди",
       doubleLabel: "Дубль",
       submit: "Створити",
       add: "Додати команду"
@@ -409,6 +412,7 @@ export default {
     commands: {
       nameLabel: "Название команды",
       showLabel: "Показывать на сайте и в приложении",
+      captainLabel: "Введите имя капитана команды",
       doubleLabel: "Дубль",
       submit: "Создать",
       add: "Добавить команду"

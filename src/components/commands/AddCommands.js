@@ -148,7 +148,7 @@ class AddCommands extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
 
     if (e.target.name === "playerName" && e.target.value.length >= 3) {
@@ -371,7 +371,7 @@ class AddCommands extends Component {
               )}
             </div>
             <TextField
-              label={<FormattedMessage id="combine.inputLabel" />}
+              label={<FormattedMessage id="commands.captainLabel" />}
               name="playerName"
               className={classes.input}
               value={this.state.playerName}
