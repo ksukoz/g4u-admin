@@ -104,7 +104,6 @@ class Stadiums extends Component {
     } else {
       this.props.delStadium(e.target.name);
     }
-    console.log(e.target);
   };
 
   componentWillReceiveProps = nextProps => {

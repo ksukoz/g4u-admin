@@ -8,7 +8,8 @@ import { withStyles } from "@material-ui/core/styles";
 import {
   getCommands,
   addGame,
-  getGames
+  getGames,
+  delGame
 } from "../../actions/tournamentActions";
 import Messages from "../common/Messages";
 import List from "@material-ui/core/List";
@@ -94,6 +95,7 @@ const styles = theme => ({
   },
   flex: {
     display: "flex",
+    width: "100%",
     "& span": {
       padding: "0 3rem"
     }
@@ -107,6 +109,10 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  cross: {
+    color: "#ff5e5e",
+    marginLeft: "auto"
   }
 });
 
@@ -151,6 +157,15 @@ class Calendar extends Component {
       { open: false },
       this.props.getGames(this.props.match.url.replace(/\D/g, ""))
     );
+  };
+
+  onClickHandler = e => {
+    e.preventDefault();
+    if (!e.target.name) {
+      this.props.delGame({ game_id: e.target.parentNode.name });
+    } else {
+      this.props.delGame({ game_id: e.target.name });
+    }
   };
 
   onChangeHandler = e => {
@@ -370,16 +385,25 @@ class Calendar extends Component {
                   value={game.id}
                 >
                   <div className={classes.flex}>
-                    <div className={classes.flex}>{game.tour} тур</div>
+                    <div className={classes.flex} style={{ width: 200 }}>
+                      {game.tour} тур
+                    </div>
                     <div className={classes.flex}>
                       <Avatar alt="" src={game.in.logo} />
-                      {game.in.title}
+                      <span>{game.in.title}</span>
                     </div>
                     <span>:</span>
                     <div className={classes.flex}>
-                      {game.out.title}
+                      <span>{game.out.title}</span>
                       <Avatar alt="" src={game.out.logo} />
                     </div>
+                    <Button
+                      className={classes.cross}
+                      onClick={this.onClickHandler}
+                      name={game.id}
+                    >
+                      &#10006;
+                    </Button>
                   </div>
                 </MenuItem>
               ))
@@ -400,6 +424,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommands, addGame, getGames }
+    { getCommands, addGame, getGames, delGame }
   )
 )(Calendar);

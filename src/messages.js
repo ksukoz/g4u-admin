@@ -108,7 +108,8 @@ export default {
       nameLabel: "Command`s name",
       showLabel: "Show on website and in the app",
       doubleLabel: "Double",
-      submit: "Create"
+      submit: "Create",
+      add: "Add command"
     },
     players: {
       tableName: "Players' full name",
@@ -257,7 +258,8 @@ export default {
       nameLabel: "Назва команди",
       showLabel: "Показувати на сайті та у додатку",
       doubleLabel: "Дубль",
-      submit: "Створити"
+      submit: "Створити",
+      add: "Додати команду"
     },
     players: {
       tableName: "ПІБ гравця",
@@ -405,7 +407,8 @@ export default {
       nameLabel: "Название команды",
       showLabel: "Показывать на сайте и в приложении",
       doubleLabel: "Дубль",
-      submit: "Создать"
+      submit: "Создать",
+      add: "Добавить команду"
     },
     players: {
       tableName: "ФИО",
