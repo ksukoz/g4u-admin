@@ -129,28 +129,24 @@ class Calendar extends Component {
     games: null
   };
 
-  handleChange = (event, value) => {
-    if (this.state.commands.length === 0) {
-      event.preventDefault();
-    } else {
-      this.setState({
-        ...this.state,
-        value,
-        tours: Array.from(
-          { length: (this.state.commands.length - 1) * value },
-          (v, k) => k + 1
-        )
-      });
-    }
-  };
+  // handleChange = (event, value) => {
+  //   if (this.state.commands.length === 0) {
+  //     event.preventDefault();
+  //   } else {
+  //     this.setState({
+  //       ...this.state,
+  //       value,
+  //       tours: Array.from(
+  //         { length: (this.state.commands.length - 1) * value },
+  //         (v, k) => k + 1
+  //       )
+  //     });
+  //   }
+  // };
 
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
-    }
-
-    if (this.props.messages) {
-      this.setState({ open: false }, this.props.history.goBack());
     }
 
     this.setState(
@@ -200,14 +196,14 @@ class Calendar extends Component {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
     } else if (
-      nextProps.tournaments.commands !== null ||
+      nextProps.tournaments.commands !== null &&
       nextProps.tournaments.games !== null
     ) {
       this.setState({
         commands: nextProps.tournaments.commands,
-        games: nextProps.tournaments.games,
+        games: nextProps.tournaments.games.games,
         tours: Array.from(
-          { length: nextProps.tournaments.commands.length - 1 },
+          { length: nextProps.tournaments.games.tcount },
           (v, k) => k + 1
         )
       });
@@ -241,7 +237,7 @@ class Calendar extends Component {
         >
           Назад
         </Button>
-        <BottomNavigation
+        {/* <BottomNavigation
           value={this.state.value}
           onChange={this.handleChange}
           showLabels
@@ -267,7 +263,7 @@ class Calendar extends Component {
             label="4 круг"
             value={4}
           />
-        </BottomNavigation>
+        </BottomNavigation> */}
         <form onSubmit={this.onSubmitHandler}>
           {this.state.tours !== null ? (
             <FormControl className={classes.smSelect}>

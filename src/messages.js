@@ -65,7 +65,8 @@ export default {
       addCommands: "Add commands",
       tours: "Tour",
       homeCommands: "Home command",
-      guestCommands: "Guest command"
+      guestCommands: "Guest command",
+      roundsLabel: "Quantity of rounds"
     },
     leagues: {
       tableHeading: "League's name",
@@ -215,7 +216,8 @@ export default {
       addCommands: "Додати команду",
       tours: "Тур",
       homeCommands: "Приймаюча команда",
-      guestCommands: "Виїзна команда"
+      guestCommands: "Виїзна команда",
+      roundsLabel: "Кількість кругів"
     },
     leagues: {
       tableHeading: "Назва ліги",
@@ -364,7 +366,8 @@ export default {
       addCommands: "Добавить команду",
       tours: "Тур",
       homeCommands: "Принимающая команда",
-      guestCommands: "Выездная команда"
+      guestCommands: "Выездная команда",
+      roundsLabel: "Количество кругов"
     },
     leagues: {
       tableHeading: "Название лиги",

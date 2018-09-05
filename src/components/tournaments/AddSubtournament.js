@@ -73,12 +73,13 @@ class AddSubtournament extends Component {
     position: "",
     stat: "",
     status: false,
+    rounds: 1,
     type: ""
   };
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
   };
 
@@ -87,7 +88,7 @@ class AddSubtournament extends Component {
 
     const newSubTournament = {
       title: this.state.name,
-      // type: this.state.type,
+      rounds: this.state.rounds,
       stat_type: this.state.stat,
       status: this.state.status,
       rait_type: this.state.position,
@@ -227,6 +228,25 @@ class AddSubtournament extends Component {
               }}
             >
               <MenuItem value="" />
+            </Select>
+          </FormControl>
+          <FormControl className={classes.input}>
+            <InputLabel htmlFor="rounds">
+              <FormattedMessage id="subtournaments.roundsLabel" />
+            </InputLabel>
+            <Select
+              value={this.state.rounds}
+              className={classes.select}
+              onChange={this.onChangeHandler}
+              inputProps={{
+                name: "rounds",
+                id: "rounds"
+              }}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
             </Select>
           </FormControl>
           <Button size="large" type="submit" className={classes.submit}>
