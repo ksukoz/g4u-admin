@@ -5,7 +5,8 @@ import {
   GET_TOUR_COMMANDS,
   GET_GAMES_BY_NAME,
   GET_APPOINTS,
-  GET_TOUR_GAMES
+  GET_TOUR_GAMES,
+  GET_AUTO_GAMES
 } from "../actions/types";
 
 const initialState = {
@@ -40,6 +41,11 @@ export default function(state = initialState, action) {
         commands: action.payload
       };
     case GET_TOUR_GAMES:
+      return {
+        ...state,
+        games: action.payload
+      };
+    case GET_AUTO_GAMES:
       return {
         ...state,
         games: action.payload

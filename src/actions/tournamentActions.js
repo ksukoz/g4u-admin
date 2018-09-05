@@ -6,6 +6,7 @@ import {
   GET_SUBTOURNAMENTS,
   GET_TOUR_COMMANDS,
   GET_TOUR_GAMES,
+  GET_AUTO_GAMES,
   GET_GAMES_BY_NAME,
   GET_APPOINTS,
   GET_ERRORS
@@ -321,6 +322,30 @@ export const getGames = id => dispatch => {
         type: GET_TOUR_GAMES,
         payload: res.data.answer
       });
+    });
+};
+
+export const getAutoGames = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/tournaments/autocomplite?subId=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_AUTO_GAMES,
+          payload: res.data.answer
+        });
+      }
     });
 };
 

@@ -9,7 +9,8 @@ import {
   getCommands,
   addGame,
   getGames,
-  delGame
+  delGame,
+  getAutoGames
 } from "../../actions/tournamentActions";
 import Messages from "../common/Messages";
 import List from "@material-ui/core/List";
@@ -237,6 +238,7 @@ class Calendar extends Component {
         >
           Назад
         </Button>
+
         {/* <BottomNavigation
           value={this.state.value}
           onChange={this.handleChange}
@@ -265,6 +267,17 @@ class Calendar extends Component {
           />
         </BottomNavigation> */}
         <form onSubmit={this.onSubmitHandler}>
+          <div>
+            <Button
+              onClick={() =>
+                this.props.getAutoGames(this.props.match.url.replace(/\D/g, ""))
+              }
+              style={{ marginBottom: "1rem" }}
+              disabled={this.state.games}
+            >
+              Автоматически
+            </Button>
+          </div>
           {this.state.tours !== null ? (
             <FormControl className={classes.smSelect}>
               <InputLabel htmlFor="tour">
@@ -373,7 +386,7 @@ class Calendar extends Component {
           </Button>
         </form>
         <List>
-          {this.state.games !== null
+          {this.state.games && this.state.games.length > 0
             ? this.state.games.map(game => (
                 <MenuItem
                   className={classes.listItem}
@@ -420,6 +433,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommands, addGame, getGames, delGame }
+    { getCommands, addGame, getGames, delGame, getAutoGames }
   )
 )(Calendar);
