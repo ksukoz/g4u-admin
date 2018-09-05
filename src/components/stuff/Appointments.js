@@ -129,13 +129,13 @@ class Appointments extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
 
     if (e.target.name === "stuffName") {
       this.setState({
         ...this.state,
-        [e.target.name]: e.target.value.replace(/[а-я]+/ig, ""),
+        [e.target.name]: e.target.value.replace(/[а-я]+/gi, ""),
         stuffId: ""
       });
 
@@ -145,7 +145,7 @@ class Appointments extends Component {
     } else if (e.target.name === "gameName") {
       this.setState({
         ...this.state,
-        [e.target.name]: e.target.value.replace(/[а-я]+/ig, ""),
+        [e.target.name]: e.target.value.replace(/[а-я]+/gi, ""),
         gameId: ""
       });
       if (e.target.value.length >= 3) {
@@ -327,7 +327,7 @@ class Appointments extends Component {
             </div>
             <div className={classes.inputWrap}>
               <TextField
-                label={<FormattedMessage id="commands.doubleLabel" />}
+                label={<FormattedMessage id="commands.nameLabel" />}
                 name="gameName"
                 className={classes.input}
                 value={this.state.gameName}

@@ -173,10 +173,10 @@ export default {
       stuff: "Персонал",
       commands: "Команди",
       players: "Гравці",
-      combining: "Об'єднання",
-      combineAppointments: "Запити на Об'єднання",
-      combinePlayers: "Об'єднання Гравців",
-      combineStuff: "Об'єднання Персоналу",
+      combining: "Злиття",
+      combineAppointments: "Запити на злиття",
+      combinePlayers: "Злиття Гравців",
+      combineStuff: "Злиття Персоналу",
       settings: "Налаштування"
     },
 
@@ -324,10 +324,10 @@ export default {
       stuff: "Персонал",
       commands: "Команды",
       players: "Игроки",
-      combining: "Объединение",
-      combineAppointments: "Запросы на Объединение",
-      combinePlayers: "Объединение Игроков",
-      combineStuff: "Объединение Персонала",
+      combining: "Слияние",
+      combineAppointments: "Запросы на Слияние",
+      combinePlayers: "Слияние Игроков",
+      combineStuff: "Слияние Персонала",
       settings: "Настройки"
     },
     stadiums: {
