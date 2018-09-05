@@ -103,11 +103,11 @@ class Commands extends Component {
 
   onClickHandler = e => {
     e.preventDefault();
-    if (!e.target.name) {
-      this.props.delStadium(e.target.parentNode.name);
-    } else {
-      this.props.delStadium(e.target.name);
-    }
+    // if (!e.target.name) {
+    //   this.props.delStadium(e.target.parentNode.name);
+    // } else {
+    //   this.props.delStadium(e.target.name);
+    // }
     console.log(e.target);
   };
 
