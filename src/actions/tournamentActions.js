@@ -325,6 +325,23 @@ export const getGames = id => dispatch => {
     });
 };
 
+export const getGameById = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/tournaments/getgame?gId=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_TOUR_GAMES,
+        payload: res.data.answer
+      });
+    });
+};
+
 export const getAutoGames = id => dispatch => {
   axios
     .get(`http://api.mygame4u.com/admin/tournaments/autocomplite?subId=${id}`, {

@@ -24,6 +24,8 @@ import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import Button from "@material-ui/core/Button";
 
+import CalendarIcon from "./icons/calendar.svg";
+
 const styles = theme => ({
   root: {
     display: "flex",
@@ -229,34 +231,53 @@ class Calendar extends Component {
         let gamesArr = [];
         for (let key in tour) {
           gamesArr.push(
-            <MenuItem className={classes.listItem} key={key} value={key}>
-              <div className={classes.flex}>
-                <div className={classes.flex} style={{ width: 200 }}>
-                  {i + 1} тур
-                </div>
-                <div style={{ display: "flex", width: "75%" }}>
-                  <div
-                    className={classes.flex}
-                    style={{ justifyContent: "flex-end" }}
+            <Link
+              to={`/calendar/edit/${key}`}
+              key={key}
+              style={{ textDecoration: "none" }}
+            >
+              <MenuItem className={classes.listItem} value={key}>
+                <div className={classes.flex}>
+                  <div className={classes.flex} style={{ width: 200 }}>
+                    {i + 1} тур
+                  </div>
+                  <div style={{ display: "flex", width: "75%" }}>
+                    <div
+                      className={classes.flex}
+                      style={{ justifyContent: "flex-end" }}
+                    >
+                      <span>{tour[key].in.title}</span>
+                      <Avatar alt="" src={tour[key].in.logo} />
+                    </div>
+
+                    {tour[key].date === null ? (
+                      <img
+                        src={CalendarIcon}
+                        alt=""
+                        style={{
+                          verticalAlign: "text-top",
+                          height: "25px",
+                          margin: "0 120px"
+                        }}
+                      />
+                    ) : (
+                      <span>{tour[key].date}</span>
+                    )}
+                    <div className={classes.flex}>
+                      <Avatar alt="" src={tour[key].out.logo} />
+                      <span>{tour[key].out.title}</span>
+                    </div>
+                  </div>
+                  <Button
+                    className={classes.cross}
+                    onClick={this.onClickHandler}
+                    name={key}
                   >
-                    <span>{tour[key].in.title}</span>
-                    <Avatar alt="" src={tour[key].in.logo} />
-                  </div>
-                  <span>:</span>
-                  <div className={classes.flex}>
-                    <Avatar alt="" src={tour[key].out.logo} />
-                    <span>{tour[key].out.title}</span>
-                  </div>
+                    &#10006;
+                  </Button>
                 </div>
-                <Button
-                  className={classes.cross}
-                  onClick={this.onClickHandler}
-                  name={key}
-                >
-                  &#10006;
-                </Button>
-              </div>
-            </MenuItem>
+              </MenuItem>
+            </Link>
           );
         }
         return gamesArr;

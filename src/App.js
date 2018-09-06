@@ -34,6 +34,7 @@ import SubTournaments from "./components/tournaments/SubTournaments";
 import AddSubtournament from "./components/tournaments/AddSubtournament";
 import AddTournamentCommand from "./components/tournaments/AddTournamentCommand";
 import Calendar from "./components/tournaments/Calendar";
+import EditGame from "./components/tournaments/EditGame";
 import Appointments from "./components/stuff/Appointments";
 import Stadiums from "./components/stadiums/Stadiums";
 import AddStadium from "./components/stadiums/AddStadium";
@@ -143,6 +144,13 @@ class App extends Component {
                     exact
                     path={`/subtournaments/calendar/:id`}
                     component={Calendar}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/calendar/edit/:id`}
+                    component={EditGame}
                   />
                 </Switch>
                 <Switch>

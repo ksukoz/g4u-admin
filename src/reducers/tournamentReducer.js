@@ -6,7 +6,8 @@ import {
   GET_GAMES_BY_NAME,
   GET_APPOINTS,
   GET_TOUR_GAMES,
-  GET_AUTO_GAMES
+  GET_AUTO_GAMES,
+  GET_GAME_BY_ID
 } from "../actions/types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   subtournaments: null,
   commands: null,
   games: null,
+  game: null,
   appoints: null
 };
 
@@ -49,6 +51,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         games: action.payload
+      };
+    case GET_GAME_BY_ID:
+      return {
+        ...state,
+        game: action.payload
       };
     case GET_GAMES_BY_NAME:
       return {
