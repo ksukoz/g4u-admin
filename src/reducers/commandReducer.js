@@ -1,7 +1,12 @@
-import { GET_COMMANDS_BY_NAME, GET_COMMANDS } from "../actions/types";
+import {
+  GET_COMMANDS_BY_NAME,
+  GET_COMMANDS,
+  GET_COMMAND_BY_ID
+} from "../actions/types";
 
 const initialState = {
-  commands: null
+  commands: null,
+  command: null
 };
 
 export default function(state = initialState, action) {
@@ -15,6 +20,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         commands: action.payload
+      };
+    case GET_COMMAND_BY_ID:
+      return {
+        ...state,
+        command: action.payload
       };
     default:
       return {

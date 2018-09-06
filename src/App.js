@@ -36,6 +36,7 @@ import Appointments from "./components/stuff/Appointments";
 import Stadiums from "./components/stadiums/Stadiums";
 import AddStadium from "./components/stadiums/AddStadium";
 import Commands from "./components/commands/Commands";
+import EditCommands from "./components/commands/EditCommands";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -163,6 +164,13 @@ class App extends Component {
                     exact
                     path="/commands/add"
                     component={AddCommands}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/commands/:id`}
+                    component={EditCommands}
                   />
                 </Switch>
                 <Switch>
