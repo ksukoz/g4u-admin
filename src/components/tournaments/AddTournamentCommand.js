@@ -90,7 +90,6 @@ const styles = theme => ({
   },
   chip: {
     backgroundColor: "#effcf1",
-    // marginLeft: "1rem",
     marginBottom: "1rem",
     "&:focus": {
       backgroundColor: "#effcf1"

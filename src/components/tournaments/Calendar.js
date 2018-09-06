@@ -234,14 +234,19 @@ class Calendar extends Component {
                 <div className={classes.flex} style={{ width: 200 }}>
                   {i + 1} тур
                 </div>
-                <div className={classes.flex}>
-                  <Avatar alt="" src={tour[key].in.logo} />
-                  <span>{tour[key].in.title}</span>
-                </div>
-                <span>:</span>
-                <div className={classes.flex}>
-                  <span>{tour[key].out.title}</span>
-                  <Avatar alt="" src={tour[key].out.logo} />
+                <div style={{ display: "flex", width: "75%" }}>
+                  <div
+                    className={classes.flex}
+                    style={{ justifyContent: "flex-end" }}
+                  >
+                    <span>{tour[key].in.title}</span>
+                    <Avatar alt="" src={tour[key].in.logo} />
+                  </div>
+                  <span>:</span>
+                  <div className={classes.flex}>
+                    <Avatar alt="" src={tour[key].out.logo} />
+                    <span>{tour[key].out.title}</span>
+                  </div>
                 </div>
                 <Button
                   className={classes.cross}
