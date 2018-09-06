@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import MomentUtils from "material-ui-pickers/utils/moment-utils";
+import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
@@ -11,6 +13,8 @@ import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+
+import { DateTimePicker } from "material-ui-pickers";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
@@ -65,13 +69,22 @@ class EditGame extends Component {
     open: false,
     tournament: "",
     name: "",
-    status: false
+    status: false,
+    start: new Date(),
+    finish: new Date()
   };
 
-  onChangeHandler = e => {
+  onChangeStartHandler = date => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
+      start: date._d
     });
+  };
+
+  onChangeFinishHandler = date => {
+    this.setState({
+      finish: date._d
+    });
+    console.log(date._d);
   };
 
   onSubmitHandler = e => {
@@ -98,10 +111,6 @@ class EditGame extends Component {
     this.setState({ open: false });
   };
 
-  toggleChange = e => {
-    this.setState({ [e.target.name]: !this.state[e.target.name] });
-  };
-
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
@@ -110,10 +119,6 @@ class EditGame extends Component {
 
   componentDidMount() {
     this.props.getGameById(this.props.match.url.replace(/\D/g, ""));
-    this.setState({
-      ...this.state,
-      tournament: this.props.match.url.replace(/\D/g, "")
-    });
   }
 
   render() {
@@ -140,26 +145,18 @@ class EditGame extends Component {
         )}
         <Button onClick={() => this.props.history.goBack()}>Назад</Button>
         <form className="player__form" onSubmit={this.onSubmitHandler}>
-          <TextField
-            label={<FormattedMessage id="seasons.nameLabel" />}
-            name="name"
-            className={classes.input}
-            value={this.state.name}
-            onChange={this.onChangeHandler}
-            margin="normal"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="status"
-                checked={this.state.status}
-                classes={{ root: classes.checkbox, checked: classes.checked }}
-                onChange={this.toggleChange}
-              />
-            }
-            className={classes.input}
-            label={<FormattedMessage id="seasons.showLabel" />}
-          />
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <DateTimePicker
+              name="start"
+              value={this.state.start}
+              onChange={this.onChangeStartHandler}
+            />
+            <DateTimePicker
+              name="finish"
+              value={this.state.finish}
+              onChange={this.onChangeFinishHandler}
+            />
+          </MuiPickersUtilsProvider>
           <Button size="large" type="submit" className={classes.submit}>
             <FormattedMessage id="seasons.submit" />
           </Button>
