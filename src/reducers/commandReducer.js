@@ -1,7 +1,8 @@
 import {
   GET_COMMANDS_BY_NAME,
   GET_COMMANDS,
-  GET_COMMAND_BY_ID
+  GET_COMMAND_BY_ID,
+  CLEAR_COMMANDS
 } from "../actions/types";
 
 const initialState = {
@@ -25,6 +26,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         command: action.payload
+      };
+    case CLEAR_COMMANDS:
+      return {
+        ...state,
+        commands: action.payload
       };
     default:
       return {
