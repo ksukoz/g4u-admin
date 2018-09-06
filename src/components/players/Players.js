@@ -44,10 +44,31 @@ const styles = theme => ({
     color: "#000",
     textDecoration: "none",
     transition: ".3s"
+  },
+  cross: {
+    color: "#ff5e5e",
+    float: "right"
+  },
+  pencil: {
+    color: "#55a462",
+    float: "right"
   }
 });
 
 class Players extends Component {
+  onPlayerClick = id => {
+    this.props.history.push(`/players/${id}`);
+  };
+
+  onClickHandler = id => {
+    // e.preventDefault();
+    // if (!e.target.name) {
+    //   this.props.delStadium(e.target.parentNode.name);
+    // } else {
+    //   this.props.delStadium(e.target.name);
+    // }
+  };
+
   componentWillMount() {
     this.props.getPlayers();
   }
@@ -59,7 +80,7 @@ class Players extends Component {
     let membersList;
     if (members !== null && members !== undefined) {
       membersList = members.map(member => (
-        <TableRow key={member.player_id}>
+        <TableRow key={member.player_id} style={{ cursor: "pointer" }}>
           <TableCell component="th" scope="row">
             {`${member.surename} ${member.name} ${member.patronymic}`}
           </TableCell>
@@ -68,6 +89,22 @@ class Players extends Component {
           </TableCell>
           <TableCell>
             <img src={member.photo} style={{ width: "50px" }} alt="" />
+          </TableCell>
+          <TableCell>
+            <Button
+              className={classes.cross}
+              onClick={this.onClickHandler.bind(this, member.player_id)}
+              name={member.player_id}
+            >
+              &#10006;
+            </Button>
+            <Button
+              className={classes.pencil}
+              onClick={this.onPlayerClick.bind(this, member.player_id)}
+              name={member.player_id}
+            >
+              &#x270E;
+            </Button>
           </TableCell>
         </TableRow>
       ));
@@ -94,6 +131,7 @@ class Players extends Component {
                   <TableCell>
                     <FormattedMessage id="players.tableImage" />
                   </TableCell>
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>{membersList}</TableBody>

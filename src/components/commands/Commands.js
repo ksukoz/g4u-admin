@@ -11,7 +11,7 @@ import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
-import { getCommands } from "../../actions/commandsActions";
+import { getCommands, deleteCommand } from "../../actions/commandsActions";
 
 const styles = theme => ({
   root: {
@@ -95,7 +95,7 @@ class Commands extends Component {
     }
 
     if (this.props.messages) {
-      this.setState({ open: false }, this.props.getStadium());
+      this.setState({ open: false }, this.props.getCommands());
     }
 
     this.setState({ open: false });
@@ -103,12 +103,11 @@ class Commands extends Component {
 
   onClickHandler = e => {
     e.preventDefault();
-    // if (!e.target.name) {
-    //   this.props.delStadium(e.target.parentNode.name);
-    // } else {
-    //   this.props.delStadium(e.target.name);
-    // }
-    console.log(e.target);
+    if (!e.target.name) {
+      this.props.deleteCommand(e.target.parentNode.name);
+    } else {
+      this.props.deleteCommand(e.target.name);
+    }
   };
 
   componentWillReceiveProps = nextProps => {
@@ -191,6 +190,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommands }
+    { getCommands, deleteCommand }
   )
 )(Commands);

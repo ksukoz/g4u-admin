@@ -33,9 +33,6 @@ export default function(state = initialState, action) {
         commands: action.payload
       };
     default:
-      return {
-        ...state,
-        commands: null
-      };
+      return state;
   }
 }

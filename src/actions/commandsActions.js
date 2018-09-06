@@ -60,6 +60,30 @@ export const editCommand = (id, commandData) => dispatch => {
     });
 };
 
+export const deleteCommand = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/commands/disable?cId=${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
 export const getCommandsByName = value => dispatch => {
   axios
     .get(`http://api.mygame4u.com/admin/commands/list?name=${value}`, {
