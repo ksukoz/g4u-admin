@@ -90,7 +90,8 @@ const styles = theme => ({
   },
   chip: {
     backgroundColor: "#effcf1",
-    marginLeft: "1rem",
+    // marginLeft: "1rem",
+    marginBottom: "1rem",
     "&:focus": {
       backgroundColor: "#effcf1"
     }
@@ -104,6 +105,12 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  chipsWrap: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "baseline",
+    flexWrap: "wrap"
   }
 });
 
@@ -118,7 +125,7 @@ class AddTournamentCommand extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
 
     this.props.getCommandsByName(`${e.target.value}`);
