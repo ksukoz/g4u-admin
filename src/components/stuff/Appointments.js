@@ -336,7 +336,7 @@ class Appointments extends Component {
                 autoComplete="off"
               />
               <Paper className={classes.listWrap}>
-                {this.state.gamesList !== null ? (
+                {this.state.gamesList ? (
                   <List className={classes.list}>
                     {this.state.gamesList.map(game => (
                       <MenuItem

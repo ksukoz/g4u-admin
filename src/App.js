@@ -12,6 +12,7 @@ import Leagues from "./components/leagues/Leagues";
 import AddFranchise from "./components/leagues/AddFranchise";
 import Stuff from "./components/stuff/Stuff";
 import AddStuff from "./components/stuff/AddStuff";
+import EditStuff from "./components/stuff/EditStuff";
 import MergeStuff from "./components/merge/MergeStuff";
 import Header from "./components/layout/Header";
 
@@ -22,6 +23,7 @@ import Navbar from "./components/layout/Navbar";
 import MergePlayers from "./components/merge/MergePlayers";
 import Merge from "./components/merge/Merge";
 import AddPlayers from "./components/players/AddPlayers";
+import EditPlayer from "./components/players/EditPlayer";
 import AddCountries from "./components/settings/AddCountries";
 import AddCommands from "./components/commands/AddCommands";
 import Tournaments from "./components/tournaments/Tournaments";
@@ -147,6 +149,9 @@ class App extends Component {
                   <PrivateRoute exact path="/stuff" component={Stuff} />
                 </Switch>
                 <Switch>
+                  <PrivateRoute exact path="/stuff/:id" component={EditStuff} />
+                </Switch>
+                <Switch>
                   <PrivateRoute
                     exact
                     path="/appointments"
@@ -155,6 +160,13 @@ class App extends Component {
                 </Switch>
                 <Switch>
                   <PrivateRoute exact path="/players" component={Players} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/players/:id"
+                    component={EditPlayer}
+                  />
                 </Switch>
                 <Switch>
                   <PrivateRoute exact path="/commands" component={Commands} />

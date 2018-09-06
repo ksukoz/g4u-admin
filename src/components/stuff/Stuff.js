@@ -44,10 +44,30 @@ const styles = theme => ({
     color: "#000",
     textDecoration: "none",
     transition: ".3s"
+  },
+  cross: {
+    color: "#ff5e5e",
+    float: "right"
+  },
+  pencil: {
+    color: "#55a462",
+    float: "right"
   }
 });
 
 class Stuff extends Component {
+  onStuffClick = id => {
+    this.props.history.push(`/stuff/${id}`);
+  };
+
+  onClickHandler = id => {
+    // e.preventDefault();
+    // if (!e.target.name) {
+    //   this.props.delStadium(e.target.parentNode.name);
+    // } else {
+    //   this.props.delStadium(e.target.name);
+    // }
+  };
   componentWillMount() {
     this.props.getStuffMembers();
   }
@@ -68,6 +88,22 @@ class Stuff extends Component {
           </TableCell>
           <TableCell>
             <img src={member.photo} style={{ width: "50px" }} alt="" />
+          </TableCell>{" "}
+          <TableCell>
+            <Button
+              className={classes.cross}
+              onClick={this.onClickHandler.bind(this, member.id)}
+              name={member.id}
+            >
+              &#10006;
+            </Button>
+            <Button
+              className={classes.pencil}
+              onClick={this.onStuffClick.bind(this, member.id)}
+              name={member.id}
+            >
+              &#x270E;
+            </Button>
           </TableCell>
         </TableRow>
       ));
@@ -94,6 +130,8 @@ class Stuff extends Component {
                   <TableCell>
                     <FormattedMessage id="stuff.tableImage" />
                   </TableCell>
+
+                  <TableCell />
                 </TableRow>
               </TableHead>
               <TableBody>{membersList}</TableBody>
