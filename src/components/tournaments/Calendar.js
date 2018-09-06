@@ -206,13 +206,59 @@ class Calendar extends Component {
         tours: Array.from(
           { length: nextProps.tournaments.games.tcount },
           (v, k) => k + 1
-        )
+        ),
+        games2: nextProps.tournaments.games.tour
       });
+      let array = [];
+      for (let key in nextProps.tournaments.games.tour) {
+        for (let key2 in nextProps.tournaments.games.tour[key]) {
+          array.push(nextProps.tournaments.games.tour[key][key2]);
+        }
+      }
+      console.log(array);
     }
   };
 
   render() {
     const { classes } = this.props;
+
+    let gamesTable;
+
+    if (this.state.games2 && this.state.games2.length > 0) {
+      gamesTable = this.state.games2.map((tour, i) => {
+        let gamesArr = [];
+        for (let key in tour) {
+          gamesArr.push(
+            <MenuItem className={classes.listItem} key={key} value={key}>
+              <div className={classes.flex}>
+                <div className={classes.flex} style={{ width: 200 }}>
+                  {i + 1} тур
+                </div>
+                <div className={classes.flex}>
+                  <Avatar alt="" src={tour[key].in.logo} />
+                  <span>{tour[key].in.title}</span>
+                </div>
+                <span>:</span>
+                <div className={classes.flex}>
+                  <span>{tour[key].out.title}</span>
+                  <Avatar alt="" src={tour[key].out.logo} />
+                </div>
+                <Button
+                  className={classes.cross}
+                  onClick={this.onClickHandler}
+                  name={key}
+                >
+                  &#10006;
+                </Button>
+              </div>
+            </MenuItem>
+          );
+        }
+        return gamesArr;
+      });
+      // console.log(gamesTable);
+    }
+
     return (
       <div>
         {this.props.errors ? (
@@ -385,39 +431,16 @@ class Calendar extends Component {
             <FormattedMessage id="subtournaments.submit" />
           </Button>
         </form>
-        <List>
-          {this.state.games && this.state.games.length > 0
-            ? this.state.games.map(game => (
-                <MenuItem
-                  className={classes.listItem}
-                  key={game.id}
-                  value={game.id}
-                >
-                  <div className={classes.flex}>
-                    <div className={classes.flex} style={{ width: 200 }}>
-                      {game.tour} тур
-                    </div>
-                    <div className={classes.flex}>
-                      <Avatar alt="" src={game.in.logo} />
-                      <span>{game.in.title}</span>
-                    </div>
-                    <span>:</span>
-                    <div className={classes.flex}>
-                      <span>{game.out.title}</span>
-                      <Avatar alt="" src={game.out.logo} />
-                    </div>
-                    <Button
-                      className={classes.cross}
-                      onClick={this.onClickHandler}
-                      name={game.id}
-                    >
-                      &#10006;
-                    </Button>
-                  </div>
-                </MenuItem>
+        <div>
+          {gamesTable
+            ? gamesTable.map((game, i) => (
+                <div key={i}>
+                  <h3 style={{ textAlign: "center" }}>{i + 1} тур</h3>
+                  <List>{game}</List>
+                </div>
               ))
             : ""}
-        </List>
+        </div>
       </div>
     );
   }
