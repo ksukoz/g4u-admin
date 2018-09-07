@@ -48,16 +48,11 @@ const styles = theme => ({
 });
 
 class Merge extends Component {
-  onClickHandler = e => {
-    let button;
-    e.target.tagName !== "BUTTON"
-      ? (button = e.target.parentNode)
-      : (button = e.target);
-
+  onClickHandler = (type, id, confirm) => {
     const newReq = {
-      type: button.dataset.type,
-      id: button.dataset.id,
-      confirm: button.dataset.confirm
+      type: type,
+      id: id,
+      confirm: confirm
     };
 
     this.props.confirmMerging(newReq);
@@ -79,13 +74,15 @@ class Merge extends Component {
           </TableCell>
           <TableCell>{item.nickname}</TableCell>
           <TableCell className={classes.flex_cell}>
-            {item.moder === 0 ? (
+            {+item.moder === 0 ? (
               <Button
                 className={classes.submit}
-                data-id={item.utp_id}
-                data-type={item.type}
-                data-confirm="1"
-                onClick={this.onClickHandler}
+                onClick={this.onClickHandler.bind(
+                  this,
+                  item.type,
+                  item.utp_id,
+                  "1"
+                )}
               >
                 <FormattedMessage id="combine.tableAccept" />
               </Button>
@@ -94,10 +91,12 @@ class Merge extends Component {
             )}
             <Button
               className={classes.button}
-              data-id={item.utp_id}
-              data-type={item.type}
-              data-confirm="0"
-              onClick={this.onClickHandler}
+              onClick={this.onClickHandler.bind(
+                this,
+                item.type,
+                item.utp_id,
+                "0"
+              )}
             >
               <FormattedMessage id="combine.tableCancel" />
             </Button>

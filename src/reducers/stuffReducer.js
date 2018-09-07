@@ -3,6 +3,7 @@ import {
   GET_STUFF_MEMBERS,
   GET_STUFF_MEMBERS_BY_NAME,
   MERGE_STUFF,
+  CLEAR_STUFF,
   GET_STUFF_FOR_APP
 } from "../actions/types";
 
@@ -39,10 +40,12 @@ export default function(state = initialState, action) {
         ...state,
         errors: action.payload
       };
-    default:
+    case CLEAR_STUFF:
       return {
         ...state,
         members: null
       };
+    default:
+      return state;
   }
 }

@@ -26,6 +26,7 @@ export const GET_STUFF_MEMBERS = "GET_STUFF_MEMBERS";
 export const GET_STUFF_MEMBERS_BY_NAME = "GET_STUFF_MEMBERS_BY_NAME";
 export const GET_STUFF_FOR_APP = "GET_STUFF_FOR_APP";
 export const MERGE_STUFF = "MERGE_STUFF";
+export const CLEAR_STUFF = "CLEAR_STUFF";
 
 export const GET_USERS = "GET_USERS";
 export const GET_USERS_BY_NAME = "GET_USERS_BY_NAME";

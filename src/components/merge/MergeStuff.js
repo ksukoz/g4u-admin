@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { FormattedMessage } from "react-intl";
-import { getStuffMembersByName, mergeStuff } from "../../actions/stuffActions";
+import {
+  getStuffMembersByName,
+  mergeStuff,
+  clearStuff
+} from "../../actions/stuffActions";
 import { getUsersByName } from "../../actions/userActions";
 
 import Messages from "../common/Messages";
@@ -111,7 +115,7 @@ class MergeStuff extends Component {
     }
 
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
   };
 
@@ -144,6 +148,10 @@ class MergeStuff extends Component {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
     }
+  };
+
+  componentDidMount = () => {
+    this.props.clearStuff();
   };
 
   render() {
@@ -241,6 +249,7 @@ class MergeStuff extends Component {
             value={this.state.name}
             onChange={this.onChangeHandler}
             margin="normal"
+            autoComplete="off"
           />
           <Paper className={classes.root}>
             {memberList ? (
@@ -269,6 +278,7 @@ class MergeStuff extends Component {
             value={this.state.nickname}
             onChange={this.onChangeHandler}
             margin="normal"
+            autoComplete="off"
           />
           <Paper className={classes.root}>
             {userArr ? (
@@ -316,7 +326,8 @@ export default compose(
     {
       getStuffMembersByName,
       getUsersByName,
-      mergeStuff
+      mergeStuff,
+      clearStuff
     }
   )
 )(MergeStuff);

@@ -4,6 +4,7 @@ import {
   GET_STUFF_MEMBERS,
   GET_STUFF_MEMBERS_BY_NAME,
   GET_STUFF_FOR_APP,
+  CLEAR_STUFF,
   GET_ERRORS,
   GET_MESSAGES
 } from "../actions/types";
@@ -122,4 +123,11 @@ export const mergeStuff = stuffData => dispatch => {
         });
       }
     });
+};
+
+export const clearStuff = () => dispatch => {
+  dispatch({
+    type: CLEAR_STUFF,
+    payload: null
+  });
 };
