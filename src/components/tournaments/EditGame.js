@@ -7,13 +7,14 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
 import { getGameById } from "../../actions/tournamentActions";
+import { getStadiumByName } from "../../actions/stadiumAction";
 
 import Messages from "../common/Messages";
 
 import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-
+import MenuItem from "@material-ui/core/MenuItem";
+import List from "@material-ui/core/List";
+import Paper from "@material-ui/core/Paper";
 import { DateTimePicker } from "material-ui-pickers";
 import Button from "@material-ui/core/Button";
 
@@ -61,6 +62,21 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  listWrap: {
+    position: "relative",
+    zIndex: 2
+  },
+  list: {
+    position: "absolute",
+    width: "100%",
+    background: "#fff",
+    boxShadow: "0 5px 1rem rgba(0,0,0,.5)",
+    padding: 0
+  },
+  listItem: {
+    padding: "8px",
+    height: "auto"
   }
 });
 
@@ -71,20 +87,42 @@ class EditGame extends Component {
     name: "",
     status: false,
     start: new Date(),
-    finish: new Date()
+    finish: new Date(),
+    stadiumName: "",
+    stadiumId: "",
+    stadiumsList: null
   };
 
   onChangeStartHandler = date => {
     this.setState({
       start: date._d
     });
+    console.log(Date.now(date._d));
   };
 
-  onChangeFinishHandler = date => {
-    this.setState({
-      finish: date._d
-    });
-    console.log(date._d);
+  onChangeHandler = e => {
+    if (!e.target.value) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        stadiumsList: null
+      });
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value
+      });
+      this.props.getStadiumByName(e.target.value);
+    }
+  };
+
+  onClickHandler = (type, name, id) => {
+    if (type === "stadium") {
+      this.setState({
+        ...this.state,
+        stadiumName: name,
+        stadiumId: id,
+        stadiumsList: null
+      });
+    }
   };
 
   onSubmitHandler = e => {
@@ -114,6 +152,11 @@ class EditGame extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.stadiums.stadiums) {
+      this.setState({
+        ...this.state,
+        stadiumsList: nextProps.stadiums.stadiums
+      });
     }
   };
 
@@ -151,12 +194,41 @@ class EditGame extends Component {
               value={this.state.start}
               onChange={this.onChangeStartHandler}
             />
-            <DateTimePicker
-              name="finish"
-              value={this.state.finish}
-              onChange={this.onChangeFinishHandler}
-            />
           </MuiPickersUtilsProvider>
+          <div className={classes.inputWrap}>
+            <TextField
+              label={<FormattedMessage id="commands.nameLabel" />}
+              name="stadiumName"
+              className={classes.input}
+              value={this.state.stadiumName}
+              onChange={this.onChangeHandler}
+              margin="normal"
+              autoComplete="off"
+            />
+            <Paper className={classes.listWrap}>
+              {this.state.stadiumsList !== null ? (
+                <List className={classes.list}>
+                  {this.state.stadiumsList.map(stadium => (
+                    <MenuItem
+                      key={stadium.stadiums_id}
+                      className={classes.listItem}
+                      component="div"
+                      onClick={this.onClickHandler.bind(
+                        this,
+                        "stadium",
+                        `${stadium.title}, ${stadium.address}`,
+                        stadium.stadiums_id
+                      )}
+                    >
+                      <span>{`${stadium.title}, ${stadium.address}`}</span>
+                    </MenuItem>
+                  ))}
+                </List>
+              ) : (
+                ""
+              )}
+            </Paper>
+          </div>
           <Button size="large" type="submit" className={classes.submit}>
             <FormattedMessage id="seasons.submit" />
           </Button>
@@ -168,13 +240,14 @@ class EditGame extends Component {
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  messages: state.messages
+  messages: state.messages,
+  stadiums: state.stadiums
 });
 
 export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getGameById }
+    { getGameById, getStadiumByName }
   )
 )(EditGame);

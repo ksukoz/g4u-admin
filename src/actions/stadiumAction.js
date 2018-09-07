@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_ERRORS, GET_MESSAGES, GET_STADIUMS } from "../actions/types";
+import {
+  GET_ERRORS,
+  GET_MESSAGES,
+  GET_STADIUMS,
+  GET_STADIUMS_BY_NAME
+} from "../actions/types";
 
 export const addStadium = stadiumData => dispatch => {
   axios
@@ -44,6 +49,30 @@ export const getStadium = () => dispatch => {
         dispatch({
           type: GET_STADIUMS,
           payload: res.data.answer.list
+        });
+      }
+    });
+};
+
+export const getStadiumByName = name => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/stadiums/list?name=${name}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_STADIUMS_BY_NAME,
+          payload: res.data.answer
         });
       }
     });
