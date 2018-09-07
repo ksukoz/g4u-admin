@@ -6,7 +6,7 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { getGameById } from "../../actions/tournamentActions";
+import { getGameById, editGame } from "../../actions/tournamentActions";
 import { getStadiumByName } from "../../actions/stadiumAction";
 
 import Messages from "../common/Messages";
@@ -128,13 +128,13 @@ class EditGame extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    const newSeason = {
-      title: this.state.name,
-      status: this.state.status,
-      tournament_id: this.state.tournament
+    const editedGame = {
+      game_id: this.props.match.url.replace(/\D/g, ""),
+      date: Date.parse(this.state.start),
+      stadiums_id: this.state.stadiumId
     };
 
-    this.props.addSeason(newSeason);
+    this.props.editGame(editedGame);
   };
 
   handleClose = (event, reason) => {
@@ -152,6 +152,13 @@ class EditGame extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.tournaments.game) {
+      this.setState({
+        ...this.state,
+        start: nextProps.tournaments.game.date
+          ? new Date(+nextProps.tournaments.game.date)
+          : new Date()
+      });
     } else if (nextProps.stadiums.stadiums) {
       this.setState({
         ...this.state,
@@ -241,13 +248,14 @@ class EditGame extends Component {
 const mapStateToProps = state => ({
   errors: state.errors,
   messages: state.messages,
-  stadiums: state.stadiums
+  stadiums: state.stadiums,
+  tournaments: state.tournaments
 });
 
 export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getGameById, getStadiumByName }
+    { getGameById, getStadiumByName, editGame }
   )
 )(EditGame);

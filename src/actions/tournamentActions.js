@@ -8,6 +8,7 @@ import {
   GET_TOUR_GAMES,
   GET_AUTO_GAMES,
   GET_GAMES_BY_NAME,
+  GET_GAME_BY_ID,
   GET_APPOINTS,
   GET_ERRORS
 } from "./types";
@@ -143,6 +144,30 @@ export const addGame = commandData => dispatch => {
 export const addAppoint = appData => dispatch => {
   axios
     .post("http://api.mygame4u.com/admin/asgmt/add", appData, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
+export const editGame = gameData => dispatch => {
+  axios
+    .post("http://api.mygame4u.com/admin/tournaments/addgameoffer", gameData, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -336,7 +361,7 @@ export const getGameById = id => dispatch => {
     })
     .then(res => {
       dispatch({
-        type: GET_TOUR_GAMES,
+        type: GET_GAME_BY_ID,
         payload: res.data.answer
       });
     });
