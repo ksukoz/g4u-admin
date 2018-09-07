@@ -3,7 +3,8 @@ import {
   GET_ERRORS,
   GET_MESSAGES,
   GET_STADIUMS,
-  GET_STADIUMS_BY_NAME
+  GET_STADIUMS_BY_NAME,
+  CLEAR_STADIUMS
 } from "../actions/types";
 
 export const addStadium = stadiumData => dispatch => {
@@ -76,6 +77,13 @@ export const getStadiumByName = name => dispatch => {
         });
       }
     });
+};
+
+export const clearStadiums = () => dispatch => {
+  dispatch({
+    type: CLEAR_STADIUMS,
+    payload: null
+  });
 };
 
 export const delStadium = id => dispatch => {

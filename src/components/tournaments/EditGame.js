@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
 import { getGameById, editGame } from "../../actions/tournamentActions";
-import { getStadiumByName } from "../../actions/stadiumAction";
+import { getStadiumByName, clearStadiums } from "../../actions/stadiumAction";
 
 import Messages from "../common/Messages";
 
@@ -101,13 +101,15 @@ class EditGame extends Component {
   };
 
   onChangeHandler = e => {
-    if (!e.target.value) {
+    if (e.target.value === "") {
       this.setState({
+        ...this.state,
         [e.target.name]: e.target.value,
         stadiumsList: null
       });
     } else {
       this.setState({
+        ...this.state,
         [e.target.name]: e.target.value
       });
       this.props.getStadiumByName(e.target.value);
@@ -130,9 +132,12 @@ class EditGame extends Component {
 
     const editedGame = {
       game_id: this.props.match.url.replace(/\D/g, ""),
-      date: Date.parse(this.state.start),
-      stadiums_id: this.state.stadiumId
+      date: Date.parse(this.state.start)
     };
+
+    if (this.state.stadiumId) {
+      editedGame.stadiums_id = this.state.stadiumId;
+    }
 
     this.props.editGame(editedGame);
   };
@@ -152,6 +157,11 @@ class EditGame extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.stadiums.stadiums) {
+      this.setState({
+        ...this.state,
+        stadiumsList: nextProps.stadiums.stadiums
+      });
     } else if (nextProps.tournaments.game) {
       this.setState({
         ...this.state,
@@ -159,16 +169,12 @@ class EditGame extends Component {
           ? new Date(+nextProps.tournaments.game.date)
           : new Date()
       });
-    } else if (nextProps.stadiums.stadiums) {
-      this.setState({
-        ...this.state,
-        stadiumsList: nextProps.stadiums.stadiums
-      });
     }
   };
 
   componentDidMount() {
     this.props.getGameById(this.props.match.url.replace(/\D/g, ""));
+    this.props.clearStadiums();
   }
 
   render() {
@@ -256,6 +262,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getGameById, getStadiumByName, editGame }
+    { getGameById, getStadiumByName, editGame, clearStadiums }
   )
 )(EditGame);

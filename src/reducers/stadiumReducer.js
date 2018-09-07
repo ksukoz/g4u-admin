@@ -1,4 +1,8 @@
-import { GET_STADIUMS, GET_STADIUMS_BY_NAME } from "../actions/types";
+import {
+  GET_STADIUMS,
+  GET_STADIUMS_BY_NAME,
+  CLEAR_STADIUMS
+} from "../actions/types";
 
 const initialState = {
   stadiums: null
@@ -12,6 +16,11 @@ export default function(state = initialState, action) {
         stadiums: action.payload
       };
     case GET_STADIUMS_BY_NAME:
+      return {
+        ...state,
+        stadiums: action.payload
+      };
+    case CLEAR_STADIUMS:
       return {
         ...state,
         stadiums: action.payload

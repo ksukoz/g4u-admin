@@ -261,7 +261,11 @@ class Calendar extends Component {
                         }}
                       />
                     ) : (
-                      <span>{tour[key].date}</span>
+                      <span>
+                        {new Date(+tour[key].date).toLocaleString("en-GB", {
+                          hour12: false
+                        })}
+                      </span>
                     )}
                     <div className={classes.flex}>
                       <Avatar alt="" src={tour[key].out.logo} />
