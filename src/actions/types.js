@@ -39,6 +39,7 @@ export const GET_GAME_BY_ID = "GET_GAME_BY_ID";
 export const GET_AUTO_GAMES = "GET_AUTO_GAMES";
 export const GET_GAMES_BY_NAME = "GET_GAMES_BY_NAME";
 export const GET_APPOINTS = "GET_APPOINTS";
+export const GET_GAME_APPOINTS = "GET_GAME_APPOINTS";
 
 export const GET_POSITION = "GET_POSITION";
 export const GET_PLAYERS = "GET_PLAYERS";

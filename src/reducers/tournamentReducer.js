@@ -5,6 +5,7 @@ import {
   GET_TOUR_COMMANDS,
   GET_GAMES_BY_NAME,
   GET_APPOINTS,
+  GET_GAME_APPOINTS,
   GET_TOUR_GAMES,
   GET_AUTO_GAMES,
   GET_GAME_BY_ID
@@ -63,6 +64,11 @@ export default function(state = initialState, action) {
         games: action.payload
       };
     case GET_APPOINTS:
+      return {
+        ...state,
+        appoints: action.payload
+      };
+    case GET_GAME_APPOINTS:
       return {
         ...state,
         appoints: action.payload

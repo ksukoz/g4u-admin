@@ -10,6 +10,7 @@ import {
   GET_GAMES_BY_NAME,
   GET_GAME_BY_ID,
   GET_APPOINTS,
+  GET_GAME_APPOINTS,
   GET_ERRORS
 } from "./types";
 
@@ -235,6 +236,30 @@ export const deleteAppoint = appoinData => dispatch => {
       } else {
         dispatch({
           type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
+export const getGameAppoint = gId => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/asgmt/list?gId=${gId}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_GAME_APPOINTS,
           payload: res.data.message
         });
       }
