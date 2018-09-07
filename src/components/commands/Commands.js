@@ -143,7 +143,7 @@ class Commands extends Component {
         ) : (
           ""
         )}
-        <Link className={classes.button_link} to={"/commands/add"}>
+        <Link className={classes.button_link} to={"/add-command"}>
           <Button variant="extendedFab" className={classes.button}>
             <FormattedMessage id="commands.add" />
           </Button>

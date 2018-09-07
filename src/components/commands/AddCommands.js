@@ -10,7 +10,11 @@ import {
   getRegions
 } from "../../actions/locationActions";
 import { getPlayersByName } from "../../actions/playerActions";
-import { addCommand, getCommandsByName } from "../../actions/commandsActions";
+import {
+  addCommand,
+  getCommandsByName,
+  clearCommands
+} from "../../actions/commandsActions";
 
 import InputFile from "../common/InputFile";
 
@@ -225,6 +229,7 @@ class AddCommands extends Component {
 
   componentWillMount() {
     this.props.getCountries();
+    this.props.clearCommands();
   }
 
   componentWillReceiveProps = nextProps => {
@@ -504,7 +509,8 @@ export default compose(
       getCountries,
       getCommandsByName,
       getRegions,
-      getCities
+      getCities,
+      clearCommands
     }
   )
 )(AddCommands);

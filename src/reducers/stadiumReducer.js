@@ -26,6 +26,9 @@ export default function(state = initialState, action) {
         stadiums: action.payload
       };
     default:
-      return state;
+      return {
+        ...state,
+        stadiums: null
+      };
   }
 }

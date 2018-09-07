@@ -182,14 +182,14 @@ class App extends Component {
                 <Switch>
                   <PrivateRoute
                     exact
-                    path="/commands/add"
+                    path="/add-command"
                     component={AddCommands}
                   />
                 </Switch>
                 <Switch>
                   <PrivateRoute
                     exact
-                    path={`/commands/:id`}
+                    path={"/commands/:id"}
                     component={EditCommands}
                   />
                 </Switch>

@@ -122,13 +122,14 @@ class EditGame extends Component {
       this.setState({
         ...this.state,
         [e.target.name]: e.target.value.replace(/[а-я]+/gi, ""),
-        stuffId: ""
+        stuffId: "",
+        stadiumsList: null
       });
 
       if (e.target.value.length >= 3) {
         this.props.getStuffForAppoint(e.target.value);
       }
-    } else {
+    } else if (e.target.name === "stadiumName") {
       if (e.target.value === "") {
         this.setState({
           ...this.state,
@@ -205,6 +206,12 @@ class EditGame extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.tournaments.appoints) {
+      this.setState({
+        ...this.state,
+        appoints: nextProps.tournaments.appoints
+      });
+      console.log(nextProps.tournaments);
     } else if (nextProps.stadiums.stadiums) {
       this.setState({
         ...this.state,
@@ -212,12 +219,6 @@ class EditGame extends Component {
       });
     } else if (nextProps.stuff.members && !this.state.stuffId) {
       this.setState({ ...this.state, stuffList: nextProps.stuff.members });
-    } else if (nextProps.tournaments.appoints) {
-      this.setState({
-        ...this.state,
-        appoints: nextProps.tournaments.appoints
-      });
-      console.log(nextProps.tournaments);
     } else if (nextProps.tournaments.game) {
       this.setState({
         ...this.state,
@@ -309,7 +310,7 @@ class EditGame extends Component {
           </MuiPickersUtilsProvider>
           <div className={classes.inputWrap}>
             <TextField
-              label={<FormattedMessage id="commands.nameLabel" />}
+              label="Название стадиона"
               name="stadiumName"
               className={classes.input}
               value={this.state.stadiumName}
@@ -318,7 +319,8 @@ class EditGame extends Component {
               autoComplete="off"
             />
             <Paper className={classes.listWrap}>
-              {this.state.stadiumsList !== null ? (
+              {this.state.stadiumsList !== null &&
+              this.state.stuffList === null ? (
                 <List className={classes.list}>
                   {this.state.stadiumsList.map(stadium => (
                     <MenuItem
@@ -352,7 +354,8 @@ class EditGame extends Component {
               autoComplete="off"
             />
             <Paper className={classes.listWrap}>
-              {this.state.stuffList !== null ? (
+              {this.state.stuffList !== null &&
+              this.state.stadiumsList === null ? (
                 <List className={classes.list}>
                   {this.state.stuffList.map(stuff => (
                     <MenuItem
