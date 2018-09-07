@@ -51,17 +51,7 @@ const styles = theme => ({
   },
   wrapper: {
     minHeight: "100vh",
-    paddingTop: "1rem",
-    "&::-webkit-scrollbar-track": {
-      boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "olive",
-      outline: "1px solid slategrey"
-    },
-    "&::-webkit-scrollbar": {
-      width: "1em"
-    }
+    paddingTop: "1rem"
   },
   toolbar: {
     display: "flex",

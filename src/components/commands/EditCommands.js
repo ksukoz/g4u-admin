@@ -246,7 +246,9 @@ class EditCommands extends Component {
         command: nextProps.commands.command,
         name: nextProps.commands.command.title,
         status: nextProps.commands.command.status === "1" ? true : false,
-        playerName: nextProps.commands.command.name,
+        playerName: nextProps.commands.command.name
+          ? nextProps.commands.command.name
+          : "",
         double: nextProps.commands.command.subtitle
           ? nextProps.commands.command.subtitle
           : "",

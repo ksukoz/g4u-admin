@@ -75,7 +75,19 @@ const styles = theme => ({
     width: "100%",
     background: "#fff",
     boxShadow: "0 5px 1rem rgba(0,0,0,.5)",
-    padding: 0
+    padding: 0,
+    height: 200,
+    overflowY: "scroll",
+    "&::-webkit-scrollbar-track": {
+      boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#43A047",
+      outline: "1px solid slategrey"
+    },
+    "&::-webkit-scrollbar": {
+      width: 5
+    }
   },
   listItem: {
     padding: "8px",
