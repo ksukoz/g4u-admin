@@ -207,6 +207,11 @@ class Appointments extends Component {
         ...this.state,
         gamesList: nextProps.tournaments.games
       });
+    } else if (nextProps.tournaments.games && !this.state.gameId) {
+      this.setState({
+        ...this.state,
+        gamesList: nextProps.tournaments.games
+      });
     } else if (nextProps.stuff.members && !this.state.stuffId) {
       this.setState({ ...this.state, stuffList: nextProps.stuff.members });
     }

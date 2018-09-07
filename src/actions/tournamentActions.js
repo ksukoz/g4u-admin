@@ -260,7 +260,7 @@ export const getGameAppoint = gId => dispatch => {
       } else {
         dispatch({
           type: GET_GAME_APPOINTS,
-          payload: res.data.message
+          payload: res.data.answer
         });
       }
     });

@@ -106,7 +106,8 @@ class EditGame extends Component {
     stadiumsList: null,
     stuffName: "",
     stuffId: "",
-    stuffList: null
+    stuffList: null,
+    appoints: null
   };
 
   onChangeStartHandler = date => {
@@ -211,6 +212,12 @@ class EditGame extends Component {
       });
     } else if (nextProps.stuff.members && !this.state.stuffId) {
       this.setState({ ...this.state, stuffList: nextProps.stuff.members });
+    } else if (nextProps.tournaments.appoints) {
+      this.setState({
+        ...this.state,
+        appoints: nextProps.tournaments.appoints
+      });
+      console.log(nextProps.tournaments);
     } else if (nextProps.tournaments.game) {
       this.setState({
         ...this.state,
@@ -223,12 +230,17 @@ class EditGame extends Component {
 
   componentDidMount = () => {
     this.props.getGameById(this.props.match.url.replace(/\D/g, ""));
+    this.props.getGameAppoint(this.props.match.url.replace(/\D/g, ""));
     this.props.clearStadiums();
+  };
+
+  componentWillMount = () => {
+    // this.props.getGameAppoint(this.props.match.url.replace(/\D/g, ""));
   };
 
   render() {
     const { classes } = this.props;
-    const { appoints } = this.props.tournaments;
+    const { appoints } = this.state;
 
     let appointsList;
     if (appoints !== null && appoints !== undefined) {
@@ -251,30 +263,7 @@ class EditGame extends Component {
                   alt=""
                 />
               </TableCell>
-              <TableCell>&#x21d2;</TableCell>
-              <TableCell component="th" scope="row">
-                <img
-                  src={appoint.game.in.logo}
-                  style={{ width: "50px" }}
-                  alt=""
-                />
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {appoint.game.in.title}
-              </TableCell>
-              <TableCell>
-                <span>vs</span>
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {appoint.game.out.title}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <img
-                  src={appoint.game.out.logo}
-                  style={{ width: "50px" }}
-                  alt=""
-                />
-              </TableCell>
+
               <TableCell component="th" scope="row">
                 <Button
                   className={classes.button}
@@ -413,12 +402,6 @@ class EditGame extends Component {
               <TableCell>
                 <FormattedMessage id="players.tableImage" />
               </TableCell>
-              <TableCell />
-              <TableCell />
-              <TableCell>Принимающая команда</TableCell>
-              <TableCell />
-              <TableCell>Гостевая команда</TableCell>
-              <TableCell />
               <TableCell>Удалить</TableCell>
             </TableRow>
           </TableHead>
