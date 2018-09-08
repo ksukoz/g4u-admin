@@ -6,7 +6,7 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
 import {
-  getCommands,
+  getTourCommands,
   addGame,
   getGames,
   delGame,
@@ -184,7 +184,7 @@ class Calendar extends Component {
     this.props.addGame(newGame);
   };
   componentWillMount() {
-    this.props.getCommands(this.props.match.url.replace(/\D/g, ""));
+    this.props.getTourCommands(this.props.match.url.replace(/\D/g, ""));
   }
 
   componentDidMount() {
@@ -486,6 +486,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommands, addGame, getGames, delGame, getAutoGames }
+    { getTourCommands, addGame, getGames, delGame, getAutoGames }
   )
 )(Calendar);

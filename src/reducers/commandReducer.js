@@ -7,6 +7,7 @@ import {
 
 const initialState = {
   commands: null,
+  commandsByName: null,
   command: null
 };
 

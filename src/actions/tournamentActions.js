@@ -341,7 +341,7 @@ export const getSubtournaments = id => dispatch => {
     });
 };
 
-export const getCommands = id => dispatch => {
+export const getTourCommands = id => dispatch => {
   axios
     .get(`http://api.mygame4u.com/admin/tournaments/listcommands?subId=${id}`, {
       headers: {

@@ -4,11 +4,12 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { getCommandsByName } from "../../actions/commandsActions";
+import { getCommandsByName,
+  clearCommands } from "../../actions/commandsActions";
 import {
   addCommands,
-  getCommands,
-  deleteCommands
+  getTourCommands,
+  deleteCommands,
 } from "../../actions/tournamentActions";
 
 import Messages from "../common/Messages";
@@ -138,7 +139,6 @@ class AddTournamentCommand extends Component {
     this.setState({
       [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
-
     this.props.getCommandsByName(`${e.target.value}`);
   };
 
@@ -218,7 +218,8 @@ class AddTournamentCommand extends Component {
   };
 
   componentWillMount() {
-    this.props.getCommands(this.props.match.url.replace(/\D/g, ""));
+    this.props.getTourCommands(this.props.match.url.replace(/\D/g, ""));
+    this.props.clearCommands();
   }
 
   render() {
@@ -255,8 +256,8 @@ class AddTournamentCommand extends Component {
                 margin="normal"
                 autoComplete="off"
               />
+                {this.state.commandsList !== null && this.state.commandsList.length >= 1 ? (
               <Paper className={classes.listWrap}>
-                {this.state.commandsList !== null ? (
                   <List className={classes.list}>
                     {this.state.commandsList.map(
                       command =>
@@ -284,10 +285,10 @@ class AddTournamentCommand extends Component {
                         )
                     )}
                   </List>
+              </Paper>
                 ) : (
                   ""
                 )}
-              </Paper>
               <div className={classes.chipsWrap}>
                 {this.state.commands.length > 0
                   ? this.state.commands.map(command => (
@@ -347,6 +348,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommandsByName, addCommands, getCommands, deleteCommands }
+    { getCommandsByName, addCommands, getTourCommands, deleteCommands, clearCommands }
   )
 )(AddTournamentCommand);
