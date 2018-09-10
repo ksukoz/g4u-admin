@@ -8,7 +8,8 @@ import {
   GET_GAME_APPOINTS,
   GET_TOUR_GAMES,
   GET_AUTO_GAMES,
-  GET_GAME_BY_ID
+  GET_GAME_BY_ID,
+  CLEAR_AUTO_GAMES
 } from "../actions/types";
 
 const initialState = {
@@ -49,6 +50,11 @@ export default function(state = initialState, action) {
         games: action.payload
       };
     case GET_AUTO_GAMES:
+      return {
+        ...state,
+        games: action.payload
+      };
+    case CLEAR_AUTO_GAMES:
       return {
         ...state,
         games: action.payload

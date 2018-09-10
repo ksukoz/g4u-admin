@@ -10,7 +10,8 @@ import {
   addGame,
   getGames,
   delGame,
-  getAutoGames
+  getAutoGames,
+  clearAutoGames
 } from "../../actions/tournamentActions";
 import Messages from "../common/Messages";
 import List from "@material-ui/core/List";
@@ -353,6 +354,15 @@ class Calendar extends Component {
             >
               Автоматически
             </Button>
+            <Button
+              onClick={() =>
+                this.props.clearAutoGames(this.props.match.url.replace(/\D/g, ""))
+              }
+              style={{ marginBottom: "1rem" }}
+              disabled={this.state.games}
+            >
+              Очистить
+            </Button>
           </div>
           {this.state.tours !== null ? (
             <FormControl className={classes.smSelect}>
@@ -486,6 +496,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getTourCommands, addGame, getGames, delGame, getAutoGames }
+    { getTourCommands, addGame, getGames, delGame, getAutoGames, clearAutoGames }
   )
 )(Calendar);
