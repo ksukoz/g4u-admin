@@ -11,7 +11,11 @@ import {
   editCommand,
   clearCommands
 } from "../../actions/commandsActions";
-import { getPlayersByName } from "../../actions/playerActions";
+import {
+  getPlayersByName,
+  getPlayersByNameCommand,
+  addPlayerToCommand
+} from "../../actions/playerActions";
 
 import InputFile from "../common/InputFile";
 
@@ -125,6 +129,13 @@ const styles = theme => ({
   },
   colorBox: {
     margin: "0 2rem"
+  },
+  inputMin: {
+    width: "30%",
+    marginRight: "2rem"
+  },
+  playersItem: {
+    border: "1px solid rgba(0,0,0,.5)"
   }
 });
 
@@ -135,6 +146,9 @@ class EditCommands extends Component {
     inShow: false,
     name: "",
     playerName: "",
+    playerCommand: "",
+    playerCommandId: "",
+    playerNumber: "",
     playerId: "",
     double: "",
     doubleId: "",
@@ -143,6 +157,7 @@ class EditCommands extends Component {
     color_in: "",
     color_out: "",
     playersList: null,
+    playersCommandsList: null,
     commandsList: null,
     command: null,
     region: "",
@@ -151,15 +166,29 @@ class EditCommands extends Component {
   };
 
   onChangeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
-    });
-
     if (e.target.name === "playerName" && e.target.value.length >= 3) {
       this.props.getPlayersByName(`${e.target.value}&tied=1`);
     } else if (e.target.name === "double" && e.target.value.length >= 3) {
       this.props.getCommandsByName(`${e.target.value}&sub=1`);
+    } else if (
+      e.target.name === "playerCommand" &&
+      e.target.value.length >= 3
+    ) {
+      this.props.getPlayersByNameCommand(
+        e.target.value,
+        this.props.match.params.id
+      );
     }
+
+    this.setState({
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
+    });
+  };
+
+  onChangeNumberHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   };
 
   onRadioChangeHandler = e => {
@@ -186,6 +215,15 @@ class EditCommands extends Component {
     }
   };
 
+  onAddPlayerClick = e => {
+    const addPlayer = {
+      plId: this.state.playerCommandId,
+      number: this.state.playerNumber
+    };
+
+    this.props.addPlayerToCommand(addPlayer, this.props.match.params.id);
+  };
+
   onClickHandler = (type, player, id) => {
     if (type === "player") {
       this.setState({
@@ -200,6 +238,13 @@ class EditCommands extends Component {
         double: player,
         doubleId: id,
         commandsList: null
+      });
+    } else if (type === "playerCommand") {
+      this.setState({
+        ...this.state,
+        playerCommand: player,
+        playerCommandId: id,
+        playersCommandsList: null
       });
     }
   };
@@ -266,6 +311,11 @@ class EditCommands extends Component {
         ...this.state,
         commandsList: nextProps.commands.commands
       });
+    } else if (nextProps.commands.players) {
+      this.setState({
+        ...this.state,
+        playersCommandsList: nextProps.commands.players
+      });
     } else if (
       nextProps.commands.command &&
       nextProps.players &&
@@ -292,6 +342,19 @@ class EditCommands extends Component {
 
   render() {
     const { classes } = this.props;
+    const { command } = this.props.commands;
+    const { commands } = this.props;
+    let numbersList;
+    // let addedPlayersList;
+
+    if (command) {
+      numbersList = command.number.map(num => (
+        <MenuItem key={num} value={num}>
+          № {num}
+        </MenuItem>
+      ));
+    }
+
     return (
       <div className={classes.wrap}>
         <div className={classes.form}>
@@ -415,6 +478,7 @@ class EditCommands extends Component {
                 ""
               )}
             </Paper>
+
             <TextField
               label={<FormattedMessage id="commands.doubleLabel" />}
               name="double"
@@ -454,6 +518,7 @@ class EditCommands extends Component {
                 ""
               )}
             </Paper>
+
             <Button
               variant="contained"
               color="primary"
@@ -464,6 +529,93 @@ class EditCommands extends Component {
               {<FormattedMessage id="commands.submit" />}
             </Button>
           </form>
+          <div>
+            <FormControl className={classes.inputMin}>
+              <InputLabel htmlFor="playerNumber">
+                Выберите номер игрока
+              </InputLabel>
+              <Select
+                value={this.state.playerNumber}
+                className={classes.select}
+                onChange={this.onChangeNumberHandler}
+                inputProps={{
+                  name: "playerNumber",
+                  id: "playerNumber"
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {numbersList}
+              </Select>
+            </FormControl>
+            <TextField
+              label="Введите имя игрока"
+              name="playerCommand"
+              className={classes.inputMin}
+              value={this.state.playerCommand}
+              onChange={this.onChangeHandler}
+              margin="normal"
+              autoComplete="off"
+            />
+            <Button
+              size="large"
+              className={classes.submit}
+              onClick={this.onAddPlayerClick}
+            >
+              Добавить
+            </Button>
+            <Paper className={classes.listWrap}>
+              {this.state.playersCommandsList
+                ? commands.players.map(player => (
+                    <MenuItem
+                      key={player.plId}
+                      value={player.plId}
+                      onClick={this.onClickHandler.bind(
+                        this,
+                        "playerCommand",
+                        `${player.surename} ${player.name} ${
+                          player.patronymic
+                        }`,
+                        player.plId
+                      )}
+                    >
+                      {`${player.surename} ${player.name} ${player.patronymic}`}
+                    </MenuItem>
+                  ))
+                : ""}
+            </Paper>
+          </div>
+          {this.state.command && this.state.command.players ? (
+            <List>
+              {this.state.command.players.map(player => (
+                <MenuItem
+                  key={player.pId}
+                  className={classes.playersItem}
+                  component="div"
+                  // onClick={this.onClickHandler.bind(
+                  //   this,
+                  //   "player",
+                  //   `${player.surename} ${player.name} ${player.patronymic}`,
+                  //   player.player_id
+                  // )}
+                >
+                  <span>
+                    <img
+                      src={player.photo}
+                      style={{ width: "50px", marginRight: 8 }}
+                      alt=""
+                    />
+                  </span>
+                  <span>{`${player.surename} ${player.name} ${
+                    player.patronymic
+                  } - ${player.position}, № ${player.number}`}</span>
+                </MenuItem>
+              ))}
+            </List>
+          ) : (
+            ""
+          )}
         </div>
 
         {this.props.errors ? (
@@ -505,7 +657,9 @@ export default compose(
       getCommandsByName,
       getPlayersByName,
       editCommand,
-      clearCommands
+      clearCommands,
+      getPlayersByNameCommand,
+      addPlayerToCommand
     }
   )
 )(EditCommands);
