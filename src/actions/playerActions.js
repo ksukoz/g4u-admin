@@ -5,6 +5,7 @@ import {
   GET_PLAYERS,
   GET_PLAYERS_BY_NAME,
   GET_PLAYERS_BY_NAME_AND_COMMAND,
+  DELETE_PLAYER_FROM_COMMAND,
   GET_MESSAGES
 } from "../actions/types";
 
@@ -108,6 +109,33 @@ export const addPlayerToCommand = (playerData, cId) => dispatch => {
     .post(
       `http://api.mygame4u.com/admin/commands/addpl?cId=${cId}`,
       playerData,
+      {
+        headers: {
+          Authorization: `G4User ${
+            JSON.parse(localStorage.getItem("admin-user")).token
+          }`
+        }
+      }
+    )
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
+export const delPlayerFromCommand = (playerId, cId) => dispatch => {
+  axios
+    .get(
+      `http://api.mygame4u.com/admin/commands/delpl?cId=${cId}&plId=${playerId}`,
       {
         headers: {
           Authorization: `G4User ${

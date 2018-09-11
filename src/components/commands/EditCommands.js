@@ -14,7 +14,8 @@ import {
 import {
   getPlayersByName,
   getPlayersByNameCommand,
-  addPlayerToCommand
+  addPlayerToCommand,
+  delPlayerFromCommand
 } from "../../actions/playerActions";
 
 import InputFile from "../common/InputFile";
@@ -26,6 +27,12 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import List from "@material-ui/core/List";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
@@ -136,6 +143,14 @@ const styles = theme => ({
   },
   playersItem: {
     border: "1px solid rgba(0,0,0,.5)"
+  },
+  cross: {
+    color: "#ff5e5e",
+    float: "right"
+  },
+  pencil: {
+    color: "#55a462",
+    float: "right"
   }
 });
 
@@ -294,6 +309,10 @@ class EditCommands extends Component {
 
   handleChangeOut = color => {
     this.setState({ ...this.state, color_out: color.hex });
+  };
+
+  onDeleteHandler = id => {
+    this.props.delPlayerFromCommand(id, this.props.match.params.id);
   };
 
   componentDidMount = () => {
@@ -587,32 +606,61 @@ class EditCommands extends Component {
             </Paper>
           </div>
           {this.state.command && this.state.command.players ? (
-            <List>
-              {this.state.command.players.map(player => (
-                <MenuItem
-                  key={player.pId}
-                  className={classes.playersItem}
-                  component="div"
-                  // onClick={this.onClickHandler.bind(
-                  //   this,
-                  //   "player",
-                  //   `${player.surename} ${player.name} ${player.patronymic}`,
-                  //   player.player_id
-                  // )}
-                >
-                  <span>
-                    <img
-                      src={player.photo}
-                      style={{ width: "50px", marginRight: 8 }}
-                      alt=""
-                    />
-                  </span>
-                  <span>{`${player.surename} ${player.name} ${
-                    player.patronymic
-                  } - ${player.position}, № ${player.number}`}</span>
-                </MenuItem>
-              ))}
-            </List>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <FormattedMessage id="players.tableName" />
+                  </TableCell>
+                  <TableCell>
+                    <FormattedMessage id="players.tablePosition" />
+                  </TableCell>
+                  <TableCell>Номер игрока</TableCell>
+                  <TableCell>
+                    <FormattedMessage id="players.tableImage" />
+                  </TableCell>
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {this.state.command.players.map(player => (
+                  <TableRow key={player.pId} style={{ cursor: "pointer" }}>
+                    <TableCell component="th" scope="row">
+                      {`${player.surename} ${player.name} ${player.patronymic}`}
+                    </TableCell>
+                    <TableCell>
+                      <span>{player.position}</span>
+                    </TableCell>
+                    <TableCell>
+                      <span>{player.number}</span>
+                    </TableCell>
+                    <TableCell>
+                      <img
+                        src={player.photo}
+                        style={{ width: "50px" }}
+                        alt=""
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        className={classes.cross}
+                        onClick={this.onDeleteHandler.bind(this, player.pId)}
+                        name={player.pId}
+                      >
+                        &#10006;
+                      </Button>
+                      {/* <Button
+                        className={classes.pencil}
+                        onClick={this.onPlayerClick.bind(this, player.pId)}
+                        name={player.pId}
+                      >
+                        &#x270E;
+                      </Button> */}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           ) : (
             ""
           )}
@@ -659,7 +707,8 @@ export default compose(
       editCommand,
       clearCommands,
       getPlayersByNameCommand,
-      addPlayerToCommand
+      addPlayerToCommand,
+      delPlayerFromCommand
     }
   )
 )(EditCommands);
