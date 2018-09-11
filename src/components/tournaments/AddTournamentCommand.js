@@ -4,12 +4,14 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { getCommandsByName,
-  clearCommands } from "../../actions/commandsActions";
+import {
+  getCommandsByName,
+  clearCommands
+} from "../../actions/commandsActions";
 import {
   addCommands,
   getTourCommands,
-  deleteCommands,
+  deleteCommands
 } from "../../actions/tournamentActions";
 
 import Messages from "../common/Messages";
@@ -256,8 +258,9 @@ class AddTournamentCommand extends Component {
                 margin="normal"
                 autoComplete="off"
               />
-                {this.state.commandsList !== null && this.state.commandsList.length >= 1 ? (
-              <Paper className={classes.listWrap}>
+              {this.state.commandsList !== null &&
+              this.state.commandsList.length >= 1 ? (
+                <Paper className={classes.listWrap}>
                   <List className={classes.list}>
                     {this.state.commandsList.map(
                       command =>
@@ -285,10 +288,10 @@ class AddTournamentCommand extends Component {
                         )
                     )}
                   </List>
-              </Paper>
-                ) : (
-                  ""
-                )}
+                </Paper>
+              ) : (
+                ""
+              )}
               <div className={classes.chipsWrap}>
                 {this.state.commands.length > 0
                   ? this.state.commands.map(command => (
@@ -303,15 +306,6 @@ class AddTournamentCommand extends Component {
                     ))
                   : ""}
               </div>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                type="submit"
-                className={classes.submit}
-              >
-                {<FormattedMessage id="commands.submit" />}
-              </Button>
             </form>
           </div>
 
@@ -348,6 +342,12 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommandsByName, addCommands, getTourCommands, deleteCommands, clearCommands }
+    {
+      getCommandsByName,
+      addCommands,
+      getTourCommands,
+      deleteCommands,
+      clearCommands
+    }
   )
 )(AddTournamentCommand);

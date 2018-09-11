@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import { SketchPicker } from "react-color";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
@@ -122,6 +123,8 @@ class EditCommands extends Component {
     doubleId: "",
     image: "",
     country: null,
+    color_in: "",
+    color_out: "",
     playersList: null,
     commandsList: null,
     command: null,
@@ -221,6 +224,14 @@ class EditCommands extends Component {
     this.setState({ status: !this.state.status });
   };
 
+  handleChangeIn = color => {
+    this.setState({ ...this.state, color_in: color.hex });
+  };
+
+  handleChangeOut = color => {
+    this.setState({ ...this.state, color_out: color.hex });
+  };
+
   componentDidMount = () => {
     this.props.getCommandById(this.props.match.url.replace(/\D/g, ""));
     this.props.clearCommands();
@@ -295,6 +306,16 @@ class EditCommands extends Component {
               ) : (
                 ""
               )}
+              <div className={classes.color_in} />
+              <SketchPicker
+                color={this.state.color_in}
+                onChange={this.handleChangeIn}
+              />
+              <SketchPicker
+                name="color_out"
+                color={this.state.color_out}
+                onChange={this.handleChangeOut}
+              />
             </div>
             <TextField
               label={<FormattedMessage id="commands.captainLabel" />}
