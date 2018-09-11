@@ -110,12 +110,29 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  color: {
+    width: 30,
+    height: 25,
+    border: "1px solid rgba(0,0,0,.8)",
+    padding: 10,
+    borderRadius: 10,
+    margin: "0 auto"
+  },
+  colorPicker: {
+    position: "fixed",
+    zIndex: 5
+  },
+  colorBox: {
+    margin: "0 2rem"
   }
 });
 
 class EditCommands extends Component {
   state = {
     open: false,
+    outShow: false,
+    inShow: false,
     name: "",
     playerName: "",
     playerId: "",
@@ -193,7 +210,9 @@ class EditCommands extends Component {
     const editedCommand = {
       title: this.state.name,
       status: this.state.status,
-      logo: this.state.image
+      logo: this.state.image,
+      color_in: this.state.color_in,
+      color_out: this.state.color_out
     };
 
     if (this.state.playerId) {
@@ -256,6 +275,8 @@ class EditCommands extends Component {
         ...this.state,
         command: nextProps.commands.command,
         name: nextProps.commands.command.title,
+        color_in: nextProps.commands.command.color_in,
+        color_out: nextProps.commands.command.color_out,
         status: nextProps.commands.command.status === "1" ? true : false,
         playerName: nextProps.commands.command.name
           ? nextProps.commands.command.name
@@ -306,16 +327,50 @@ class EditCommands extends Component {
               ) : (
                 ""
               )}
-              <div className={classes.color_in} />
-              <SketchPicker
-                color={this.state.color_in}
-                onChange={this.handleChangeIn}
-              />
-              <SketchPicker
-                name="color_out"
-                color={this.state.color_out}
-                onChange={this.handleChangeOut}
-              />
+            </div>
+            <div className={classes.imgWrap}>
+              <div className={classes.colorBox}>
+                Цвет формы (дома)
+                <div
+                  className={classes.color}
+                  style={{ backgroundColor: this.state.color_in }}
+                  onClick={() =>
+                    this.setState({ ...this.state, inShow: !this.state.inShow })
+                  }
+                />
+                {this.state.inShow ? (
+                  <SketchPicker
+                    className={classes.colorPicker}
+                    color={this.state.color_in}
+                    onChange={this.handleChangeIn}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className={classes.colorBox}>
+                Цвет формы (выезд)
+                <div
+                  className={classes.color}
+                  style={{ backgroundColor: this.state.color_out }}
+                  onClick={() =>
+                    this.setState({
+                      ...this.state,
+                      outShow: !this.state.outShow
+                    })
+                  }
+                />
+                {this.state.outShow ? (
+                  <SketchPicker
+                    className={classes.colorPicker}
+                    name="color_out"
+                    color={this.state.color_out}
+                    onChange={this.handleChangeOut}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
             <TextField
               label={<FormattedMessage id="commands.captainLabel" />}

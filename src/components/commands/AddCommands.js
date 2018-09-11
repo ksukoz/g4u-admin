@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import { SketchPicker } from "react-color";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
@@ -126,18 +127,37 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
+  },
+  color: {
+    width: 30,
+    height: 25,
+    border: "1px solid rgba(0,0,0,.8)",
+    padding: 10,
+    borderRadius: 10,
+    margin: "0 auto"
+  },
+  colorPicker: {
+    position: "fixed",
+    zIndex: 5
+  },
+  colorBox: {
+    margin: "0 2rem"
   }
 });
 
 class AddCommands extends Component {
   state = {
     open: false,
+    outShow: false,
+    inShow: false,
     name: "",
     playerName: "",
     playerId: "",
     double: "",
     doubleId: "",
     image: "",
+    color_in: "",
+    color_out: "",
     country: null,
     playersList: null,
     commandsList: null,
@@ -217,7 +237,9 @@ class AddCommands extends Component {
       country_id: this.state.country,
       city_id: this.state.city,
       logo: this.state.image,
-      sub_command_id: this.state.doubleId
+      sub_command_id: this.state.doubleId,
+      color_in: this.state.color_in,
+      color_out: this.state.color_out
     };
 
     this.props.addCommand(newCommand);
@@ -237,6 +259,14 @@ class AddCommands extends Component {
 
   toggleChange = () => {
     this.setState({ status: !this.state.status });
+  };
+
+  handleChangeIn = color => {
+    this.setState({ ...this.state, color_in: color.hex });
+  };
+
+  handleChangeOut = color => {
+    this.setState({ ...this.state, color_out: color.hex });
   };
 
   componentWillMount() {
@@ -386,6 +416,50 @@ class AddCommands extends Component {
               ) : (
                 ""
               )}
+            </div>
+            <div className={classes.imgWrap}>
+              <div className={classes.colorBox}>
+                Цвет формы (дома)
+                <div
+                  className={classes.color}
+                  style={{ backgroundColor: this.state.color_in }}
+                  onClick={() =>
+                    this.setState({ ...this.state, inShow: !this.state.inShow })
+                  }
+                />
+                {this.state.inShow ? (
+                  <SketchPicker
+                    className={classes.colorPicker}
+                    color={this.state.color_in}
+                    onChange={this.handleChangeIn}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+              <div className={classes.colorBox}>
+                Цвет формы (выезд)
+                <div
+                  className={classes.color}
+                  style={{ backgroundColor: this.state.color_out }}
+                  onClick={() =>
+                    this.setState({
+                      ...this.state,
+                      outShow: !this.state.outShow
+                    })
+                  }
+                />
+                {this.state.outShow ? (
+                  <SketchPicker
+                    className={classes.colorPicker}
+                    name="color_out"
+                    color={this.state.color_out}
+                    onChange={this.handleChangeOut}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
             <TextField
               label={<FormattedMessage id="commands.captainLabel" />}
