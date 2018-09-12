@@ -19,6 +19,9 @@ export default function(state = initialState, action) {
     case MERGE_STUFF:
       return state;
     default:
-      return state;
+      return {
+        ...state,
+        userList: null
+      };
   }
 }

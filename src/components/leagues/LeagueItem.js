@@ -6,18 +6,12 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { getCurrentLeague } from "../../actions/leagueActions";
-import { getUsersByName } from "../../actions/userActions";
+import { getUsersByName, addAdminToLeague } from "../../actions/userActions";
 
 import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-// import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Radio from "@material-ui/core/Radio";
 import MenuItem from "@material-ui/core/MenuItem";
 import List from "@material-ui/core/List";
 
@@ -35,6 +29,33 @@ const styles = theme => ({
   },
   input: {
     width: "100%"
+  },
+  listWrap: {
+    position: "relative",
+    zIndex: 2
+  },
+  list: {
+    position: "absolute",
+    width: "100%",
+    background: "#fff",
+    boxShadow: "0 5px 1rem rgba(0,0,0,.5)",
+    padding: 0,
+    height: 200,
+    overflowY: "scroll",
+    "&::-webkit-scrollbar-track": {
+      boxShadow: "inset 0 0 6px rgba(0,0,0,0.3)"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#43A047",
+      outline: "1px solid slategrey"
+    },
+    "&::-webkit-scrollbar": {
+      width: 5
+    }
+  },
+  listItem: {
+    padding: "8px",
+    height: "auto"
   },
   submit: {
     backgroundColor: "#43A047",
@@ -63,7 +84,7 @@ const styles = theme => ({
   error: {
     backgroundColor: "#ff5e5e"
   },
-  list: {
+  listUser: {
     border: "1px solid rgba(0,0,0,.5)",
     padding: 0
   }
@@ -97,10 +118,25 @@ class LeagueItem extends Component {
 
   onSubmitHandler = e => {
     e.preventDefault();
+
+    this.props.addAdminToLeague(this.props.match.params.id, {
+      usId: this.state.userId
+    });
   };
 
   onDelHandler = id => {
     // this.props.deleteAppoint({ id: id });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    this.setState(
+      { open: false },
+      this.props.getCurrentLeague(this.props.match.params.id)
+    );
   };
 
   componentWillReceiveProps = nextProps => {
@@ -122,6 +158,23 @@ class LeagueItem extends Component {
     const { classes } = this.props;
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <form onSubmit={this.onSubmitHandler} className={classes.form}>
           <div className={classes.inputWrap}>
             <TextField
@@ -164,7 +217,7 @@ class LeagueItem extends Component {
             Добавить администратора
           </Button>
         </form>
-        <List className={classes.list}>
+        <List className={classes.listUser}>
           {this.props.league.currentLeague &&
           this.props.league.currentLeague.personal
             ? this.props.league.currentLeague.personal.map(user => (
@@ -196,13 +249,15 @@ class LeagueItem extends Component {
 
 const mapStateToProps = state => ({
   league: state.league,
-  users: state.users
+  users: state.users,
+  errors: state.errors,
+  messages: state.messages
 });
 
 export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCurrentLeague, getUsersByName }
+    { getCurrentLeague, getUsersByName, addAdminToLeague }
   )
 )(LeagueItem);
