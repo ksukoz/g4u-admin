@@ -64,6 +64,30 @@ export const addAdminToLeague = (id, usId) => dispatch => {
     });
 };
 
+export const deleteAdminFromLeague = (id, usId) => dispatch => {
+  axios
+    .post(`http://api.mygame4u.com/admin/leagues/deladmin/${id}`, usId, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
 export const setUserLanguage = lang => dispatch => {
   axios.post(`http://api.mygame4u.com/user/setlocale`, lang, {
     headers: {

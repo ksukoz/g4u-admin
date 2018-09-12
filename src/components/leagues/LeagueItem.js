@@ -6,7 +6,11 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { getCurrentLeague } from "../../actions/leagueActions";
-import { getUsersByName, addAdminToLeague } from "../../actions/userActions";
+import {
+  getUsersByName,
+  addAdminToLeague,
+  deleteAdminFromLeague
+} from "../../actions/userActions";
 
 import Messages from "../common/Messages";
 import TextField from "@material-ui/core/TextField";
@@ -87,6 +91,9 @@ const styles = theme => ({
   listUser: {
     border: "1px solid rgba(0,0,0,.5)",
     padding: 0
+  },
+  listUserItem: {
+    border: "1px solid rgba(0,0,0,.2)"
   }
 });
 
@@ -124,9 +131,9 @@ class LeagueItem extends Component {
     });
   };
 
-  onDelHandler = id => {
-    // this.props.deleteAppoint({ id: id });
-  };
+  // onDelHandler = id => {
+
+  // };
 
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -223,18 +230,20 @@ class LeagueItem extends Component {
             ? this.props.league.currentLeague.personal.map(user => (
                 <MenuItem
                   key={user.id}
-                  className={classes.listItem}
+                  className={classes.listUserItem}
                   component="div"
-                  // onClick={this.onClickHandler.bind(
-                  //   this,
-                  //   user.nickname,
-                  //   user.id
-                  // )}
                 >
                   <span>{user.nickname}</span>
                   <Button
                     className={classes.cross}
-                    onClick={this.onDelHandler.bind(this, user.id)}
+                    onClick={() =>
+                      this.props.deleteAdminFromLeague(
+                        this.props.match.params.id,
+                        {
+                          usId: user.id
+                        }
+                      )
+                    }
                   >
                     &#10006;
                   </Button>
@@ -258,6 +267,11 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCurrentLeague, getUsersByName, addAdminToLeague }
+    {
+      getCurrentLeague,
+      getUsersByName,
+      addAdminToLeague,
+      deleteAdminFromLeague
+    }
   )
 )(LeagueItem);
