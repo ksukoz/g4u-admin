@@ -3,6 +3,7 @@ import {
   GET_MESSAGES,
   GET_LEAGUES,
   GET_SUB_LEAGUES,
+  GET_CURRENT_LEAGUE,
   GET_ERRORS
 } from "./types";
 
@@ -36,6 +37,23 @@ export const getSubLeagues = id => dispatch => {
     .then(res => {
       dispatch({
         type: GET_SUB_LEAGUES,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getCurrentLeagues = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/ /leagues/edit/${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_CURRENT_LEAGUE,
         payload: res.data.answer
       });
     });

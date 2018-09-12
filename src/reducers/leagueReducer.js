@@ -1,7 +1,11 @@
-import { GET_LEAGUES, GET_SUB_LEAGUES } from "../actions/types";
+import {
+  GET_LEAGUES,
+  GET_SUB_LEAGUES,
+  GET_CURRENT_LEAGUE
+} from "../actions/types";
 
 const initialState = {
-  // currentLeague: "",
+  currentLeague: null,
   leagues: null,
   subLeagues: null
 };
@@ -17,6 +21,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         subLeagues: action.payload
+      };
+    case GET_CURRENT_LEAGUE:
+      return {
+        ...state,
+        currentLeague: action.payload
       };
     default:
       return state;

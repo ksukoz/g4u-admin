@@ -49,6 +49,10 @@ const styles = theme => ({
 });
 
 class Leagues extends Component {
+  onClickHandler = id => {
+    this.props.history.push(`/leagues/${id}`);
+  };
+
   componentDidMount = () => {
     this.props.getLeagues();
   };
@@ -59,7 +63,12 @@ class Leagues extends Component {
     let leaguesList;
     if (leagues !== null) {
       leaguesList = leagues.map(league => (
-        <TableRow key={league.id}>
+        <TableRow
+          key={league.id}
+          hover
+          onClick={this.onClickHandler.bind(this, league.id)}
+          style={{ cursor: "pointer" }}
+        >
           <TableCell component="th" scope="row">
             {league.title}
           </TableCell>
