@@ -24,7 +24,7 @@ export const getUsers = () => dispatch => {
 
 export const getUsersByName = name => dispatch => {
   axios
-    .get(`http://api.mygame4u.com/admin/user/list?name=${name}&tied=0`, {
+    .get(`http://api.mygame4u.com/admin/user/list?name=${name}`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

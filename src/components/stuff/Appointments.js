@@ -4,7 +4,7 @@ import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 
-import { getStuffForAppoint } from "../../actions/stuffActions";
+import { getStuffForAppoint, clearStuff } from "../../actions/stuffActions";
 import {
   getGamesByName,
   addAppoint,
@@ -209,6 +209,7 @@ class Appointments extends Component {
 
   componentWillMount = () => {
     this.props.getAppoints();
+    this.props.clearStuff();
   };
 
   componentWillReceiveProps = nextProps => {
@@ -464,7 +465,8 @@ export default compose(
       getGamesByName,
       addAppoint,
       getAppoints,
-      deleteAppoint
+      deleteAppoint,
+      clearStuff
     }
   )
 )(Appointments);

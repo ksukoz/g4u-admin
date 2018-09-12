@@ -42,9 +42,9 @@ export const getSubLeagues = id => dispatch => {
     });
 };
 
-export const getCurrentLeagues = id => dispatch => {
+export const getCurrentLeague = id => dispatch => {
   axios
-    .get(`http://api.mygame4u.com/admin/ /leagues/edit/${id}`, {
+    .get(`http://api.mygame4u.com/admin/leagues/edit/${id}`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token

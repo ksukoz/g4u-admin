@@ -111,7 +111,7 @@ class MergeStuff extends Component {
     if (e.target.name === "name" && e.target.value.length >= 3) {
       this.props.getStuffMembersByName(e.target.value);
     } else if (e.target.name === "nickname" && e.target.value.length >= 3) {
-      this.props.getUsersByName(e.target.value);
+      this.props.getUsersByName(`${e.target.value}&tied=0`);
     }
 
     this.setState({

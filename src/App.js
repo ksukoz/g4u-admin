@@ -40,6 +40,7 @@ import Stadiums from "./components/stadiums/Stadiums";
 import AddStadium from "./components/stadiums/AddStadium";
 import Commands from "./components/commands/Commands";
 import EditCommands from "./components/commands/EditCommands";
+import LeagueItem from "./components/leagues/LeagueItem";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -65,6 +66,13 @@ class App extends Component {
                 </Switch>
                 <Switch>
                   <PrivateRoute exact path="/leagues" component={Leagues} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/leagues/:id"
+                    component={LeagueItem}
+                  />
                 </Switch>
                 <Switch>
                   <PrivateRoute

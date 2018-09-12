@@ -107,12 +107,12 @@ class MergePlayers extends Component {
     if (e.target.name === "name" && e.target.value.length >= 3) {
       this.props.getPlayersByName(`${e.target.value}&tied=0`);
     } else if (e.target.name === "nickname" && e.target.value.length >= 3) {
-      this.props.getUsersByName(e.target.value);
+      this.props.getUsersByName(`${e.target.value}&tied=0`);
     }
 
     this.setState({
       ...this.state,
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
   };
 
