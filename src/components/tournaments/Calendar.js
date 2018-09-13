@@ -240,7 +240,7 @@ class Calendar extends Component {
               <MenuItem className={classes.listItem} value={key}>
                 <div className={classes.flex}>
                   <div className={classes.flex} style={{ width: 200 }}>
-                    {i + 1} тур
+                    {`${tour[key].tour} тур`}
                   </div>
                   <div style={{ display: "flex", width: "75%" }}>
                     <div
@@ -356,7 +356,9 @@ class Calendar extends Component {
             </Button>
             <Button
               onClick={() =>
-                this.props.clearAutoGames(this.props.match.url.replace(/\D/g, ""))
+                this.props.clearAutoGames(
+                  this.props.match.url.replace(/\D/g, "")
+                )
               }
               style={{ marginBottom: "1rem" }}
               disabled={this.state.games}
@@ -475,7 +477,13 @@ class Calendar extends Component {
           {gamesTable
             ? gamesTable.map((game, i) => (
                 <div key={i}>
-                  <h3 style={{ textAlign: "center" }}>{i + 1} тур</h3>
+                  {this.state.games2[i][0] ? (
+                    <h3 style={{ textAlign: "center" }}>
+                      {this.state.games2[i][0].tour} тур
+                    </h3>
+                  ) : (
+                    ""
+                  )}
                   <List>{game}</List>
                 </div>
               ))
@@ -496,6 +504,13 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getTourCommands, addGame, getGames, delGame, getAutoGames, clearAutoGames }
+    {
+      getTourCommands,
+      addGame,
+      getGames,
+      delGame,
+      getAutoGames,
+      clearAutoGames
+    }
   )
 )(Calendar);
