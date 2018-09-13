@@ -133,20 +133,20 @@ class Calendar extends Component {
     games: null
   };
 
-  // handleChange = (event, value) => {
-  //   if (this.state.commands.length === 0) {
-  //     event.preventDefault();
-  //   } else {
-  //     this.setState({
-  //       ...this.state,
-  //       value,
-  //       tours: Array.from(
-  //         { length: (this.state.commands.length - 1) * value },
-  //         (v, k) => k + 1
-  //       )
-  //     });
-  //   }
-  // };
+  handleChange = (event, value) => {
+    if (this.state.commands.length === 0) {
+      event.preventDefault();
+    } else {
+      this.setState({
+        ...this.state,
+        value,
+        tours: Array.from(
+          { length: (this.state.commands.length - 1) * value },
+          (v, k) => k + 1
+        )
+      });
+    }
+  };
 
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -316,7 +316,7 @@ class Calendar extends Component {
           Назад
         </Button>
 
-        {/* <BottomNavigation
+        <BottomNavigation
           value={this.state.value}
           onChange={this.handleChange}
           showLabels
@@ -342,12 +342,16 @@ class Calendar extends Component {
             label="4 круг"
             value={4}
           />
-        </BottomNavigation> */}
+        </BottomNavigation>
         <form onSubmit={this.onSubmitHandler}>
           <div>
             <Button
               onClick={() =>
-                this.props.getAutoGames(this.props.match.url.replace(/\D/g, ""))
+                this.props.getAutoGames(
+                  `${this.props.match.url.replace(/\D/g, "")}&r=${
+                    this.state.value
+                  }`
+                )
               }
               style={{ marginBottom: "1rem" }}
               disabled={this.state.games}
