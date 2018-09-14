@@ -330,10 +330,10 @@ class EditCommands extends Component {
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
-    } else if (nextProps.commands.players) {
+    } else if (nextProps.players.commandPlayers) {
       this.setState({
         ...this.state,
-        playersCommandsList: nextProps.commands.players
+        playersCommandsList: nextProps.players.commandPlayers
       });
     } else if (
       nextProps.commands.command &&
@@ -588,7 +588,7 @@ class EditCommands extends Component {
               />
               <Paper className={classes.list}>
                 {this.state.playersCommandsList
-                  ? commands.players.map(player => (
+                  ? this.state.playersCommandsList.map(player => (
                       <MenuItem
                         key={player.plId}
                         value={player.plId}

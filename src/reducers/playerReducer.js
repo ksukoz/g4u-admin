@@ -5,6 +5,8 @@ import {
   GET_PLAYERS_BY_NAME,
   GET_PLAYERS_REQUESTS,
   GET_REQUESTED_PLAYER,
+  GET_PLAYERS_BY_NAME_AND_COMMAND,
+  CLEAR_COMMAND_PLAYERS,
   CLEAR_PLAYERS
 } from "../actions/types";
 
@@ -13,6 +15,7 @@ const initialState = {
   members: null,
   requests: null,
   requestedPlayer: null,
+  commandPlayers: null,
   errors: null
 };
 
@@ -54,7 +57,19 @@ export default function(state = initialState, action) {
         ...state,
         requestedPlayer: action.payload
       };
+      case GET_PLAYERS_BY_NAME_AND_COMMAND:
+        return {
+          ...state,
+          commandPlayers: action.payload
+        };
+        case CLEAR_COMMAND_PLAYERS:
+          return {
+            ...state,
+            commandPlayers: action.payload
+          };
     default:
-      return state;
+      return {
+        ...state,
+        commandPlayers: null};
   }
 }

@@ -11,6 +11,8 @@ import {
   GET_REQUESTED_PLAYER,
   GET_MESSAGES
 } from "../actions/types";
+import { getCommandById } from "./commandsActions";
+
 
 export const getPositions = () => dispatch => {
   axios
@@ -209,10 +211,7 @@ export const addPlayerToCommand = (playerData, cId) => dispatch => {
           payload: res.data.message
         });
       } else {
-        dispatch({
-          type: GET_MESSAGES,
-          payload: res.data.message
-        });
+        dispatch(getCommandById(cId));
       }
     });
 };
@@ -236,10 +235,8 @@ export const delPlayerFromCommand = (playerId, cId) => dispatch => {
           payload: res.data.message
         });
       } else {
-        dispatch({
-          type: GET_MESSAGES,
-          payload: res.data.message
-        });
+        dispatch(getCommandById(cId));
+
       }
     });
 };
