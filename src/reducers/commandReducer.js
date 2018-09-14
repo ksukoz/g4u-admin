@@ -3,7 +3,8 @@ import {
   GET_COMMANDS,
   GET_COMMAND_BY_ID,
   GET_PLAYERS_BY_NAME_AND_COMMAND,
-  CLEAR_COMMANDS
+  CLEAR_COMMANDS,
+  CLEAR_COMMAND_PLAYERS
 } from "../actions/types";
 
 const initialState = {
@@ -39,6 +40,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         commands: action.payload
+      };
+    case CLEAR_COMMAND_PLAYERS:
+      return {
+        ...state,
+        players: action.payload
       };
     default:
       return state;

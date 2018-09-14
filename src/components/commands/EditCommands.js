@@ -15,7 +15,8 @@ import {
   getPlayersByName,
   getPlayersByNameCommand,
   addPlayerToCommand,
-  delPlayerFromCommand
+  delPlayerFromCommand,
+  clearCommandPlayers
 } from "../../actions/playerActions";
 
 import InputFile from "../common/InputFile";
@@ -75,6 +76,11 @@ const styles = theme => ({
     width: "100%"
   },
   listWrap: {
+    position: "relative",
+    zIndex: 2
+  },
+  listWrapMin: {
+    width: "30%",
     position: "relative",
     zIndex: 2
   },
@@ -318,18 +324,12 @@ class EditCommands extends Component {
   componentDidMount = () => {
     this.props.getCommandById(this.props.match.url.replace(/\D/g, ""));
     this.props.clearCommands();
+    this.props.clearCommandPlayers();
   };
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
-    } else if (nextProps.players.members) {
-      this.setState({ ...this.state, playersList: nextProps.players.members });
-    } else if (nextProps.commands.commands) {
-      this.setState({
-        ...this.state,
-        commandsList: nextProps.commands.commands
-      });
     } else if (nextProps.commands.players) {
       this.setState({
         ...this.state,
@@ -356,6 +356,13 @@ class EditCommands extends Component {
 
         image: nextProps.commands.command.logo
       });
+    } else if (nextProps.commands.commands) {
+      this.setState({
+        ...this.state,
+        commandsList: nextProps.commands.commands
+      });
+    } else if (nextProps.players.members) {
+      this.setState({ ...this.state, playersList: nextProps.players.members });
     }
   };
 
@@ -464,7 +471,8 @@ class EditCommands extends Component {
               autoComplete="off"
             />
             <Paper className={classes.listWrap}>
-              {this.state.playersList !== null ? (
+              {this.state.playerName.length > 0 &&
+              this.state.playersList !== null ? (
                 <List className={classes.list}>
                   {this.state.playersList.map(player => (
                     <MenuItem
@@ -548,7 +556,7 @@ class EditCommands extends Component {
               {<FormattedMessage id="commands.submit" />}
             </Button>
           </form>
-          <div>
+          <div style={{ display: "flex" }}>
             <FormControl className={classes.inputMin}>
               <InputLabel htmlFor="playerNumber">
                 Выберите номер игрока
@@ -568,15 +576,39 @@ class EditCommands extends Component {
                 {numbersList}
               </Select>
             </FormControl>
-            <TextField
-              label="Введите имя игрока"
-              name="playerCommand"
-              className={classes.inputMin}
-              value={this.state.playerCommand}
-              onChange={this.onChangeHandler}
-              margin="normal"
-              autoComplete="off"
-            />
+            <div className={classes.listWrapMin}>
+              <TextField
+                label="Введите имя игрока"
+                name="playerCommand"
+                className={classes.input}
+                value={this.state.playerCommand}
+                onChange={this.onChangeHandler}
+                margin="normal"
+                autoComplete="off"
+              />
+              <Paper className={classes.list}>
+                {this.state.playersCommandsList
+                  ? commands.players.map(player => (
+                      <MenuItem
+                        key={player.plId}
+                        value={player.plId}
+                        onClick={this.onClickHandler.bind(
+                          this,
+                          "playerCommand",
+                          `${player.surename} ${player.name} ${
+                            player.patronymic
+                          }`,
+                          player.plId
+                        )}
+                      >
+                        {`${player.surename} ${player.name} ${
+                          player.patronymic
+                        }`}
+                      </MenuItem>
+                    ))
+                  : ""}
+              </Paper>
+            </div>
             <Button
               size="large"
               className={classes.submit}
@@ -584,26 +616,6 @@ class EditCommands extends Component {
             >
               Добавить
             </Button>
-            <Paper className={classes.listWrap}>
-              {this.state.playersCommandsList
-                ? commands.players.map(player => (
-                    <MenuItem
-                      key={player.plId}
-                      value={player.plId}
-                      onClick={this.onClickHandler.bind(
-                        this,
-                        "playerCommand",
-                        `${player.surename} ${player.name} ${
-                          player.patronymic
-                        }`,
-                        player.plId
-                      )}
-                    >
-                      {`${player.surename} ${player.name} ${player.patronymic}`}
-                    </MenuItem>
-                  ))
-                : ""}
-            </Paper>
           </div>
           {this.state.command && this.state.command.players ? (
             <Table className={classes.table}>
@@ -708,7 +720,8 @@ export default compose(
       clearCommands,
       getPlayersByNameCommand,
       addPlayerToCommand,
-      delPlayerFromCommand
+      delPlayerFromCommand,
+      clearCommandPlayers
     }
   )
 )(EditCommands);

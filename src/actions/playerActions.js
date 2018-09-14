@@ -5,7 +5,8 @@ import {
   GET_PLAYERS,
   GET_PLAYERS_BY_NAME,
   GET_PLAYERS_BY_NAME_AND_COMMAND,
-  DELETE_PLAYER_FROM_COMMAND,
+  CLEAR_PLAYERS,
+  CLEAR_COMMAND_PLAYERS,
   GET_MESSAGES
 } from "../actions/types";
 
@@ -181,4 +182,18 @@ export const mergePlayer = playerData => dispatch => {
         });
       }
     });
+};
+
+export const clearPlayers = () => dispatch => {
+  dispatch({
+    type: CLEAR_PLAYERS,
+    payload: null
+  });
+};
+
+export const clearCommandPlayers = () => dispatch => {
+  dispatch({
+    type: CLEAR_COMMAND_PLAYERS,
+    payload: null
+  });
 };

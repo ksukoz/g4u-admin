@@ -2,7 +2,8 @@ import {
   GET_POSITION,
   GET_PLAYERS,
   MERGE_PLAYER,
-  GET_PLAYERS_BY_NAME
+  GET_PLAYERS_BY_NAME,
+  CLEAR_PLAYERS
 } from "../actions/types";
 
 const initialState = {
@@ -34,10 +35,12 @@ export default function(state = initialState, action) {
         ...state,
         errors: action.payload
       };
-    default:
+    case CLEAR_PLAYERS:
       return {
         ...state,
-        members: null
+        members: action.payload
       };
+    default:
+      return state;
   }
 }
