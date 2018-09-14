@@ -157,7 +157,7 @@ class AddPlayers extends Component {
 
   onChangeHandler = e => {
     this.setState({
-      [e.target.name]: e.target.value.replace(/[а-я]+/ig, "")
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
   };
 
@@ -192,7 +192,22 @@ class AddPlayers extends Component {
     }
 
     if (this.props.messages) {
-      this.setState({ open: false }, this.props.history.goBack());
+      this.setState({
+        ...this.state,
+        open: false,
+        name: "",
+        surname: "",
+        patronymic: "",
+        position_id: "",
+        leg: "",
+        readyImage: "",
+        birthday: "",
+        stature: "",
+        weight: "",
+        phone: "",
+        vk: "",
+        fb: ""
+      });
     }
 
     this.setState({ open: false });
