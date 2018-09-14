@@ -7,6 +7,7 @@ import {
   GET_PLAYERS_BY_NAME_AND_COMMAND,
   CLEAR_PLAYERS,
   CLEAR_COMMAND_PLAYERS,
+  GET_PLAYERS_REQUESTS,
   GET_MESSAGES
 } from "../actions/types";
 
@@ -39,6 +40,23 @@ export const getPlayers = () => dispatch => {
     .then(res => {
       dispatch({
         type: GET_PLAYERS,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getPlayersRequests = () => dispatch => {
+  axios
+    .get("http://api.mygame4u.com/admin/players/request", {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_PLAYERS_REQUESTS,
         payload: res.data.answer
       });
     });

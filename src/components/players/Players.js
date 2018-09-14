@@ -4,14 +4,21 @@ import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { getPlayers } from "../../actions/playerActions";
+import { getPlayers, getPlayersRequests } from "../../actions/playerActions";
 
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import List from "@material-ui/core/List";
+import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
@@ -71,13 +78,17 @@ class Players extends Component {
 
   componentWillMount() {
     this.props.getPlayers();
+    this.props.getPlayersRequests();
   }
 
   render() {
     const { classes } = this.props;
-    const { members } = this.props.players;
+    const { members, requests } = this.props.players;
 
     let membersList;
+    let addRequestsList;
+    let editRequestsList;
+
     if (members !== null && members !== undefined) {
       membersList = members.map(member => (
         <TableRow key={member.player_id} style={{ cursor: "pointer" }}>
@@ -109,6 +120,37 @@ class Players extends Component {
         </TableRow>
       ));
     }
+    if (requests !== null && requests !== undefined) {
+      addRequestsList = requests.add.map((member, i) => (
+        <TableRow key={member.player.id} style={{ cursor: "pointer" }}>
+          <TableCell component="th" scope="row">
+            {`${member.player.name} ${member.player.patronymic} ${
+              member.player.surename
+            }`}
+          </TableCell>
+
+          <TableCell>{member.command.title}</TableCell>
+          <TableCell>
+            <img src={member.command.logo} style={{ width: "50px" }} alt="" />
+          </TableCell>
+        </TableRow>
+      ));
+
+      editRequestsList = requests.edit.map((member, i) => (
+        <TableRow key={member.player.id} style={{ cursor: "pointer" }}>
+          <TableCell component="th" scope="row">
+            {`${member.player.name} ${member.player.patronymic} ${
+              member.player.surename
+            }`}
+          </TableCell>
+
+          <TableCell>{member.command.title}</TableCell>
+          <TableCell>
+            <img src={member.command.logo} style={{ width: "50px" }} alt="" />
+          </TableCell>
+        </TableRow>
+      ));
+    }
 
     return (
       <div>
@@ -117,7 +159,61 @@ class Players extends Component {
             <FormattedMessage id="players.add" />
           </Button>
         </Link>
-        <Paper className={classes.root}>
+        <ExpansionPanel className={classes.root}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={classes.expSummary}
+          >
+            Запросы на добавление
+          </ExpansionPanelSummary>
+          {addRequestsList ? (
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <FormattedMessage id="players.tableName" />
+                  </TableCell>
+                  <TableCell>Команда</TableCell>
+                  <TableCell>Логотип команды</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{addRequestsList}</TableBody>
+            </Table>
+          ) : (
+            ""
+          )}
+        </ExpansionPanel>
+        <ExpansionPanel className={classes.root}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={classes.expSummary}
+          >
+            Запросы на редактирование
+          </ExpansionPanelSummary>
+          {addRequestsList ? (
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <FormattedMessage id="players.tableName" />
+                  </TableCell>
+                  <TableCell>Команда</TableCell>
+                  <TableCell>Логотип команды</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{editRequestsList}</TableBody>
+            </Table>
+          ) : (
+            ""
+          )}
+        </ExpansionPanel>
+        <ExpansionPanel className={classes.root}>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={classes.expSummary}
+          >
+            Все игроки
+          </ExpansionPanelSummary>
           {membersList ? (
             <Table className={classes.table}>
               <TableHead>
@@ -139,7 +235,7 @@ class Players extends Component {
           ) : (
             ""
           )}
-        </Paper>
+        </ExpansionPanel>
       </div>
     );
   }
@@ -153,6 +249,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlayers }
+    { getPlayers, getPlayersRequests }
   )
 )(Players);
