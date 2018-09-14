@@ -145,7 +145,11 @@ class Players extends Component {
       ));
 
       editRequestsList = requests.edit.map((member, i) => (
-        <TableRow key={member.player.id} style={{ cursor: "pointer" }}>
+        <TableRow
+          key={member.player.id}
+          style={{ cursor: "pointer" }}
+          onClick={this.onRowClickHandler.bind(this, member.player.id)}
+        >
           <TableCell component="th" scope="row">
             {`${member.player.name} ${member.player.patronymic} ${
               member.player.surename
@@ -172,7 +176,10 @@ class Players extends Component {
             expandIcon={<ExpandMoreIcon />}
             className={classes.expSummary}
           >
-            Запросы на добавление
+            Запросы на добавление{" "}
+            {requests !== null && requests !== undefined
+              ? `(${requests.add.length})`
+              : ""}
           </ExpansionPanelSummary>
           {addRequestsList ? (
             <Table className={classes.table}>
@@ -196,7 +203,10 @@ class Players extends Component {
             expandIcon={<ExpandMoreIcon />}
             className={classes.expSummary}
           >
-            Запросы на редактирование
+            Запросы на редактирование{" "}
+            {requests !== null && requests !== undefined
+              ? `(${requests.edit.length})`
+              : ""}
           </ExpansionPanelSummary>
           {addRequestsList ? (
             <Table className={classes.table}>
