@@ -41,6 +41,7 @@ import AddStadium from "./components/stadiums/AddStadium";
 import Commands from "./components/commands/Commands";
 import EditCommands from "./components/commands/EditCommands";
 import LeagueItem from "./components/leagues/LeagueItem";
+import RequestedPlayer from "./components/players/RequestedPlayer";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -182,6 +183,13 @@ class App extends Component {
                     exact
                     path="/players/:id"
                     component={EditPlayer}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path="/requestplayers/:id"
+                    component={RequestedPlayer}
                   />
                 </Switch>
                 <Switch>

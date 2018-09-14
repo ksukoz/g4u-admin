@@ -8,6 +8,7 @@ import {
   CLEAR_PLAYERS,
   CLEAR_COMMAND_PLAYERS,
   GET_PLAYERS_REQUESTS,
+  GET_REQUESTED_PLAYER,
   GET_MESSAGES
 } from "../actions/types";
 
@@ -62,6 +63,23 @@ export const getPlayersRequests = () => dispatch => {
     });
 };
 
+export const getRequestedPlayer = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/players/request/${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_REQUESTED_PLAYER,
+        payload: res.data.answer
+      });
+    });
+};
+
 export const getPlayersByName = search => dispatch => {
   axios
     .get(`http://api.mygame4u.com/admin/players?name=${search}`, {
@@ -96,6 +114,54 @@ export const getPlayersByNameCommand = (search, cId) => dispatch => {
         type: GET_PLAYERS_BY_NAME_AND_COMMAND,
         payload: res.data.answer
       });
+    });
+};
+
+export const acceptPlayerRequest = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/players/accept/${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
+    });
+};
+
+export const cancelPlayerRequest = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/players/decline/${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
     });
 };
 

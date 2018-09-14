@@ -4,6 +4,7 @@ import {
   MERGE_PLAYER,
   GET_PLAYERS_BY_NAME,
   GET_PLAYERS_REQUESTS,
+  GET_REQUESTED_PLAYER,
   CLEAR_PLAYERS
 } from "../actions/types";
 
@@ -11,6 +12,7 @@ const initialState = {
   positions: null,
   members: null,
   requests: null,
+  requestedPlayer: null,
   errors: null
 };
 
@@ -46,6 +48,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         requests: action.payload
+      };
+    case GET_REQUESTED_PLAYER:
+      return {
+        ...state,
+        requestedPlayer: action.payload
       };
     default:
       return state;

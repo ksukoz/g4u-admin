@@ -76,6 +76,10 @@ class Players extends Component {
     // }
   };
 
+  onRowClickHandler = id => {
+    this.props.history.push(`/requestplayers/${id}`);
+  };
+
   componentWillMount() {
     this.props.getPlayers();
     this.props.getPlayersRequests();
@@ -122,7 +126,11 @@ class Players extends Component {
     }
     if (requests !== null && requests !== undefined) {
       addRequestsList = requests.add.map((member, i) => (
-        <TableRow key={member.player.id} style={{ cursor: "pointer" }}>
+        <TableRow
+          key={member.player.id}
+          style={{ cursor: "pointer" }}
+          onClick={this.onRowClickHandler.bind(this, member.player.id)}
+        >
           <TableCell component="th" scope="row">
             {`${member.player.name} ${member.player.patronymic} ${
               member.player.surename
