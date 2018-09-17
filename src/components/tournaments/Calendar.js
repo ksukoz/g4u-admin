@@ -233,7 +233,7 @@ class Calendar extends Component {
         for (let key in tour) {
           gamesArr.push(
             <Link
-              to={`/calendar/edit/${key}`}
+              to={`/calendar/edit/${tour[key].game_id}`}
               key={key}
               style={{ textDecoration: "none" }}
             >
