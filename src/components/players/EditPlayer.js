@@ -94,13 +94,6 @@ class EditPlayer extends Component {
     vk: "",
     image: null,
     readyImage: "",
-    crop: {
-      x: 30,
-      y: 30,
-      width: 30,
-      height: 30,
-      aspect: 1 / 1
-    }
   };
 
   onChangeFileHandler = e => {

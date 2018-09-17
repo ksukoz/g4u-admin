@@ -276,7 +276,7 @@ class Calendar extends Component {
                   <Button
                     className={classes.cross}
                     onClick={this.onClickHandler}
-                    name={key}
+                    name={tour[key].game_id}
                   >
                     &#10006;
                   </Button>
