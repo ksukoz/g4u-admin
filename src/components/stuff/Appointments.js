@@ -9,7 +9,8 @@ import {
   getGamesByName,
   addAppoint,
   getAppoints,
-  deleteAppoint
+  deleteAppoint,
+  clearGames
 } from "../../actions/tournamentActions";
 
 import InputFile from "../common/InputFile";
@@ -207,9 +208,10 @@ class Appointments extends Component {
     this.setState({ open: false }, this.props.getAppoints());
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.props.getAppoints();
     this.props.clearStuff();
+    this.props.clearGames();
   };
 
   componentWillReceiveProps = nextProps => {
@@ -466,7 +468,9 @@ export default compose(
       addAppoint,
       getAppoints,
       deleteAppoint,
-      clearStuff
+      clearStuff,
+
+      clearGames
     }
   )
 )(Appointments);

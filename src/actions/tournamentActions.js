@@ -12,6 +12,7 @@ import {
   GET_APPOINTS,
   GET_GAME_APPOINTS,
   GET_DATELESS_GAMES,
+  CLEAR_TOUR_GAMES,
   CLEAR_AUTO_GAMES,
   GET_ERRORS
 } from "./types";
@@ -532,4 +533,11 @@ export const getAppoints = () => dispatch => {
         payload: res.data.answer
       });
     });
+};
+
+export const clearGames = () => dispatch => {
+  dispatch({
+    type: CLEAR_TOUR_GAMES,
+    payload: null
+  });
 };
