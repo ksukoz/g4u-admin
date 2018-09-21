@@ -14,10 +14,10 @@ const initialState = {
     localStorage["admin-user"] &&
     JSON.parse(localStorage.getItem("admin-user")).lang
       ? JSON.parse(localStorage.getItem("admin-user")).lang
-      : (navigator.languages && navigator.languages[0]) ||
-        navigator.language ||
-        navigator.userLanguage ||
-        "en-US",
+      : (navigator.languages && navigator.languages[0].slice(0, 2)) ||
+        navigator.language.slice(0, 2) ||
+        navigator.userLanguage.slice(0, 2) ||
+        "en",
   messages: ""
 };
 

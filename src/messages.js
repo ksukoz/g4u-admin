@@ -1,5 +1,5 @@
 export default {
-  "en-US": {
+  en: {
     login: {
       heading: "Log in",
       text: "Log in your account",
@@ -303,7 +303,7 @@ export default {
       change: "Змінити"
     }
   },
-  "ru-RU": {
+  ru: {
     login: {
       heading: "Войти",
       text: "Войти в свой аккаунт",

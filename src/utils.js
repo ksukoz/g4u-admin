@@ -1,4 +1,7 @@
 export function flattenMessages(nestedMessages, prefix = "") {
+  if (!nestedMessages) {
+    return {};
+  }
   return Object.keys(nestedMessages).reduce((messages, key) => {
     let value = nestedMessages[key];
     let prefixedKey = prefix ? `${prefix}.${key}` : key;
