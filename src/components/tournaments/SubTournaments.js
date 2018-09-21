@@ -11,6 +11,7 @@ import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
+import AlarmIcon from "@material-ui/icons/Alarm";
 
 import Commands from "./icons/commands.svg";
 import Calendar from "./icons/calendar.svg";
@@ -74,9 +75,13 @@ const styles = theme => ({
     "&:hover img,&:active img": {
       filter: "brightness(10)"
     },
-    "& img": {
+    " &:hover svg,&:active svg": {
+      fill: "#fff"
+    },
+    "& img, & svg": {
       width: "2rem",
-
+      height: "auto",
+      fill: "#55a462",
       transition: ".3s"
     }
   },
@@ -156,6 +161,18 @@ class SubTournaments extends Component {
                 >
                   <h4>{subtournament.title}</h4>
                   <div className={classes.button_wrap}>
+                    <Link
+                      to={
+                        this.state.season
+                          ? `/subtournaments/dates/${subtournament.id}`
+                          : "/"
+                      }
+                    >
+                      <Button variant="fab" className={classes.button_fab}>
+                        {/* <FormattedMessage id="subtournaments.commands" /> */}
+                        <AlarmIcon />
+                      </Button>
+                    </Link>
                     <Link
                       to={
                         this.state.season
