@@ -126,7 +126,6 @@ class EditGame extends Component {
     this.setState({
       start: date._d
     });
-    console.log(Date.now(date._d));
   };
 
   onChangeHandler = e => {
