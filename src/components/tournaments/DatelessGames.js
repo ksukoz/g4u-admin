@@ -22,7 +22,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 
 import Checkbox from "@material-ui/core/Checkbox";
-import FormControl from "@material-ui/core/FormControl";
+import Avatar from "@material-ui/core/Avatar";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import Button from "@material-ui/core/Button";
@@ -129,6 +129,13 @@ const styles = theme => ({
   cross: {
     color: "#ff5e5e",
     marginLeft: "auto"
+  },
+  flex: {
+    display: "flex",
+    width: "100%",
+    "& span": {
+      padding: "0 3rem"
+    }
   }
 });
 
@@ -201,7 +208,29 @@ class DatelessGames extends Component {
                     </TableCell>
                     <TableCell>{gameDetails.tour}</TableCell>
                     <TableCell>
-                      {gameDetails.in.title} : {gameDetails.out.title}
+                      <div style={{ display: "flex", width: "75%" }}>
+                        <div
+                          className={classes.flex}
+                          style={{
+                            justifyContent: "flex-end",
+                            marginRight: "2rem"
+                          }}
+                        >
+                          <span>{gameDetails.in.title}</span>
+                          <Avatar alt="" src={gameDetails.in.logo} />
+                        </div>
+                        :
+                        <div
+                          className={classes.flex}
+                          style={{
+                            marginLeft: "2rem"
+                          }}
+                        >
+                          <Avatar alt="" src={gameDetails.out.logo} />
+                          <span>{gameDetails.out.title}</span>
+                        </div>
+                      </div>
+                      {/* {gameDetails.in.title} : {gameDetails.out.title} */}
                     </TableCell>
                   </TableRow>
                 );
@@ -239,8 +268,6 @@ class DatelessGames extends Component {
                 <TableCell />
                 <TableCell>Тур</TableCell>
                 <TableCell>Игра</TableCell>
-                {/* <TableCell>Дата</TableCell> */}
-                {/* <TableCell>Protein (g)</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>{gamesList}</TableBody>
