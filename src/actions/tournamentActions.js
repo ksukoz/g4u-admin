@@ -11,6 +11,7 @@ import {
   GET_GAME_BY_ID,
   GET_APPOINTS,
   GET_GAME_APPOINTS,
+  GET_DATELESS_GAMES,
   CLEAR_AUTO_GAMES,
   GET_ERRORS
 } from "./types";
@@ -417,15 +418,45 @@ export const getAutoGames = id => dispatch => {
     });
 };
 
+export const getDatelessGames = id => dispatch => {
+  axios
+    .get(
+      `http://api.mygame4u.com/admin/tournaments/getofftimegames?subId=${id}`,
+      {
+        headers: {
+          Authorization: `G4User ${
+            JSON.parse(localStorage.getItem("admin-user")).token
+          }`
+        }
+      }
+    )
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_DATELESS_GAMES,
+          payload: res.data.answer
+        });
+      }
+    });
+};
+
 export const clearAutoGames = id => dispatch => {
   axios
-    .get(`http://api.mygame4u.com/admin/tournaments/clearautocomplite?subId=${id}`, {
-      headers: {
-        Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("admin-user")).token
-        }`
+    .get(
+      `http://api.mygame4u.com/admin/tournaments/clearautocomplite?subId=${id}`,
+      {
+        headers: {
+          Authorization: `G4User ${
+            JSON.parse(localStorage.getItem("admin-user")).token
+          }`
+        }
       }
-    })
+    )
     .then(res => {
       if (res.data.error) {
         dispatch({

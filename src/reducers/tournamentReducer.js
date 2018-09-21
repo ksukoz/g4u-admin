@@ -9,6 +9,7 @@ import {
   GET_TOUR_GAMES,
   GET_AUTO_GAMES,
   GET_GAME_BY_ID,
+  GET_DATELESS_GAMES,
   CLEAR_AUTO_GAMES
 } from "../actions/types";
 
@@ -78,6 +79,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         appoints: action.payload
+      };
+    case GET_DATELESS_GAMES:
+      return {
+        ...state,
+        games: action.payload
       };
     default:
       return {

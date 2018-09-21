@@ -42,6 +42,7 @@ import Commands from "./components/commands/Commands";
 import EditCommands from "./components/commands/EditCommands";
 import LeagueItem from "./components/leagues/LeagueItem";
 import RequestedPlayer from "./components/players/RequestedPlayer";
+import DatelessGames from "./components/tournaments/DatelessGames";
 
 if (localStorage.getItem("admin-user")) {
   const user = JSON.parse(localStorage.getItem("admin-user"));
@@ -139,6 +140,13 @@ class App extends Component {
                     exact
                     path={`/subtournaments/add/:id`}
                     component={AddSubtournament}
+                  />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path={`/subtournaments/dates/:id`}
+                    component={DatelessGames}
                   />
                 </Switch>
                 <Switch>
