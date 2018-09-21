@@ -8,7 +8,10 @@ import { withStyles } from "@material-ui/core/styles";
 import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
 
-import { getDatelessGames } from "../../actions/tournamentActions";
+import {
+  getDatelessGames,
+  editDatelessGames
+} from "../../actions/tournamentActions";
 import Messages from "../common/Messages";
 
 import Paper from "@material-ui/core/Paper";
@@ -133,7 +136,12 @@ class DatelessGames extends Component {
   state = {
     date: new Date(),
     selected: []
-    // selectedArray: []
+  };
+
+  onChangeStartHandler = date => {
+    this.setState({
+      date: date._d
+    });
   };
 
   onClickHandler = (e, id) => {
@@ -154,7 +162,17 @@ class DatelessGames extends Component {
     }
 
     this.setState({ ...this.state, selected: selectedArray });
-    console.log(this.state.selected);
+  };
+
+  onSubmitHandler = e => {
+    e.preventDefault();
+    console.log(e);
+    const editedGames = {
+      gameList: this.state.selected,
+      date: Date.parse(this.state.date)
+    };
+
+    this.props.editDatelessGames(editedGames);
   };
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -200,7 +218,7 @@ class DatelessGames extends Component {
         >
           Назад
         </Button>
-        <form onSubmit={this.onSubmitHander} className={classes.form}>
+        <form onSubmit={this.onSubmitHandler} className={classes.form}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <DateTimePicker
               keyboard
@@ -244,7 +262,8 @@ export default compose(
   connect(
     mapStateToProps,
     {
-      getDatelessGames
+      getDatelessGames,
+      editDatelessGames
     }
   )
 )(DatelessGames);
