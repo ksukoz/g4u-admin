@@ -11,6 +11,8 @@ import {
 	getGames,
 	delGame,
 	getAutoGames,
+	getGamePlayers,
+	addGamePlayers,
 	clearAutoGames
 } from '../../actions/tournamentActions';
 import Messages from '../common/Messages';
@@ -21,6 +23,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Button from '@material-ui/core/Button';
@@ -154,32 +158,30 @@ class Calendar extends Component {
 		subtour: '',
 		games: null,
 		playersIn: null,
-		playersOut: null
+		playersOut: null,
+		game: ''
 	};
 
-	handleChangeCheckbox = (i) => (event) => {
-		let playersCopy = this.state.players;
+	handleChangeCheckbox = (i, players) => (event) => {
+		let playersCopy = this.state[players];
 
 		playersCopy[i].status = !playersCopy[i].status;
 
 		this.setState({
 			...this.state,
-			players: playersCopy
+			[players]: playersCopy
 		});
 	};
 
-	onLinkClickHandler = (path) => (e) => {
+	onLinkClickHandler = (path, id) => (e) => {
 		e.stopPropagation();
 		e.preventDefault();
 		if (e.target.name === 'playersBtn' || e.target.parentNode.name === 'playersBtn') {
-			this.setState({ ...this.state, openModal: true });
+			this.props.getGamePlayers(id);
+			this.setState({ ...this.state, openModal: true, game: id });
 		} else {
 			this.props.history.push(path);
 		}
-	};
-
-	handlePlayersClick = (name) => (e) => {
-		this.setState({ ...this.state, openModal: true });
 	};
 
 	handleCancel = () => {
@@ -188,7 +190,10 @@ class Calendar extends Component {
 
 	handleOk = () => {
 		this.setState({ openModal: false });
-		this.props.addGamesPlayers(this.state.game, { listPl: this.state.players });
+		this.props.addGamePlayers(this.state.game, {
+			listPlIn: this.state.playersIn,
+			listPlOut: this.state.playersOut
+		});
 	};
 
 	handleChange = (event, value) => {
@@ -251,6 +256,12 @@ class Calendar extends Component {
 	componentWillReceiveProps = (nextProps) => {
 		if (nextProps.errors || nextProps.messages) {
 			this.setState({ ...this.state, open: true });
+		} else if (nextProps.tournaments.players) {
+			this.setState({
+				...this.state,
+				playersIn: nextProps.tournaments.players.in,
+				playersOut: nextProps.tournaments.players.out
+			});
 		} else if (nextProps.tournaments.commands !== null && nextProps.tournaments.games !== null) {
 			this.setState({
 				commands: nextProps.tournaments.commands,
@@ -264,8 +275,6 @@ class Calendar extends Component {
 					array.push(nextProps.tournaments.games.tour[key][key2]);
 				}
 			}
-		} else if (nextProps.tournaments.playerList) {
-			this.setState({ ...this.state, players: nextProps.games.playerList });
 		}
 	};
 
@@ -283,17 +292,13 @@ class Calendar extends Component {
 							to={`/calendar/edit/${tour[key].game_id}`}
 							key={key}
 							style={{ textDecoration: 'none' }}
-							onClick={this.onLinkClickHandler(`/calendar/edit/${tour[key].game_id}`)}
+							onClick={this.onLinkClickHandler(`/calendar/edit/${tour[key].game_id}`, tour[key].game_id)}
 						>
 							<MenuItem className={classes.listItem} value={key}>
 								<div className={classes.flex}>
 									<div className={classes.flex} style={{ width: 200 }}>
 										{`${tour[key].tour} тур`}
-										<Button
-											className={classes.playersBtn}
-											name="playersBtn"
-											onClick={this.handlePlayersClick}
-										>
+										<Button className={classes.playersBtn} name="playersBtn">
 											<img
 												src={TeamIcon}
 												alt=""
@@ -554,37 +559,72 @@ class Calendar extends Component {
 						<span style={{ fontSize: '2.5rem' }}>Изменить состав</span>
 					</DialogTitle>
 					<DialogContent>
-						{/* {this.state.players ? (
-							<List>
-								{this.state.players.map((player, i) => (
-									<MenuItem
-										key={player.plId}
-										className={classes.listItem}
-										style={{ display: 'flex', justifyContent: 'space-between' }}
-									>
-										{`${player.name} (№${player.number} - ${player.type})`}
-										{
-											<FormControlLabel
-												control={
-													<Checkbox
-														name="status"
-														checked={player.status}
-														onChange={this.handleChange(i)}
-														value={player.status}
-														classes={{
-															root: classes.checkbox,
-															checked: classes.checked
-														}}
-													/>
-												}
-											/>
-										}
-									</MenuItem>
-								))}
-							</List>
-						) : (
-							''
-						)} */}
+						<div style={{ display: 'flex' }}>
+							{this.state.playersIn ? (
+								<List style={{ width: '50%' }}>
+									<h2>Принимающая команда</h2>
+									{this.state.playersIn.map((player, i) => (
+										<MenuItem
+											key={player.plId}
+											className={classes.listItem}
+											style={{ display: 'flex', justifyContent: 'space-between' }}
+										>
+											{`${player.name} (№${player.number} - ${player.type})`}
+											{
+												<FormControlLabel
+													control={
+														<Checkbox
+															name="status"
+															checked={player.status}
+															onChange={this.handleChangeCheckbox(i, 'playersIn')}
+															value={player.status}
+															classes={{
+																root: classes.checkbox,
+																checked: classes.checked
+															}}
+														/>
+													}
+												/>
+											}
+										</MenuItem>
+									))}
+								</List>
+							) : (
+								''
+							)}
+							{this.state.playersOut ? (
+								<List style={{ width: '50%' }}>
+									<h2>Выездная команда</h2>
+									{this.state.playersOut.map((player, i) => (
+										<MenuItem
+											key={player.plId}
+											className={classes.listItem}
+											style={{ display: 'flex', justifyContent: 'space-between' }}
+										>
+											{`${player.name} (№${player.number} - ${player.type})`}
+											{
+												<FormControlLabel
+													control={
+														<Checkbox
+															name="status"
+															checked={player.status}
+															onChange={this.handleChangeCheckbox(i, 'playersOut')}
+															value={player.status}
+															classes={{
+																root: classes.checkbox,
+																checked: classes.checked
+															}}
+														/>
+													}
+												/>
+											}
+										</MenuItem>
+									))}
+								</List>
+							) : (
+								''
+							)}
+						</div>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={this.handleCancel} className={classes.button} color="primary">
@@ -614,6 +654,8 @@ export default compose(
 		getGames,
 		delGame,
 		getAutoGames,
+		getGamePlayers,
+		addGamePlayers,
 		clearAutoGames
 	})
 )(Calendar);
