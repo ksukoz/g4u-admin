@@ -6,12 +6,19 @@ import { FormattedMessage } from "react-intl";
 import { withStyles } from "@material-ui/core/styles";
 
 import { getLeagues, getSubLeagues } from "../../actions/leagueActions";
-import { getTournaments } from "../../actions/tournamentActions";
+import {
+  getTournaments,
+  changeTournamentStatus
+} from "../../actions/tournamentActions";
+
+import Messages from "../common/Messages";
 
 import List from "@material-ui/core/List";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 import Select from "@material-ui/core/Select";
 
 import Button from "@material-ui/core/Button";
@@ -57,10 +64,18 @@ const styles = theme => ({
   },
   button_link: {
     display: "block",
-    width: "100%",
+    width: "max-content",
     color: "#000",
     textDecoration: "none",
     transition: ".3s"
+  },
+  link: {
+    width: "100%",
+    textDecoration: "none",
+    "& li": {
+      display: "flex",
+      justifyContent: "space-between"
+    }
   },
   submit: {
     backgroundColor: "#43A047",
@@ -76,7 +91,18 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: "#ff5e5e"
-  }
+  },
+  colorSwitchBase: {
+    color: "#43A047",
+    "&$colorChecked": {
+      color: "#43A047",
+      "& + $colorBar": {
+        backgroundColor: "#43A047"
+      }
+    }
+  },
+  colorBar: {},
+  colorChecked: {}
 });
 
 class Tournaments extends Component {
@@ -109,6 +135,44 @@ class Tournaments extends Component {
     }
   };
 
+  handleToggleChange = e => {
+    let index = e.target.value;
+    let tournamentArray = this.state.tournamentsList;
+    tournamentArray[+index].show_in_app =
+      tournamentArray[+index].show_in_app === "1" ? "0" : "1";
+
+    this.setState(
+      { ...this.state, tournamentsList: tournamentArray },
+      this.props.changeTournamentStatus(tournamentArray[+index].tournament_id)
+    );
+  };
+
+  onLinkClickHandler = link => e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.target.type === "checkbox") {
+      this.handleToggleChange;
+    } else {
+      this.props.history.push(link);
+    }
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    if (this.props.messages) {
+      this.setState(
+        { open: false },
+        this.props.getTournaments(this.state.subLeague)
+      );
+    }
+
+    this.setState({ open: false });
+  };
+
   componentDidMount = () => {
     this.props.getLeagues();
   };
@@ -129,7 +193,15 @@ class Tournaments extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if (prevProps.league.subLeagues !== this.props.league.subLeagues) {
+    if (
+      prevProps.errors !== this.props.errors ||
+      prevProps.messages !== this.props.messages
+    ) {
+      this.setState({
+        ...this.state,
+        open: true
+      });
+    } else if (prevProps.league.subLeagues !== this.props.league.subLeagues) {
       this.setState({
         ...this.state,
         subLeagues: this.props.league.subLeagues
@@ -161,6 +233,23 @@ class Tournaments extends Component {
 
     return (
       <div>
+        {this.props.errors ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.errors}
+            onClose={this.handleClose}
+            classes={classes.error}
+          />
+        ) : this.props.messages ? (
+          <Messages
+            open={this.state.open}
+            message={this.props.messages}
+            onClose={this.handleClose}
+            classes={classes.success}
+          />
+        ) : (
+          ""
+        )}
         <div className={classes.input_wrap}>
           <FormControl className={classes.input}>
             <InputLabel htmlFor="league">
@@ -230,17 +319,34 @@ class Tournaments extends Component {
         <div>
           <List>
             {this.state.tournamentsList !== null
-              ? this.state.tournamentsList.map(tournament => (
+              ? this.state.tournamentsList.map((tournament, i) => (
                   <Link
-                    className={classes.button_link}
+                    className={classes.link}
                     to={`/seasons/${tournament.tournament_id}`}
                     key={tournament.tournament_id}
+                    onClick={this.onLinkClickHandler(
+                      `/seasons/${tournament.tournament_id}`
+                    )}
                   >
                     <MenuItem
                       className={classes.listItem}
                       value={tournament.tournament_id}
                     >
                       {tournament.title}
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            classes={{
+                              switchBase: classes.colorSwitchBase,
+                              checked: classes.colorChecked,
+                              bar: classes.colorBar
+                            }}
+                            checked={+tournament.show_in_app}
+                            onChange={this.handleToggleChange}
+                            value={`${i}`}
+                          />
+                        }
+                      />
                     </MenuItem>
                   </Link>
                 ))
@@ -263,6 +369,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getLeagues, getSubLeagues, getTournaments }
+    { getLeagues, getSubLeagues, getTournaments, changeTournamentStatus }
   )
 )(Tournaments);
