@@ -118,7 +118,7 @@ const styles = theme => ({
     backgroundColor: "#ff5e5e"
   },
   colorSwitchBase: {
-    color: "#43A047",
+    color: "#fff",
     "&$colorChecked": {
       color: "#43A047",
       "& + $colorBar": {
@@ -148,17 +148,6 @@ class SubTournaments extends Component {
       this.props.changeSubtournamentStatus(subtournamentsArray[+index].id)
     );
   };
-
-  // onLinkClickHandler = link => e => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-
-  //   if (e.target.type === "checkbox") {
-  //     this.handleToggleChange;
-  //   } else {
-  //     this.props.history.push(link);
-  //   }
-  // };
 
   handleClose = (event, reason) => {
     if (reason === "clickaway") {
