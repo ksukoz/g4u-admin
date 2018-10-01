@@ -4,7 +4,11 @@ import { withStyles } from "@material-ui/core/styles";
 import compose from "recompose/compose";
 import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
-import { getPlayers, getPlayersRequests } from "../../actions/playerActions";
+import {
+  getPlayers,
+  getPlayersRequests,
+  getFilteredPlayers
+} from "../../actions/playerActions";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -19,7 +23,14 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 
 const styles = theme => ({
   root: {
@@ -59,21 +70,72 @@ const styles = theme => ({
   pencil: {
     color: "#55a462",
     float: "right"
+  },
+  filtersWrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 2rem"
+  },
+  paginationWrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 200
+  },
+  select: {
+    width: 150
   }
 });
 
 class Players extends Component {
+  state = {
+    name: "",
+    command: "",
+    offset: 1,
+    limit: 50
+  };
+
   onPlayerClick = id => {
     this.props.history.push(`/players/${id}`);
   };
 
-  onClickHandler = id => {
-    // e.preventDefault();
-    // if (!e.target.name) {
-    //   this.props.delStadium(e.target.parentNode.name);
-    // } else {
-    //   this.props.delStadium(e.target.name);
-    // }
+  onClickHandler = e => {};
+
+  onChangeHandler = e => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value
+    });
+
+    if (e.target.name === "name" && e.target.value.length >= 3) {
+      this.props.getFilteredPlayers(
+        `name=${e.target.value}`,
+        this.state.command !== "" ? `comId=${this.state.command}` : "",
+        `limit=${this.state.limit}`,
+        `offset=${this.state.offset}`
+        // `order=${this.state.order}`,
+        // `up=${this.state.up}`
+      );
+    } else if (e.target.name === "command") {
+      this.props.getFilteredPlayers(
+        this.state.name.length >= 3 ? `name=${this.state.name}` : "",
+        `comId=${e.target.value}`,
+        `limit=${this.state.limit}`,
+        `offset=${this.state.offset}`
+        // `order=${this.state.order}`,
+        // `up=${this.state.up}`
+      );
+    } else if (e.target.name === "limit") {
+      this.props.getFilteredPlayers(
+        this.state.name.length >= 3 ? `name=${this.state.name}` : "",
+        this.state.command !== "" ? `comId=${this.state.command}` : "",
+        `limit=${e.target.value}`,
+        `offset=${this.state.offset}`
+        // `order=${this.state.order}`,
+        // `up=${this.state.up}`
+      );
+    }
   };
 
   onRowClickHandler = id => {
@@ -92,15 +154,25 @@ class Players extends Component {
     let membersList;
     let addRequestsList;
     let editRequestsList;
+    let commandList;
+    let limitList;
+    let pagesList;
 
     if (members !== null && members !== undefined) {
-      membersList = members.map(member => (
+      membersList = members.players.map(member => (
         <TableRow key={member.player_id} style={{ cursor: "pointer" }}>
           <TableCell component="th" scope="row">
-            {`${member.surename} ${member.name} ${member.patronymic}`}
+            {member.name}
           </TableCell>
           <TableCell>
-            <span>{member.position}</span>
+            <span>
+              <img
+                src={member.cmLogo}
+                style={{ width: "50px", height: 50, marginRight: 10 }}
+                alt=""
+              />
+              {member.cmTitle}
+            </span>
           </TableCell>
           <TableCell>
             <img src={member.photo} style={{ width: "50px" }} alt="" />
@@ -108,22 +180,95 @@ class Players extends Component {
           <TableCell>
             <Button
               className={classes.cross}
-              onClick={this.onClickHandler.bind(this, member.player_id)}
-              name={member.player_id}
+              onClick={this.onClickHandler.bind(this, member.plId)}
+              name={member.plId}
             >
               &#10006;
             </Button>
             <Button
               className={classes.pencil}
-              onClick={this.onPlayerClick.bind(this, member.player_id)}
-              name={member.player_id}
+              onClick={this.onPlayerClick.bind(this, member.plId)}
+              name={member.plId}
             >
               &#x270E;
             </Button>
           </TableCell>
         </TableRow>
       ));
+
+      commandList = members.filters.commands.map(command => (
+        <MenuItem key={command.comId} value={command.comId}>
+          {command.title}
+        </MenuItem>
+      ));
+
+      limitList = members.filters.limit.map(item => (
+        <MenuItem key={item} value={item}>
+          {item}
+        </MenuItem>
+      ));
+
+      pagesList = (
+        // <Col s={2}>
+        <div className={classes.paginationWrap}>
+          <Button
+            variant="fab"
+            className={classes.pagination}
+            onClick={() =>
+              members.filters.offset.prev
+                ? this.setState(
+                    { ...this.state, offset: members.filters.offset.prev },
+                    this.props.getFilteredPlayers(
+                      this.state.name.length >= 3
+                        ? `name=${this.state.name}`
+                        : "",
+                      this.state.command !== 0
+                        ? `comId=${this.state.command}`
+                        : "",
+                      // `limit=${this.state.limit}`,
+                      `offset=${members.filters.offset.prev}`
+                      // `order=${this.state.order}`,
+                      // `up=${this.state.up}`
+                    )
+                  )
+                : ""
+            }
+            disabled={!members.filters.offset.prev}
+          >
+            <KeyboardArrowLeftIcon />
+          </Button>
+          <span>{members.filters.offset.curr}</span>
+          <Button
+            variant="fab"
+            className={classes.pagination}
+            onClick={() =>
+              members.filters.offset.next
+                ? this.setState(
+                    { ...this.state, offset: members.filters.offset.next },
+                    this.props.getFilteredPlayers(
+                      this.state.name.length >= 3
+                        ? `name=${this.state.name}`
+                        : "",
+                      this.state.command !== 0
+                        ? `comId=${this.state.command}`
+                        : "",
+                      // `limit=${this.state.limit}`,
+                      `offset=${members.filters.offset.next}`
+                      // `order=${this.state.order}`,
+                      // `up=${this.state.up}`
+                    )
+                  )
+                : ""
+            }
+            disabled={!members.filters.offset.next}
+          >
+            <KeyboardArrowRightIcon />
+          </Button>
+        </div>
+        // </Col>
+      );
     }
+
     if (requests !== null && requests !== undefined) {
       addRequestsList = requests.add.map((member, i) => (
         <TableRow
@@ -233,23 +378,73 @@ class Players extends Component {
             Все игроки
           </ExpansionPanelSummary>
           {membersList ? (
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <FormattedMessage id="players.tableName" />
-                  </TableCell>
-                  <TableCell>
-                    <FormattedMessage id="players.tablePosition" />
-                  </TableCell>
-                  <TableCell>
-                    <FormattedMessage id="players.tableImage" />
-                  </TableCell>
-                  <TableCell />
-                </TableRow>
-              </TableHead>
-              <TableBody>{membersList}</TableBody>
-            </Table>
+            <div>
+              <div className={classes.filtersWrap}>
+                <TextField
+                  label={<FormattedMessage id="players.nameLabel" />}
+                  name="name"
+                  className={classes.input}
+                  value={this.state.name}
+                  onChange={this.onChangeHandler}
+                  margin="normal"
+                />
+
+                <FormControl className={classes.input}>
+                  <InputLabel htmlFor="command">Команда</InputLabel>
+                  <Select
+                    className={classes.select}
+                    value={this.state.command}
+                    onChange={this.onChangeHandler}
+                    inputProps={{
+                      name: "command",
+                      id: "command"
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={0}>Свободные игроки</MenuItem>
+                    {commandList}
+                  </Select>
+                </FormControl>
+
+                <FormControl className={classes.input}>
+                  <InputLabel htmlFor="limit">Выводить по</InputLabel>
+                  <Select
+                    className={classes.select}
+                    value={this.state.limit}
+                    onChange={this.onChangeHandler}
+                    inputProps={{
+                      name: "limit",
+                      id: "limit"
+                    }}
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {limitList}
+                  </Select>
+                </FormControl>
+
+                {pagesList}
+              </div>
+
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <FormattedMessage id="players.tableName" />
+                    </TableCell>
+                    <TableCell>Команда</TableCell>
+                    <TableCell>
+                      <FormattedMessage id="players.tableImage" />
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                </TableHead>
+                <TableBody>{membersList}</TableBody>
+              </Table>
+            </div>
           ) : (
             ""
           )}
@@ -267,6 +462,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getPlayers, getPlayersRequests }
+    { getPlayers, getPlayersRequests, getFilteredPlayers }
   )
 )(Players);

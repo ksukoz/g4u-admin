@@ -13,7 +13,6 @@ import {
 } from "../actions/types";
 import { getCommandById } from "./commandsActions";
 
-
 export const getPositions = () => dispatch => {
   axios
     .get("http://api.mygame4u.com/admin/players/getposition", {
@@ -34,6 +33,23 @@ export const getPositions = () => dispatch => {
 export const getPlayers = () => dispatch => {
   axios
     .get("http://api.mygame4u.com/admin/players", {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_PLAYERS,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const getFilteredPlayers = (name, comId, offset) => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/players?${name}&${comId}&${offset}`, {
       headers: {
         Authorization: `G4User ${
           JSON.parse(localStorage.getItem("admin-user")).token
@@ -236,7 +252,6 @@ export const delPlayerFromCommand = (playerId, cId) => dispatch => {
         });
       } else {
         dispatch(getCommandById(cId));
-
       }
     });
 };
