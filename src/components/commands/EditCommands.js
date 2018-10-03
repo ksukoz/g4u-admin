@@ -335,6 +335,8 @@ class EditCommands extends Component {
         ...this.state,
         playersCommandsList: nextProps.players.commandPlayers
       });
+    } else if (nextProps.players.members) {
+      this.setState({ ...this.state, playersList: nextProps.players.members });
     } else if (
       nextProps.commands.command &&
       nextProps.players &&
@@ -361,8 +363,6 @@ class EditCommands extends Component {
         ...this.state,
         commandsList: nextProps.commands.commands
       });
-    } else if (nextProps.players.members) {
-      this.setState({ ...this.state, playersList: nextProps.players.members });
     }
   };
 
@@ -476,15 +476,13 @@ class EditCommands extends Component {
                 <List className={classes.list}>
                   {this.state.playersList.map(player => (
                     <MenuItem
-                      key={player.player_id}
+                      key={player.plId}
                       className={classes.listItem}
                       component="div"
                       onClick={this.onClickHandler.bind(
                         this,
                         "player",
-                        `${player.surename} ${player.name} ${
-                          player.patronymic
-                        }`,
+                        `${player.name}`,
                         player.player_id
                       )}
                     >
@@ -495,9 +493,7 @@ class EditCommands extends Component {
                           alt=""
                         />
                       </span>
-                      <span>{`${player.surename} ${player.name} ${
-                        player.patronymic
-                      }`}</span>
+                      <span>{player.name}</span>
                     </MenuItem>
                   ))}
                 </List>

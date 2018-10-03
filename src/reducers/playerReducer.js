@@ -35,7 +35,7 @@ export default function(state = initialState, action) {
     case GET_PLAYERS_BY_NAME:
       return {
         ...state,
-        members: action.payload
+        members: action.payload.players
       };
     case MERGE_PLAYER:
       return {
@@ -57,19 +57,21 @@ export default function(state = initialState, action) {
         ...state,
         requestedPlayer: action.payload
       };
-      case GET_PLAYERS_BY_NAME_AND_COMMAND:
-        return {
-          ...state,
-          commandPlayers: action.payload
-        };
-        case CLEAR_COMMAND_PLAYERS:
-          return {
-            ...state,
-            commandPlayers: action.payload
-          };
+    case GET_PLAYERS_BY_NAME_AND_COMMAND:
+      return {
+        ...state,
+        commandPlayers: action.payload
+      };
+    case CLEAR_COMMAND_PLAYERS:
+      return {
+        ...state,
+        commandPlayers: action.payload
+      };
     default:
       return {
         ...state,
-        commandPlayers: null};
+        commandPlayers: null,
+        members: null
+      };
   }
 }

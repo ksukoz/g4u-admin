@@ -481,9 +481,7 @@ class AddCommands extends Component {
                       onClick={this.onClickHandler.bind(
                         this,
                         "player",
-                        `${player.surename} ${player.name} ${
-                          player.patronymic
-                        }`,
+                        player.name,
                         player.player_id
                       )}
                     >
@@ -494,9 +492,7 @@ class AddCommands extends Component {
                           alt=""
                         />
                       </span>
-                      <span>{`${player.surename} ${player.name} ${
-                        player.patronymic
-                      }`}</span>
+                      <span>{player.name}</span>
                     </MenuItem>
                   ))}
                 </List>
