@@ -175,7 +175,7 @@ class MergePlayers extends Component {
             />
           </TableCell>
           <TableCell component="th" scope="row" className={classes.cell}>
-            {`${member.surename} ${member.name} ${member.patronymic}`}
+            {member.name}
           </TableCell>
           <TableCell component="th" scope="row" className={classes.cell}>
             {member.position}
