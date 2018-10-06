@@ -224,7 +224,9 @@ class AddCommands extends Component {
 
 		const newCommand = {
 			title: this.state.name,
-			plId: this.state.playerId,
+			player_id: this.state.playerId,
+
+			number: 0,
 			status: this.state.status,
 			country_id: this.state.country,
 			city_id: this.state.city,

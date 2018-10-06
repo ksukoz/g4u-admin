@@ -186,6 +186,7 @@ class EditCommands extends Component {
 		if (e.target.name === 'playerName' && e.target.value.length >= 3) {
 			this.props.getPlayersByName(`${e.target.value}&tied=1`);
 		} else if (e.target.name === 'double' && e.target.value.length >= 3) {
+			this.props.clearPlayers();
 			this.props.getCommandsByName(`${e.target.value}&sub=1`);
 		} else if (e.target.name === 'playerCommand' && e.target.value.length >= 3) {
 			this.props.getPlayersByNameCommand(e.target.value, this.props.match.params.id);
@@ -237,15 +238,12 @@ class EditCommands extends Component {
 
 	onClickHandler = (type, player, id) => {
 		if (type === 'player') {
-			this.setState(
-				{
-					...this.state,
-					playerName: player,
-					playerId: id,
-					playersList: null
-				},
-				this.props.clearPlayers()
-			);
+			this.setState({
+				...this.state,
+				playerName: player,
+				playerId: id,
+				playersList: null
+			});
 		} else if (type === 'command') {
 			this.setState({
 				...this.state,
@@ -275,7 +273,8 @@ class EditCommands extends Component {
 		};
 
 		if (this.state.playerId) {
-			editedCommand.plId = this.state.playerId;
+			editedCommand.player_id = this.state.playerId;
+			editedCommand.number = 0;
 		} else if (this.state.doubleId) {
 			editedCommand.sub_command_id = this.state.doubleId;
 		}
@@ -326,11 +325,9 @@ class EditCommands extends Component {
 				...this.state,
 				playersCommandsList: nextProps.players.commandPlayers
 			});
-		} else if (
-			nextProps.commands.command &&
-			nextProps.players.membersForMerge &&
-			nextProps.commands.commands === null
-		) {
+		} else if (nextProps.players.membersForMerge) {
+			this.setState({ ...this.state, playersList: nextProps.players.membersForMerge });
+		} else if (nextProps.commands.command && nextProps.commands.commands === null && this.state.playerId === '') {
 			this.setState({
 				...this.state,
 				command: nextProps.commands.command,
@@ -338,12 +335,8 @@ class EditCommands extends Component {
 				color_in: nextProps.commands.command.color_in,
 				color_out: nextProps.commands.command.color_out,
 				status: nextProps.commands.command.status === '1' ? true : false,
-				playerName:
-					nextProps.commands.command.name && nextProps.players.membersForMerge === null
-						? nextProps.commands.command.name
-						: '',
 				double: nextProps.commands.command.subtitle ? nextProps.commands.command.subtitle : '',
-
+				playerName: nextProps.commands.command.name ? nextProps.commands.command.name : '',
 				image: nextProps.commands.command.logo
 			});
 		} else if (nextProps.commands.commands) {
@@ -351,10 +344,6 @@ class EditCommands extends Component {
 				...this.state,
 				commandsList: nextProps.commands.commands
 			});
-		}
-
-		if (nextProps.players.membersForMerge) {
-			this.setState({ ...this.state, playersList: nextProps.players.membersForMerge });
 		}
 	};
 
