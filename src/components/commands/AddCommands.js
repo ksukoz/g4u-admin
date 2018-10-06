@@ -224,7 +224,7 @@ class AddCommands extends Component {
 
 		const newCommand = {
 			title: this.state.name,
-			player_id: this.state.playerId,
+			plId: this.state.playerId,
 			status: this.state.status,
 			country_id: this.state.country,
 			city_id: this.state.city,
@@ -453,15 +453,10 @@ class AddCommands extends Component {
 								<List className={classes.list}>
 									{this.state.playersList.map((player) => (
 										<MenuItem
-											key={player.player_id}
+											key={player.plId}
 											className={classes.listItem}
 											component="div"
-											onClick={this.onClickHandler.bind(
-												this,
-												'player',
-												player.name,
-												player.player_id
-											)}
+											onClick={this.onClickHandler.bind(this, 'player', player.name, player.plId)}
 										>
 											<span>
 												<img

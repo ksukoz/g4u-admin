@@ -275,7 +275,7 @@ class EditCommands extends Component {
 		};
 
 		if (this.state.playerId) {
-			editedCommand.player_id = this.state.playerId;
+			editedCommand.plId = this.state.playerId;
 		} else if (this.state.doubleId) {
 			editedCommand.sub_command_id = this.state.doubleId;
 		}
