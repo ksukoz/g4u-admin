@@ -46,7 +46,10 @@ export default function(state = initialState, action) {
 		case CLEAR_PLAYERS:
 			return {
 				...state,
-				members: action.payload
+				members: action.payload,
+				requestedPlayer: action.payload,
+				commandPlayers: action.payload,
+				membersForMerge: action.payload
 			};
 		case GET_PLAYERS_REQUESTS:
 			return {
