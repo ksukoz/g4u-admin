@@ -237,7 +237,6 @@ class EditCommands extends Component {
 
 	onClickHandler = (type, player, id) => {
 		if (type === 'player') {
-			console.log(player, id);
 			this.setState(
 				{
 					...this.state,
@@ -322,8 +321,6 @@ class EditCommands extends Component {
 	componentWillReceiveProps = (nextProps) => {
 		if (nextProps.errors || nextProps.messages) {
 			this.setState({ ...this.state, open: true });
-		} else if (nextProps.players.membersForMerge) {
-			this.setState({ ...this.state, playersList: nextProps.players.membersForMerge });
 		} else if (nextProps.players.commandPlayers) {
 			this.setState({
 				...this.state,
@@ -331,7 +328,7 @@ class EditCommands extends Component {
 			});
 		} else if (
 			nextProps.commands.command &&
-			!nextProps.players.membersForMerge &&
+			nextProps.players.membersForMerge &&
 			nextProps.commands.commands === null
 		) {
 			this.setState({
@@ -341,7 +338,10 @@ class EditCommands extends Component {
 				color_in: nextProps.commands.command.color_in,
 				color_out: nextProps.commands.command.color_out,
 				status: nextProps.commands.command.status === '1' ? true : false,
-				playerName: nextProps.commands.command.name ? nextProps.commands.command.name : '',
+				playerName:
+					nextProps.commands.command.name && nextProps.players.membersForMerge === null
+						? nextProps.commands.command.name
+						: '',
 				double: nextProps.commands.command.subtitle ? nextProps.commands.command.subtitle : '',
 
 				image: nextProps.commands.command.logo
@@ -351,6 +351,10 @@ class EditCommands extends Component {
 				...this.state,
 				commandsList: nextProps.commands.commands
 			});
+		}
+
+		if (nextProps.players.membersForMerge) {
+			this.setState({ ...this.state, playersList: nextProps.players.membersForMerge });
 		}
 	};
 
