@@ -111,7 +111,7 @@ class Players extends Component {
     if (e.target.name === "name" && e.target.value.length >= 3) {
       this.props.getFilteredPlayers(
         `name=${e.target.value}`,
-        this.state.command !== "" ? `comId=${this.state.command}` : "",
+        this.state.command ? `comId=${this.state.command}` : "",
         `limit=${this.state.limit}`,
         `offset=${this.state.offset}`
         // `order=${this.state.order}`,
@@ -129,7 +129,7 @@ class Players extends Component {
     } else if (e.target.name === "limit") {
       this.props.getFilteredPlayers(
         this.state.name.length >= 3 ? `name=${this.state.name}` : "",
-        this.state.command !== "" ? `comId=${this.state.command}` : "",
+        this.state.command ? `comId=${this.state.command}` : "",
         `limit=${e.target.value}`,
         `offset=${this.state.offset}`
         // `order=${this.state.order}`,
@@ -215,16 +215,14 @@ class Players extends Component {
             variant="fab"
             className={classes.pagination}
             onClick={() =>
-              members.filters.offset.prev
+              members.filters.offset.prev >= 0
                 ? this.setState(
                     { ...this.state, offset: members.filters.offset.prev },
                     this.props.getFilteredPlayers(
                       this.state.name.length >= 3
                         ? `name=${this.state.name}`
                         : "",
-                      this.state.command !== 0
-                        ? `comId=${this.state.command}`
-                        : "",
+                      this.state.command ? `comId=${this.state.command}` : "",
                       // `limit=${this.state.limit}`,
                       `offset=${members.filters.offset.prev}`
                       // `order=${this.state.order}`,
@@ -233,11 +231,13 @@ class Players extends Component {
                   )
                 : ""
             }
-            disabled={!members.filters.offset.prev}
+            disabled={
+              members.filters.offset.prev !== 0 && !members.filters.offset.prev
+            }
           >
             <KeyboardArrowLeftIcon />
           </Button>
-          <span>{members.filters.offset.curr}</span>
+          <span>{+members.filters.offset.curr + 1}</span>
           <Button
             variant="fab"
             className={classes.pagination}
