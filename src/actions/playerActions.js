@@ -47,15 +47,18 @@ export const getPlayers = () => dispatch => {
     });
 };
 
-export const getFilteredPlayers = (name, comId, offset) => dispatch => {
+export const getFilteredPlayers = (name, comId, limit, offset) => dispatch => {
   axios
-    .get(`http://api.mygame4u.com/admin/players?${name}&${comId}&${offset}`, {
-      headers: {
-        Authorization: `G4User ${
-          JSON.parse(localStorage.getItem("admin-user")).token
-        }`
+    .get(
+      `http://api.mygame4u.com/admin/players?${name}&${comId}&${limit}&${offset}`,
+      {
+        headers: {
+          Authorization: `G4User ${
+            JSON.parse(localStorage.getItem("admin-user")).token
+          }`
+        }
       }
-    })
+    )
     .then(res => {
       dispatch({
         type: GET_PLAYERS,

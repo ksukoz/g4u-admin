@@ -91,7 +91,7 @@ const styles = theme => ({
 class Players extends Component {
   state = {
     name: "",
-    command: "",
+    command: 0,
     offset: 1,
     limit: 50
   };
@@ -159,23 +159,32 @@ class Players extends Component {
     let pagesList;
 
     if (members !== null && members !== undefined) {
-      membersList = members.players.map(member => (
+      membersList = members.players.map((member, i) => (
         <TableRow key={member.player_id} style={{ cursor: "pointer" }}>
           <TableCell component="th" scope="row">
-            {member.name}
+            {i + 1 + +this.state.limit * +members.filters.offset.curr}
+          </TableCell>
+          <TableCell component="th" scope="row">
+            {`${member.name} ${member.patronymic} ${member.surename} | ${
+              member.pos
+            }`}
           </TableCell>
           <TableCell>
             <span>
               <img
                 src={member.cmLogo}
-                style={{ width: "50px", height: 50, marginRight: 10 }}
+                style={{ maxWidth: 50, maxHeight: 50, marginRight: 10 }}
                 alt=""
               />
               {member.cmTitle}
             </span>
           </TableCell>
           <TableCell>
-            <img src={member.photo} style={{ width: "50px" }} alt="" />
+            <img
+              src={member.photo}
+              style={{ maxWidth: 50, maxHeight: 50 }}
+              alt=""
+            />
           </TableCell>
           <TableCell>
             <Button
@@ -223,7 +232,7 @@ class Players extends Component {
                         ? `name=${this.state.name}`
                         : "",
                       this.state.command ? `comId=${this.state.command}` : "",
-                      // `limit=${this.state.limit}`,
+                      `limit=${this.state.limit}`,
                       `offset=${members.filters.offset.prev}`
                       // `order=${this.state.order}`,
                       // `up=${this.state.up}`
@@ -252,7 +261,7 @@ class Players extends Component {
                       this.state.command !== 0
                         ? `comId=${this.state.command}`
                         : "",
-                      // `limit=${this.state.limit}`,
+                      `limit=${this.state.limit}`,
                       `offset=${members.filters.offset.next}`
                       // `order=${this.state.order}`,
                       // `up=${this.state.up}`
@@ -284,7 +293,11 @@ class Players extends Component {
 
           <TableCell>{member.command.title}</TableCell>
           <TableCell>
-            <img src={member.command.logo} style={{ width: "50px" }} alt="" />
+            <img
+              src={member.command.logo}
+              style={{ maxWidth: 50, maxHeight: 50 }}
+              alt=""
+            />
           </TableCell>
         </TableRow>
       ));
@@ -303,7 +316,11 @@ class Players extends Component {
 
           <TableCell>{member.command.title}</TableCell>
           <TableCell>
-            <img src={member.command.logo} style={{ width: "50px" }} alt="" />
+            <img
+              src={member.command.logo}
+              style={{ maxWidth: 50, maxHeight: 50 }}
+              alt=""
+            />
           </TableCell>
         </TableRow>
       ));
@@ -432,6 +449,7 @@ class Players extends Component {
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
+                    <TableCell />
                     <TableCell>
                       <FormattedMessage id="players.tableName" />
                     </TableCell>
