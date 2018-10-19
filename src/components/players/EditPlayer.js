@@ -5,7 +5,11 @@ import { connect } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { addPlayer, getPositions } from "../../actions/playerActions";
+import {
+  getPlayer,
+  getPositions,
+  updatePlayer
+} from "../../actions/playerActions";
 
 import InputFile from "../common/InputFile";
 
@@ -93,7 +97,7 @@ class EditPlayer extends Component {
     fb: "",
     vk: "",
     image: null,
-    readyImage: "",
+    readyImage: ""
   };
 
   onChangeFileHandler = e => {
@@ -157,7 +161,7 @@ class EditPlayer extends Component {
   onSubmitHandler = e => {
     e.preventDefault();
 
-    const newPlayer = {
+    const updatedPlayer = {
       name: this.state.name,
       surename: this.state.surname,
       patronymic: this.state.patronymic,
@@ -172,7 +176,7 @@ class EditPlayer extends Component {
       VK: this.state.vk
     };
 
-    this.props.addPlayer(newPlayer);
+    this.props.updatePlayer(this.props.match.params.id, updatedPlayer);
   };
 
   handleCloseModal = () => {
@@ -193,11 +197,29 @@ class EditPlayer extends Component {
 
   componentDidMount() {
     this.props.getPositions();
+    this.props.getPlayer(this.props.match.params.id);
   }
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.errors || nextProps.messages) {
       this.setState({ ...this.state, open: true });
+    } else if (nextProps.players && nextProps.players.player) {
+      this.setState({
+        ...this.state,
+        name: nextProps.players.player.name,
+        surname: nextProps.players.player.surename,
+        patronymic: nextProps.players.player.patronymic,
+        position_id: +nextProps.players.player.position_id,
+        position: nextProps.players.player.position,
+        leg: nextProps.players.player.leg,
+        readyImage: nextProps.players.player.photo,
+        birthday: nextProps.players.player.birthday,
+        stature: nextProps.players.player.stature,
+        weight: nextProps.players.player.weight,
+        phone: nextProps.players.player.phone,
+        fb: nextProps.players.player.FB,
+        vk: nextProps.players.player.VK
+      });
     }
   };
 
@@ -424,6 +446,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { addPlayer, getPositions }
+    { getPlayer, getPositions, updatePlayer }
   )
 )(EditPlayer);

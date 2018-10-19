@@ -138,14 +138,14 @@ class Commands extends Component {
     ) {
       this.props.getAllCommandsByName(
         `?name=${e.target.value.replace(/[а-я]+/gi, "")}&${
-          this.state.city ? `citId=${this.state.city}&` : ""
-        }offset=${this.state.offset}`
+          this.state.city ? `citId=${this.state.city}` : ""
+        }`
       );
     } else if (e.target.name === "city") {
       this.props.getAllCommandsByName(
         `?${
           this.state.search.length >= 3 ? `name=${this.state.search}&` : ""
-        }&citId=${e.target.value}&offset=${this.state.offset}`
+        }&citId=${e.target.value}`
       );
     }
     this.setState({
@@ -278,7 +278,7 @@ class Commands extends Component {
               autoComplete="off"
             />
             <FormControl className={classes.input}>
-              <InputLabel htmlFor="city">Команда</InputLabel>
+              <InputLabel htmlFor="city">Город</InputLabel>
               <Select
                 className={classes.select}
                 value={this.state.city}

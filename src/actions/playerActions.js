@@ -9,6 +9,7 @@ import {
   CLEAR_COMMAND_PLAYERS,
   GET_PLAYERS_REQUESTS,
   GET_REQUESTED_PLAYER,
+  GET_PLAYER,
   GET_MESSAGES
 } from "../actions/types";
 import { getCommandById } from "./commandsActions";
@@ -44,6 +45,47 @@ export const getPlayers = () => dispatch => {
         type: GET_PLAYERS,
         payload: res.data.answer
       });
+    });
+};
+
+export const getPlayer = id => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/players/info/${id}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      dispatch({
+        type: GET_PLAYER,
+        payload: res.data.answer
+      });
+    });
+};
+
+export const updatePlayer = (id, data) => dispatch => {
+  axios
+    .post(`http://api.mygame4u.com/admin/players/update/${id}`, data, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_MESSAGES,
+          payload: res.data.message
+        });
+      }
     });
 };
 
