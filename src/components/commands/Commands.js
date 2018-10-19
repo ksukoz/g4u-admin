@@ -10,16 +10,20 @@ import Messages from "../common/Messages";
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import Button from "@material-ui/core/Button";
 import {
   getAllCommandsByName,
   deleteCommand
 } from "../../actions/commandsActions";
-import { IconButton } from "@material-ui/core";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import SearchIcon from "@material-ui/icons/Search";
+
 import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+
+import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import SearchIcon from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
 const styles = theme => ({
@@ -91,22 +95,28 @@ const styles = theme => ({
     height: 40,
     marginRight: 8
   },
-  arrowButton: {
-    "&:hover": {
-      backgroundColor: "transparent",
-      color: "#43A047"
-    }
+  filtersWrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 2rem"
   },
-  pagination: {
-    marginLeft: "auto",
-    width: "max-content"
+  paginationWrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 200
+  },
+  select: {
+    width: 150
   }
 });
 
 class Commands extends Component {
   state = {
     open: false,
-    search: ""
+    search: "",
+    offset: 0
   };
 
   handleClose = (event, reason) => {
@@ -122,19 +132,26 @@ class Commands extends Component {
   };
 
   onChangeHandler = e => {
-    if (e.target.value.replace(/[а-я]+/gi, "").length >= 3) {
+    if (
+      e.target.value.replace(/[а-я]+/gi, "").length >= 3 &&
+      e.target.name === "search"
+    ) {
       this.props.getAllCommandsByName(
-        `?name=${e.target.value.replace(/[а-я]+/gi, "")}`
+        `?name=${e.target.value.replace(/[а-я]+/gi, "")}&${
+          this.state.city ? `citId=${this.state.city}&` : ""
+        }offset=${this.state.offset}`
+      );
+    } else if (e.target.name === "city") {
+      this.props.getAllCommandsByName(
+        `?${
+          this.state.search.length >= 3 ? `name=${this.state.search}&` : ""
+        }&citId=${e.target.value}&offset=${this.state.offset}`
       );
     }
     this.setState({
       ...this.state,
       [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
     });
-  };
-
-  onClickHandler = offset => e => {
-    this.props.getAllCommandsByName(`?offset=${offset}`);
   };
 
   onDeleteClickHandler = id => e => {
@@ -155,6 +172,65 @@ class Commands extends Component {
   render() {
     const { classes } = this.props;
     const { commands } = this.props.commands;
+
+    let citiesList;
+    let pagesList;
+
+    if (commands) {
+      citiesList = commands.filters.city.map(item => (
+        <MenuItem key={item.citId} value={item.citId}>
+          {item.name}
+        </MenuItem>
+      ));
+
+      pagesList = (
+        <div className={classes.paginationWrap}>
+          <Button
+            variant="fab"
+            className={classes.pagination}
+            onClick={() =>
+              commands.filters.prev >= 0
+                ? this.setState(
+                    { ...this.state, offset: commands.filters.prev },
+                    this.props.getAllCommandsByName(`?
+                      ${
+                        this.state.search.length >= 3
+                          ? `name=${this.state.search}&`
+                          : ""
+                      }
+                      ${this.state.city ? `citId=${this.state.city}&` : ""}
+                      offset=${commands.filters.prev}`)
+                  )
+                : ""
+            }
+            disabled={commands.filters.prev !== 0 && !commands.filters.prev}
+          >
+            <KeyboardArrowLeftIcon />
+          </Button>
+          <span>{+commands.filters.current + 1}</span>
+          <Button
+            variant="fab"
+            className={classes.pagination}
+            onClick={() =>
+              commands.filters.next >= 0
+                ? this.setState(
+                    { ...this.state, offset: commands.filters.next },
+                    this.props.getAllCommandsByName(`?${
+                      this.state.search.length >= 3
+                        ? `name=${this.state.search}&`
+                        : ""
+                    }${this.state.city ? `citId=${this.state.city}&` : ""}
+                      offset=${commands.filters.next}`)
+                  )
+                : ""
+            }
+            disabled={!commands.filters.next}
+          >
+            <KeyboardArrowRightIcon />
+          </Button>
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -181,49 +257,45 @@ class Commands extends Component {
           </Button>
         </Link>
         <List>
-          <TextField
-            className={classes.input}
-            type="text"
-            name="search"
-            value={this.state.search}
-            onChange={this.onChangeHandler}
-            onInput={e => {
-              e.target.value = e.target.value;
-            }}
-            label="Поиск"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-            autoComplete="off"
-          />
-          {commands !== null && commands.filters !== null ? (
-            <div className={classes.pagination}>
-              <IconButton
-                className={classes.arrowButton}
-                disabled={commands.filters.prev === null}
-                onClick={this.onClickHandler(commands.filters.prev)}
+          <div className={classes.filtersWrap}>
+            <TextField
+              className={classes.input}
+              type="text"
+              name="search"
+              value={this.state.search}
+              onChange={this.onChangeHandler}
+              onInput={e => {
+                e.target.value = e.target.value;
+              }}
+              label="Поиск"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                )
+              }}
+              autoComplete="off"
+            />
+            <FormControl className={classes.input}>
+              <InputLabel htmlFor="city">Команда</InputLabel>
+              <Select
+                className={classes.select}
+                value={this.state.city}
+                onChange={this.onChangeHandler}
+                inputProps={{
+                  name: "city",
+                  id: "city"
+                }}
               >
-                <ArrowBackIosIcon />
-              </IconButton>
-
-              <span style={{ fontSize: "2rem", color: "#43A047" }}>
-                {+commands.filters.current + 1}
-              </span>
-              <IconButton
-                className={classes.arrowButton}
-                disabled={!commands.filters.next}
-                onClick={this.onClickHandler(commands.filters.next)}
-              >
-                <ArrowForwardIosIcon />
-              </IconButton>
-            </div>
-          ) : (
-            ""
-          )}
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {citiesList}
+              </Select>
+            </FormControl>
+            {pagesList}
+          </div>
           {commands !== null && commands.all !== null
             ? commands.all.map(command => (
                 <Link
