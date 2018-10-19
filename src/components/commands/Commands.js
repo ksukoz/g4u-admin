@@ -11,7 +11,16 @@ import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import Button from "@material-ui/core/Button";
-import { getCommands, deleteCommand } from "../../actions/commandsActions";
+import {
+  getAllCommandsByName,
+  deleteCommand
+} from "../../actions/commandsActions";
+import { IconButton } from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import SearchIcon from "@material-ui/icons/Search";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const styles = theme => ({
   root: {
@@ -81,12 +90,23 @@ const styles = theme => ({
   img: {
     height: 40,
     marginRight: 8
+  },
+  arrowButton: {
+    "&:hover": {
+      backgroundColor: "transparent",
+      color: "#43A047"
+    }
+  },
+  pagination: {
+    marginLeft: "auto",
+    width: "max-content"
   }
 });
 
 class Commands extends Component {
   state = {
-    open: false
+    open: false,
+    search: ""
   };
 
   handleClose = (event, reason) => {
@@ -95,19 +115,31 @@ class Commands extends Component {
     }
 
     if (this.props.messages) {
-      this.setState({ open: false }, this.props.getCommands());
+      this.setState({ open: false }, this.props.getAllCommandsByName());
     }
 
     this.setState({ open: false });
   };
 
-  onClickHandler = e => {
-    e.preventDefault();
-    if (!e.target.name) {
-      this.props.deleteCommand(e.target.parentNode.name);
-    } else {
-      this.props.deleteCommand(e.target.name);
+  onChangeHandler = e => {
+    if (e.target.value.replace(/[а-я]+/gi, "").length >= 3) {
+      this.props.getAllCommandsByName(
+        `?name=${e.target.value.replace(/[а-я]+/gi, "")}`
+      );
     }
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value.replace(/[а-я]+/gi, "")
+    });
+  };
+
+  onClickHandler = offset => e => {
+    this.props.getAllCommandsByName(`?offset=${offset}`);
+  };
+
+  onDeleteClickHandler = id => e => {
+    e.preventDefault();
+    this.props.deleteCommand(id);
   };
 
   componentWillReceiveProps = nextProps => {
@@ -117,7 +149,7 @@ class Commands extends Component {
   };
 
   componentDidMount = () => {
-    this.props.getCommands();
+    this.props.getAllCommandsByName();
   };
 
   render() {
@@ -149,8 +181,51 @@ class Commands extends Component {
           </Button>
         </Link>
         <List>
-          {commands !== null
-            ? commands.map(command => (
+          <TextField
+            className={classes.input}
+            type="text"
+            name="search"
+            value={this.state.search}
+            onChange={this.onChangeHandler}
+            onInput={e => {
+              e.target.value = e.target.value;
+            }}
+            label="Поиск"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+            autoComplete="off"
+          />
+          {commands !== null && commands.filters !== null ? (
+            <div className={classes.pagination}>
+              <IconButton
+                className={classes.arrowButton}
+                disabled={commands.filters.prev === null}
+                onClick={this.onClickHandler(commands.filters.prev)}
+              >
+                <ArrowBackIosIcon />
+              </IconButton>
+
+              <span style={{ fontSize: "2rem", color: "#43A047" }}>
+                {+commands.filters.current + 1}
+              </span>
+              <IconButton
+                className={classes.arrowButton}
+                disabled={!commands.filters.next}
+                onClick={this.onClickHandler(commands.filters.next)}
+              >
+                <ArrowForwardIosIcon />
+              </IconButton>
+            </div>
+          ) : (
+            ""
+          )}
+          {commands !== null && commands.all !== null
+            ? commands.all.map(command => (
                 <Link
                   className={classes.button_link}
                   to={`/commands/${command.command_id}`}
@@ -165,7 +240,7 @@ class Commands extends Component {
                     <Button
                       title="Заблокировать команду"
                       className={classes.cross}
-                      onClick={this.onClickHandler}
+                      onClick={this.onDeleteClickHandler(command.command_id)}
                       name={command.command_id}
                     >
                       &#10006;
@@ -190,6 +265,6 @@ export default compose(
   withStyles(styles),
   connect(
     mapStateToProps,
-    { getCommands, deleteCommand }
+    { getAllCommandsByName, deleteCommand }
   )
 )(Commands);

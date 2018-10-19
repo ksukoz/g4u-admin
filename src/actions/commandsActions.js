@@ -108,6 +108,30 @@ export const getCommandsByName = value => dispatch => {
     });
 };
 
+export const getAllCommandsByName = (value = "") => dispatch => {
+  axios
+    .get(`http://api.mygame4u.com/admin/commands/listall${value}`, {
+      headers: {
+        Authorization: `G4User ${
+          JSON.parse(localStorage.getItem("admin-user")).token
+        }`
+      }
+    })
+    .then(res => {
+      if (res.data.error) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: res.data.message
+        });
+      } else {
+        dispatch({
+          type: GET_COMMANDS_BY_NAME,
+          payload: res.data.answer
+        });
+      }
+    });
+};
+
 export const getCommands = () => dispatch => {
   axios
     .get(`http://api.mygame4u.com/admin/commands/list`, {
